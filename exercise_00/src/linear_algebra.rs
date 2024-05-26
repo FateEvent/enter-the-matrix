@@ -28,7 +28,7 @@ where K: fmt::Display {
 	}
 }
 
-impl<K: Clone + std::fmt::Display> Vector<K> {
+impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K> > Vector<K> {
 	pub fn new(arr: &[K]) -> Self {
 		Vector {
 			values: arr.to_vec(),
@@ -45,6 +45,21 @@ impl<K: Clone + std::fmt::Display> Vector<K> {
 
 	pub fn print(&self) {
 		println!("{}", self);
+	}
+
+	pub fn add(self, other: Vector<K>) -> Vector<K> {
+		let mut sum: Vector<K> = Vector {
+			values: Vec::new(),
+			rows: self.rows
+		};
+
+		// Ensure that both vectors have the same length
+		assert_eq!(self.values.len(), other.values.len(), "Vectors must be of the same length");
+
+		for (a, b) in self.values.iter().zip(other.values.iter()) {
+			sum.values.push(a.clone() + b.clone());
+		}
+		return sum
 	}
 }
 
@@ -70,7 +85,7 @@ where K: fmt::Display {
 	}
 }
 
-impl<K: Clone + std::fmt::Display> Matrix<K> {
+impl<K: Clone + std::fmt::Display + std::ops::AddAssign> Matrix<K> {
 	pub fn new(arr: &[&[K]]) -> Self {
 		let mut ret = Vec::with_capacity(arr.len());
 		for v in arr.iter() {

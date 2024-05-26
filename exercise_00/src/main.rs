@@ -5,10 +5,12 @@ use crate::linear_algebra::Matrix;
 pub mod linear_algebra;
  
 fn main() {
-	let u = Vector::from(&[2., 3.]);
+	let t = Vector::from(&[2., 3.]);
+	t.print();
+	let u = Vector::from(&[5., 7.]);
 	u.print();
-	let v = Vector::from(&[5., 7.]);
+	let v = u.add(t);
 	v.print();
-	let x = Matrix::from(&[&[5., 7.], &[3., 4.]]);
-	x.print();
+	let m = Matrix::from(&[&[5., 7.], &[3., 4.]]);
+	m.print();
 }
