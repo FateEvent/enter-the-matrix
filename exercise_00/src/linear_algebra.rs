@@ -88,7 +88,7 @@ impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output =
 		}
 	}
 
-	pub fn scalar_mul(&mut self, scalar: K) {
+	pub fn scl(&mut self, scalar: K) {
 		for el in self.values.iter_mut() {
 			*el *= scalar.clone();
 		}
@@ -209,7 +209,7 @@ impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output =
 		}
 	}
 
-	pub fn scalar_mul(&mut self, scalar: K) {
+	pub fn scl(&mut self, scalar: K) {
 		for v in self.values.iter_mut() {
 			for el in v.iter_mut() {
 				*el *= scalar.clone();

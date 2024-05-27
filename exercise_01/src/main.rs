@@ -21,7 +21,7 @@ fn main() {
 		u.print();
 
 		println!("\n\x1b[34mScalar multiplication:\x1b[0m\n");
-		t.scalar_mul(5.);
+		t.scl(5.);
 		t.print();
 	});
 
@@ -41,7 +41,7 @@ fn main() {
 		m2.print();
 
 		println!("\n\x1b[34mScalar multiplication:\x1b[0m\n");
-		m2.scalar_mul(5.);
+		m2.scl(5.);
 		m2.print();
 	});
 
