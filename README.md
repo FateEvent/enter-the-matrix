@@ -26,3 +26,10 @@ We can find these instructions in [Rust](https://docs.rs/num-traits/latest/num_t
 ### From C to Rust
 
 [A Guide to Porting C/C++ to Rust](https://locka99.gitbooks.io/a-guide-to-porting-c-to-rust)
+
+### Exercise 0
+
+Before starting, I learnt to use Rust with the [Rustlings](https://github.com/rust-lang/rustlings).
+
+[Here](https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences) is a list of colour escape sequences (it's important to note that Rust only considers [hexadecimal escape sequences](https://stackoverflow.com/questions/69981449/how-do-i-print-colored-text-to-the-terminal-in-rust)).
+

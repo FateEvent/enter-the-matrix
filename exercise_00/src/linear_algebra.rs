@@ -1,12 +1,12 @@
 use core::fmt;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct Vector<K> {
 	values: Vec<K>,
 	rows: usize
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct Matrix<K> {
 	values: Vec<Vec<K>>,
 	cols: usize,
@@ -16,6 +16,7 @@ pub struct Matrix<K> {
 impl<K> fmt::Display for Vector<K>
 where K: fmt::Display {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+		println!("The size of the vector is {}", self.rows);
 		write!(fmt, "[")?;
 		for (i, n) in self.values.iter().enumerate() {
 			write!(fmt, "{}", n)?;
@@ -28,7 +29,8 @@ where K: fmt::Display {
 	}
 }
 
-impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K> > Vector<K> {
+impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
++ std::ops::SubAssign + std::ops::MulAssign> Vector<K> {
 	pub fn new(arr: &[K]) -> Self {
 		Vector {
 			values: arr.to_vec(),
@@ -47,25 +49,44 @@ impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output =
 		println!("{}", self);
 	}
 
-	pub fn add(self, other: Vector<K>) -> Vector<K> {
-		let mut sum: Vector<K> = Vector {
-			values: Vec::new(),
-			rows: self.rows
+	pub fn size(&self) -> usize {
+		self.rows
+	}
+
+	fn vectors_have_equal_length(&self, other: Vector<K>) -> bool {
+		if self.rows != other.rows {
+			panic!("Vectors must be of the same length.");
 		};
+		true
+	}
 
-		// Ensure that both vectors have the same length
-		assert_eq!(self.values.len(), other.values.len(), "Vectors must be of the same length");
-
-		for (a, b) in self.values.iter().zip(other.values.iter()) {
-			sum.values.push(a.clone() + b.clone());
+	pub fn add(&mut self, other: Vector<K>) {
+		if self.vectors_have_equal_length(other.clone()) {
+			for (a, b) in self.values.iter_mut().zip(other.values.iter()) {
+				*a += b.clone();
+			}
 		}
-		return sum
+	}
+
+	pub fn sub(&mut self, other: Vector<K>) {
+		if self.vectors_have_equal_length(other.clone()) {
+			for (a, b) in self.values.iter_mut().zip(other.values.iter()) {
+				*a -= b.clone();
+			}
+		}
+	}
+
+	pub fn scalar_mul(&mut self, scalar: K) {
+		for el in self.values.iter_mut() {
+			*el *= scalar.clone();
+		}
 	}
 }
 
 impl<K> fmt::Display for Matrix<K>
 where K: fmt::Display {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+		println!("The shape of the matrix is {} x {}", self.rows, self.cols);
 		write!(fmt, "[")?;
 		for (i, v) in self.values.iter().enumerate() {
 			write!(fmt, "[")?;
@@ -85,17 +106,20 @@ where K: fmt::Display {
 	}
 }
 
-impl<K: Clone + std::fmt::Display + std::ops::AddAssign> Matrix<K> {
+impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
++ std::ops::SubAssign + std::ops::MulAssign> Matrix<K> {
 	pub fn new(arr: &[&[K]]) -> Self {
 		let mut ret = Vec::with_capacity(arr.len());
 		for v in arr.iter() {
 			ret.push(v.to_vec());
 		}
-		Matrix {
+		let matrix = Matrix {
 			values: ret,
 			rows: arr.len(),
 			cols: arr[0].len()
-		}
+		};
+		matrix.is_regular();
+		matrix
 	}
 
 	pub fn from(arr: &[&[K]]) -> Self {
@@ -103,14 +127,81 @@ impl<K: Clone + std::fmt::Display + std::ops::AddAssign> Matrix<K> {
 		for v in arr.iter() {
 			ret.push(v.to_vec());
 		}
-		Matrix {
+		let matrix = Matrix {
 			values: ret,
 			rows: arr.len(),
 			cols: arr[0].len()
-		}
+		};
+		matrix.is_regular();
+		matrix
 	}
 
 	pub fn print(&self) {
 		println!("{}", self);
+	}
+
+	pub fn shape(&self) -> (usize, usize) {
+		(self.rows, self.cols)
+	}
+
+	pub fn is_square(&self) -> bool {
+		self.cols == self.rows
+	}
+
+	// columns of one equal to the rows of the other one
+
+	fn is_regular(&self) -> bool {
+		let mut i = 1;
+
+		while i < self.values.len() {
+			if self.values[i].len() != self.values[0].len() {
+				panic!("The matrix is not regular.");
+			};
+			i += 1;
+		}
+		true
+	}
+
+	fn matrices_are_equally_sized(&self, other: Matrix<K>) -> bool {
+		if self.cols != other.cols {
+			panic!("The matrices must have the same number of columns.");
+		};
+		if self.rows != other.rows {
+			panic!("The matrices must have the same number of rows.");
+		};
+		true
+	}
+
+	fn matrices_are_regular(self, other: Matrix<K>) -> bool {
+		return self.is_regular() && other.is_regular()
+			&& self.matrices_are_equally_sized(other);
+	}
+
+	pub fn add(&mut self, other: Matrix<K>) {
+		if self.clone().matrices_are_regular(other.clone()) {
+			for (v1, v2) in self.values.iter_mut().zip(other.values.iter()) {
+				for (a, b) in v1.iter_mut().zip(v2.iter()) {
+					*a += b.clone();
+				}
+			}
+		}
+	}
+
+	pub fn sub(&mut self, other: Matrix<K>) {
+		if self.clone().matrices_are_regular(other.clone()) {
+			for (v1, v2) in self.values.iter_mut().zip(other.values.iter()) {
+				for (a, b) in v1.iter_mut().zip(v2.iter()) {
+					*a -= b.clone();
+				}
+			}
+		}
+	}
+
+	pub fn scalar_mul(&mut self, scalar: K) {
+		for v in self.values.iter_mut() {
+			for el in v.iter_mut() {
+				*el *= scalar.clone();
+			}
+		}
 	}
 }
