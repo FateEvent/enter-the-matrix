@@ -15,12 +15,10 @@ pub struct Matrix<K> {
 	rows: usize
 }
 
-impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
-+ std::ops::SubAssign + std::ops::MulAssign + std::ops::Mul> fmt::Display for Vector<K>
-where K: fmt::Display, f64: AddAssign<<K as Mul>::Output> {
+impl<K> fmt::Display for Vector<K>
+where K: fmt::Display {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-		println!("The vector has {} rows.", self.rows);
-		println!("The magnitude or length of the vector is {}.", self.magnitude());
+		println!("The size of the vector is {}", self.rows);
 		write!(fmt, "[")?;
 		for (i, n) in self.values.iter().enumerate() {
 			write!(fmt, "{}", n)?;
@@ -53,7 +51,7 @@ impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output =
 		println!("{}", self);
 	}
 
-	pub fn get_rows(&self) -> usize {
+	pub fn size(&self) -> usize {
 		self.rows
 	}
 
@@ -64,12 +62,12 @@ impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output =
 		true
 	}
 
-	pub fn magnitude(&self) -> f64 {
-		let mut sum: f64 = 0.0;
+	pub fn magnitude(&self) -> i64 {
+		let mut sum: f64 = 0.;
 		for el in self.values.iter() {
 			sum += el.clone() * el.clone();
 		}
-		return sum.sqrt();
+		return (sum as f64).sqrt() as i64 + 1;
 	}
 
 	pub fn add(&mut self, other: Vector<K>) {

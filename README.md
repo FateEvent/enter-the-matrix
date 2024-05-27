@@ -2,7 +2,8 @@
 
 ### Intro
 
-I need a pencil. Pencils are important. And yeah, a paper sheet. A lot of them, actually. And don't forget the course on linear algebra [_Essence of linear algebra_](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab), by 3Blue1Brown.
+You need a pencil. Pencils are important. And yeah, a paper sheet. A lot of them, actually. And don't forget the course on linear algebra [_Essence of linear algebra_](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab), by 3Blue1Brown.
+Another useful resource may be the module on [matrices](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices) of the Khan Academy.
 
 ### Fused Multiply-Accumulate
 
@@ -32,4 +33,6 @@ We can find these instructions in [Rust](https://docs.rs/num-traits/latest/num_t
 Before starting, I learnt to use Rust with the [Rustlings](https://github.com/rust-lang/rustlings).
 
 [Here](https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences) is a list of colour escape sequences (it's important to note that Rust only considers [hexadecimal escape sequences](https://stackoverflow.com/questions/69981449/how-do-i-print-colored-text-to-the-terminal-in-rust)).
+
+### Exercise 1
 
