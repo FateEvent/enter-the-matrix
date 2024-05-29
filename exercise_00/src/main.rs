@@ -60,15 +60,15 @@ fn main() {
 		println!("\n\x1b[31;1;4mSquare matrices\x1b[0m\n");
 		let m1: Matrix<f64> = Matrix::from(&[&[5., 7.,], &[3., 4.]]);
 		m1.print();
-		println!("Is m1 a square matrix? {}\n", m1.is_square());
+		println!("Is the matrix a square matrix? {}\n", m1.is_square());
 		let m2 = Matrix::from(&[&[5., 7.], &[3., 4.], &[1., 6.]]);
 		m2.print();
-		println!("Is m2 a square matrix? {}\n", m2.is_square());
+		println!("Is the matrix a square matrix? {}\n", m2.is_square());
 		let m3: Matrix<f64> = Matrix::from(&[&[5., 7., 64.], &[3., 4., 18.]]);
 		m3.print();
-		println!("Is m3 a square matrix? {}\n", m3.is_square());
+		println!("Is the matrix a square matrix? {}\n", m3.is_square());
 		let m4: Matrix<f64> = Matrix::from(&[&[5., 7., 64.], &[3., 4., 18.], &[5., 22., 45.]]);
 		m4.print();
-		println!("Is m4 a square matrix? {}\n", m4.is_square());
+		println!("Is the matrix a square matrix? {}\n", m4.is_square());
 	});
 }

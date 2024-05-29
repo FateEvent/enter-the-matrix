@@ -3,7 +3,7 @@
 ### Intro
 
 You need a pencil. Pencils are important. And yeah, a paper sheet. A lot of them, actually. And don't forget the course on linear algebra [_Essence of linear algebra_](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab), by 3Blue1Brown.
-Another useful resource may be the modules on [matrices](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices) of the Khan Academy.
+Another useful resource may be the modules on [linear algebra](https://www.khanacademy.org/math/linear-algebra) and the modules for [vectors](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:vectors) and [matrices](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices) of the Khan Academy.
 
 ### Fused Multiply-Accumulate
 
@@ -32,7 +32,27 @@ We can find these instructions in [Rust](https://docs.rs/num-traits/latest/num_t
 
 Before starting, I learnt to use Rust with the [Rustlings](https://github.com/rust-lang/rustlings).
 
+As concerning the square root function, I used the [sqrt](https://doc.rust-lang.org/std/primitive.f64.html#method.sqrt) function implemented for the f64 primitive.
+
 [Here](https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences) is a list of colour escape sequences (it's important to note that Rust only considers [hexadecimal escape sequences](https://stackoverflow.com/questions/69981449/how-do-i-print-colored-text-to-the-terminal-in-rust)).
 
 ### Exercise 1
 
+As concerning the fused multiply-add function, I used the version implemented by the [mul_add](https://doc.rust-lang.org/std/primitive.f64.html#method.mul_add) function for the f64 primitive, and to use it I implemented the `ToF64` trait for the primitive type.
+
+For this exercise, I used [traits](https://doc.rust-lang.org/std/ops/index.html#traits) to implement [operator overloading](https://doc.rust-lang.org/rust-by-example/trait/ops.html).
+
+I used traits already existing in the std library and traits I had to implement, as `ToF64` and `ToK`, that I created __and__ implemented:
+
+```
+pub trait ToF64 {
+	fn to_f64(&self) -> f64;
+}
+
+// Implement the ToF64 trait for f64 itself
+impl ToF64 for f64 {
+	fn to_f64(&self) -> f64 {
+		*self
+	}
+}
+```

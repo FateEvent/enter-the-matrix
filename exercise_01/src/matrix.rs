@@ -1,12 +1,4 @@
 use core::fmt;
-use core::ops::AddAssign;
-use core::ops::Mul;
-
-#[derive(Debug, PartialEq, Clone)]
-pub struct Vector<K> {
-	values: Vec<K>,
-	rows: usize
-}
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Matrix<K> {
@@ -15,91 +7,10 @@ pub struct Matrix<K> {
 	rows: usize
 }
 
-impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
-+ std::ops::SubAssign + std::ops::MulAssign + std::ops::Mul> fmt::Display for Vector<K>
-where K: fmt::Display, f64: AddAssign<<K as Mul>::Output> {
-	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-		println!("The vector has {} rows.", self.rows);
-		println!("The magnitude or length of the vector is {}.", self.magnitude());
-		write!(fmt, "[")?;
-		for (i, n) in self.values.iter().enumerate() {
-			write!(fmt, "{}", n)?;
-			if i < self.values.len() - 1 {
-				write!(fmt, " ")?;
-			}
-		}
-		write!(fmt, "]")?;
-		Ok(())
-	}
-}
-
-impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
-+ std::ops::SubAssign + std::ops::MulAssign + std::ops::Mul> Vector<K> where f64: AddAssign<<K as Mul>::Output> {
-	pub fn new(arr: &[K]) -> Self {
-		Vector {
-			values: arr.to_vec(),
-			rows: arr.len()
-		}
-	}
-
-	pub fn from(arr: &[K]) -> Self {
-		Vector {
-			values: arr.to_vec(),
-			rows: arr.len()
-		}
-	}
-
-	pub fn print(&self) {
-		println!("{}", self);
-	}
-
-	pub fn get_rows(&self) -> usize {
-		self.rows
-	}
-
-	fn vectors_have_equal_length(&self, other: Vector<K>) -> bool {
-		if self.rows != other.rows {
-			panic!("Vectors must be of the same length.");
-		};
-		true
-	}
-
-	pub fn magnitude(&self) -> f64 {
-		let mut sum: f64 = 0.0;
-		for el in self.values.iter() {
-			sum += el.clone() * el.clone();
-		}
-		return sum.sqrt();
-	}
-
-	pub fn add(&mut self, other: Vector<K>) {
-		if self.vectors_have_equal_length(other.clone()) {
-			for (a, b) in self.values.iter_mut().zip(other.values.iter()) {
-				*a += b.clone();
-			}
-		}
-	}
-
-	pub fn sub(&mut self, other: Vector<K>) {
-		if self.vectors_have_equal_length(other.clone()) {
-			for (a, b) in self.values.iter_mut().zip(other.values.iter()) {
-				*a -= b.clone();
-			}
-		}
-	}
-
-	pub fn scl(&mut self, scalar: K) {
-		for el in self.values.iter_mut() {
-			*el *= scalar.clone();
-		}
-	}
-}
-
 impl<K> fmt::Display for Matrix<K>
 where K: fmt::Display {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
 		println!("The shape of the matrix is {} x {}", self.rows, self.cols);
-		write!(fmt, "[")?;
 		for (i, v) in self.values.iter().enumerate() {
 			write!(fmt, "[")?;
 			for (j, n) in v.iter().enumerate() {
@@ -113,25 +24,18 @@ where K: fmt::Display {
 				write!(fmt, "\n")?;
 			}
 		}
-		write!(fmt, "]")?;
 		Ok(())
 	}
 }
 
 impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
 + std::ops::SubAssign + std::ops::MulAssign> Matrix<K> {
-	pub fn new(arr: &[&[K]]) -> Self {
-		let mut ret = Vec::with_capacity(arr.len());
-		for v in arr.iter() {
-			ret.push(v.to_vec());
+	pub fn new() -> Self {
+		Matrix {
+			values: Vec::new(),
+			rows: 0,
+			cols: 0
 		}
-		let matrix = Matrix {
-			values: ret,
-			rows: arr.len(),
-			cols: arr[0].len()
-		};
-		matrix.is_regular();
-		matrix
 	}
 
 	pub fn from(arr: &[&[K]]) -> Self {
@@ -159,8 +63,6 @@ impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output =
 	pub fn is_square(&self) -> bool {
 		self.cols == self.rows
 	}
-
-	// columns of one equal to the rows of the other one
 
 	fn is_regular(&self) -> bool {
 		let mut i = 1;

@@ -35,13 +35,6 @@ where K: fmt::Display, f64: AddAssign<<K as Mul>::Output> {
 
 impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
 + std::ops::SubAssign + std::ops::MulAssign + std::ops::Mul> Vector<K> where f64: AddAssign<<K as Mul>::Output> {
-	pub fn new(arr: &[K]) -> Self {
-		Vector {
-			values: arr.to_vec(),
-			rows: arr.len()
-		}
-	}
-
 	pub fn from(arr: &[K]) -> Self {
 		Vector {
 			values: arr.to_vec(),
@@ -99,7 +92,6 @@ impl<K> fmt::Display for Matrix<K>
 where K: fmt::Display {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
 		println!("The shape of the matrix is {} x {}", self.rows, self.cols);
-		write!(fmt, "[")?;
 		for (i, v) in self.values.iter().enumerate() {
 			write!(fmt, "[")?;
 			for (j, n) in v.iter().enumerate() {
@@ -113,27 +105,12 @@ where K: fmt::Display {
 				write!(fmt, "\n")?;
 			}
 		}
-		write!(fmt, "]")?;
 		Ok(())
 	}
 }
 
 impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
 + std::ops::SubAssign + std::ops::MulAssign> Matrix<K> {
-	pub fn new(arr: &[&[K]]) -> Self {
-		let mut ret = Vec::with_capacity(arr.len());
-		for v in arr.iter() {
-			ret.push(v.to_vec());
-		}
-		let matrix = Matrix {
-			values: ret,
-			rows: arr.len(),
-			cols: arr[0].len()
-		};
-		matrix.is_regular();
-		matrix
-	}
-
 	pub fn from(arr: &[&[K]]) -> Self {
 		let mut ret = Vec::with_capacity(arr.len());
 		for v in arr.iter() {
@@ -159,8 +136,6 @@ impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output =
 	pub fn is_square(&self) -> bool {
 		self.cols == self.rows
 	}
-
-	// columns of one equal to the rows of the other one
 
 	fn is_regular(&self) -> bool {
 		let mut i = 1;
