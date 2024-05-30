@@ -5,7 +5,7 @@
 You need a pencil. Pencils are important. And yeah, a paper sheet. A lot of them, actually. And don't forget the course on linear algebra [_Essence of linear algebra_](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab), by 3Blue1Brown.
 Another useful resource may be the modules on [linear algebra](https://www.khanacademy.org/math/linear-algebra) and the modules for [vectors](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:vectors) and [matrices](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices) of the Khan Academy.
 
-### Fused Multiply-Accumulate
+#### Fused Multiply-Accumulate
 
 This [page](https://www.felixcloutier.com/x86/vfmadd132ps:vfmadd213ps:vfmadd231ps) describes how the instructions vfmadd132ps, vfmadd213ps and vfmadd231ps work.
 
@@ -24,7 +24,7 @@ From [Wikipedia](https://stackoverflow.com/questions/44201171/what-is-the-differ
 
 We can find these instructions in [Rust](https://docs.rs/num-traits/latest/num_traits/ops/mul_add/trait.MulAdd.html), [C](https://www.gnu.org/software/c-intro-and-ref/manual/html_node/Fused-Multiply_002dAdd.html) and [C++](https://en.cppreference.com/w/cpp/numeric/math/fma).
 
-### From C to Rust
+#### From C to Rust
 
 [A Guide to Porting C/C++ to Rust](https://locka99.gitbooks.io/a-guide-to-porting-c-to-rust)
 
@@ -42,6 +42,8 @@ As concerning the fused multiply-add function, I used the version implemented by
 
 For this exercise, I used [traits](https://doc.rust-lang.org/std/ops/index.html#traits) to implement [operator overloading](https://doc.rust-lang.org/rust-by-example/trait/ops.html).
 
+#### Trait Bounds
+
 I used traits already existing in the std library and traits I had to implement, as `ToF64` and `ToK`, that I created __and__ implemented:
 
 ```
@@ -56,3 +58,26 @@ impl ToF64 for f64 {
 	}
 }
 ```
+Trait bounds directly inserted after `impl<>` specify constraints on the type parameters for the entire implementation block. These bounds apply globally to all functions and associated items within the implementation. For example:
+
+```rust
+
+impl<K: Clone + std::fmt::Display + std::ops::AddAssign> Vector<K> {
+    // All methods in this implementation can assume that K implements Clone, Display, and AddAssign.
+}
+```
+
+In this context, the bounds `K: Clone + std::fmt::Display + std::ops::AddAssign` mean that any type K used in this implementation of `Vector<K>` must implement the `Clone`, `Display`, and `AddAssign` traits.
+
+
+On the other hand, a `where` clause can be used to specify trait bounds in a more flexible and expressive manner. It allows you to add constraints that are more complex or involve multiple types; it can be applied to individual functions or methods, or to the entire implementation block:
+
+```rust
+
+impl<K> Vector<K>
+where K: Clone + std::fmt::Display + std::ops::AddAssign,
+{
+    // All methods in this implementation can assume that K implements Clone, Display, and AddAssign.
+}
+```
+In this case, the bounds `where K: Clone + std::fmt::Display + std::ops::AddAssign` serve the same purpose as placing the bounds directly between the angle brackets of `impl<>`, but `where` clauses are preferred when the constraints are more complex or to make the code more readable.

@@ -34,7 +34,7 @@ where f64: AddAssign<<K as Mul>::Output>, K: Mul<f64, Output = K> + ToF64 + From
 
 impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
 + std::ops::SubAssign + std::ops::MulAssign + std::ops::Mul> std::ops::Mul<Vector<K>> for f64
-where f64: AddAssign<<K as Mul>::Output>, K: Mul<f64, Output = K> + ToF64 + From<f64> + ToK {
+where f64: AddAssign<<K as Mul>::Output>, K: Mul<f64, Output = K> + ToF64 + From<f64> {
 	type Output = Vector<K>;
 
 	fn mul(self, _rhs: Vector<K>) -> Vector<K> {
