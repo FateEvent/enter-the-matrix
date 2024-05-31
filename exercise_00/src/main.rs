@@ -47,27 +47,27 @@ fn main() {
 
 	println!("\n\x1b[31;1;4mInvalid matrices\x1b[0m\n");
 	let _ = panic::catch_unwind(|| {
-		let _m1: Matrix<f64> = Matrix::from(&[&[5., 7.], &[3., 4.], &[1.]]);
+		let _m1 = Matrix::from(&[&[5., 7.], &[3., 4.], &[1.]]);
 	});
 
 	let _ = panic::catch_unwind(|| {
-		let mut m1: Matrix<f64> = Matrix::from(&[&[5., 7.], &[3., 4.]]);
+		let mut m1 = Matrix::from(&[&[5., 7.], &[3., 4.]]);
 		let m2 = Matrix::from(&[&[5., 7.], &[3., 4.], &[1., 35.]]);
 		m1.sub(m2.clone());
 	});
 
 	let _ = panic::catch_unwind(|| {
 		println!("\n\x1b[31;1;4mSquare matrices\x1b[0m\n");
-		let m1: Matrix<f64> = Matrix::from(&[&[5., 7.,], &[3., 4.]]);
+		let m1 = Matrix::from(&[&[5., 7.,], &[3., 4.]]);
 		m1.print();
 		println!("Is the matrix a square matrix? {}\n", m1.is_square());
 		let m2 = Matrix::from(&[&[5., 7.], &[3., 4.], &[1., 6.]]);
 		m2.print();
 		println!("Is the matrix a square matrix? {}\n", m2.is_square());
-		let m3: Matrix<f64> = Matrix::from(&[&[5., 7., 64.], &[3., 4., 18.]]);
+		let m3 = Matrix::from(&[&[5., 7., 64.], &[3., 4., 18.]]);
 		m3.print();
 		println!("Is the matrix a square matrix? {}\n", m3.is_square());
-		let m4: Matrix<f64> = Matrix::from(&[&[5., 7., 64.], &[3., 4., 18.], &[5., 22., 45.]]);
+		let m4 = Matrix::from(&[&[5., 7., 64.], &[3., 4., 18.], &[5., 22., 45.]]);
 		m4.print();
 		println!("Is the matrix a square matrix? {}\n", m4.is_square());
 	});
