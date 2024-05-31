@@ -3,25 +3,28 @@ use core::ops::Add;
 use core::ops::AddAssign;
 use core::ops::Mul;
 
+use super::{ ToF64, ToK };
+
 #[derive(Debug, PartialEq, Clone)]
 pub struct Vector<K> {
 	values: Vec<K>,
 	rows: usize
 }
 
-pub trait ToF64 {
-	fn to_f64(&self) -> f64;
-}
+impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
++ std::ops::SubAssign + std::ops::MulAssign + std::ops::Mul> std::ops::Add<Vector<K>> for Vector<K>
+where f64: AddAssign<<K as Mul>::Output>, K: AddAssign<<K as Mul>::Output> + Mul<K, Output = K>
++ ToF64 + From<f64> + ToK, Vector<K>: Mul<K, Output = Vector<K>> + Add<Vector<K>, Output = Vector<K>> {
+	type Output = Vector<K>;
 
-// Implement the ToF64 trait for f64 itself
-impl ToF64 for f64 {
-	fn to_f64(&self) -> f64 {
-		*self
+	fn add(self, _rhs: Vector<K>) -> Vector<K> {
+		let mut a: Vector<K> = Vector::new();
+		for (e1, e2) in self.values.iter().zip(_rhs.values.iter()) {
+			a.values.push(e1.clone() + e2.clone());
+			a.rows += 1;
+		}
+		a
 	}
-}
-
-pub trait ToK {
-	fn from_f64(value: f64) -> Self;
 }
 
 impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
@@ -66,7 +69,8 @@ where f64: AddAssign<<K as Mul>::Output>, K: AddAssign<<K as Mul>::Output> + Mul
 
 impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
 + std::ops::SubAssign + std::ops::MulAssign + std::ops::Mul + ToK> fmt::Display for Vector<K>
-where K: fmt::Display + ToF64 + From<f64> + ToK, f64: AddAssign<<K as Mul>::Output> {
+where K: fmt::Display + ToF64 + From<f64> + ToK, f64: AddAssign<<K as Mul>::Output>,
+Vector<K>: Add<Vector<K>, Output = Vector<K>> {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
 		println!("The vector has {} rows.", self.rows);
 		println!("The magnitude or length of the vector is {}.", self.magnitude());
@@ -84,7 +88,8 @@ where K: fmt::Display + ToF64 + From<f64> + ToK, f64: AddAssign<<K as Mul>::Outp
 
 impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
 + std::ops::SubAssign + std::ops::MulAssign + std::ops::Mul> Vector<K>
-where f64: AddAssign<<K as Mul>::Output>, K: ToF64 + From<f64> + ToK {
+where f64: AddAssign<<K as Mul>::Output>, K: ToF64 + From<f64> + ToK,
+Vector<K>: Add<Vector<K>, Output = Vector<K>> {
 	pub fn new() -> Self {
 		Vector {
 			values: Vec::new(),
@@ -168,5 +173,14 @@ where f64: AddAssign<<K as Mul>::Output>, K: ToF64 + From<f64> + ToK {
 			combo.rows += 1;
 		}
 		return combo;
+	}
+
+	pub fn lerp(u: Vector<K>, v: Vector<K>, t: f64) -> Vector<K> {
+		if t < 0.0 || t > 1.0 {
+			panic!("t must be comprised between 0 and 1");
+		}
+		// return (1 - t).mul_add(u, t * v);
+		return (1. - t) * u + t * v;
+	
 	}
 }

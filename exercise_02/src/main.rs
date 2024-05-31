@@ -1,8 +1,8 @@
 use std::panic;
-use crate::vector::Vector;
+use crate::linear_algebra::vector::Vector;
+use crate::linear_algebra::lerp;
 
-pub mod vector;
-pub mod matrix;
+pub mod linear_algebra;
 
 fn main() {
 	let _ = panic::catch_unwind(|| {

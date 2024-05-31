@@ -2,7 +2,6 @@ use std::panic;
 use crate::vector::Vector;
 
 pub mod vector;
-pub mod matrix;
 
 fn main() {
 	let _ = panic::catch_unwind(|| {
