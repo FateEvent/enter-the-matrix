@@ -1,12 +1,12 @@
 use std::panic;
-use crate::linear_algebra::Vector;
-use crate::linear_algebra::Matrix;
+use crate::linear_algebra::vector::Vector;
+use crate::linear_algebra::matrix::Matrix;
 
 pub mod linear_algebra;
  
 fn main() {
 	let _ = panic::catch_unwind(|| {
-		println!("\x1b[31;1;4m   o  .  -  Vectors  -  .  o\x1b[0m\n");
+		println!("\n\x1b[31;1;4m   o  .  -  Vectors  -  .  o\x1b[0m\n");
 		let mut t = Vector::from(&[2., 3.]);
 		t.print();
 		let mut u = Vector::from(&[5., 7.]);
