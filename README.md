@@ -56,6 +56,60 @@ To implement the `linear_combination` function, I used the fused multiply-add fu
 
 A polynomial is a mathematical expression consisting of indeterminates and coefficients involving only the operations of addition, subtraction, multiplication, and positive-integer powers of variables of degree one, and a linear polynomial is a polynomial of degree one.
 
+For implementing the `lerp` function for the types `f32`, `Vector<f32>` and `Matrix<f32>` I implemented the `Lerp` trait and the function `lerp` derived from it:
+
+```rust
+pub trait Lerp<V> {
+	fn lerp(&self, u: V, v: V, t: f32) -> V;
+}
+
+impl Lerp<f32> for f32 {
+	fn lerp(&self, u: f32, v: f32, t: f32) -> f32 {
+		if t < 0.0 || t > 1.0 {
+			panic!("t must be comprised between 0 and 1");
+		}
+		(1. - t).mul_add(u, t * v)
+	}
+}
+
+impl Lerp<Vector<f32>> for Vector<f32> {
+	fn lerp(&self, u: Vector<f32>, v: Vector<f32>, t: f32) -> Vector<f32> {
+		if t < 0.0 || t > 1.0 {
+			panic!("t must be comprised between 0 and 1");
+		}
+		u.mul_add(1.0 - t, &(t * v))
+	}
+}
+
+pub fn lerp<V: Clone>(u: V, v: V, t: f32) -> V
+where V: Lerp<V>,
+{
+    u.lerp(u.clone(), v, t)
+}
+
+```
+
+I also implemented the `mul_add` function for `Vector<f32>` and the `std::ops::Mul<Vector<f32>>` trait for the `f32` primitive to enable multiplication between `Vector<f32>` and `f32`:
+```rust
+impl std::ops::Mul<Vector<f32>> for f32 {
+	type Output = Vector<f32>;
+
+	fn mul(self, _rhs: Vector<f32>) -> Vector<f32> {
+		let mut a: Vector<f32> = Vector::new();
+		for el in _rhs.values.iter() {
+			a.values.push(el.clone() * self);
+			a.rows += 1;
+		}
+		a
+	}
+}
+```
+### Exercise 3
+
+
+
+
+
 
 
 
@@ -67,20 +121,6 @@ A polynomial is a mathematical expression consisting of indeterminates and coeff
 
 #### Trait Bounds
 
-I used traits already present in the STD library and traits I had to implement, as `ToF32` and `ToK`, that I created __and__ implemented:
-
-```rust
-pub trait ToF32 {
-	fn to_f32(&self) -> f32;
-}
-
-// Implement the ToF32 trait for f32 itself
-impl ToF32 for f32 {
-	fn to_f32(&self) -> f32 {
-		*self
-	}
-}
-```
 Trait bounds directly inserted in between angle brackets after `impl<>` specify constraints on the type parameters for the entire implementation block. These bounds apply globally to all functions and associated items within the implementation. For example:
 
 ```rust

@@ -78,6 +78,13 @@ impl Vector<f32> {
 		}
 	}
 
+	pub fn from_vec(vec: Vec<f32>) -> Self {
+		Vector {
+			values: vec.clone(),
+			rows: vec.len()
+		}
+	}
+
 	pub fn print(&self) {
 		println!("{}", self);
 	}
@@ -119,6 +126,12 @@ impl Vector<f32> {
 		for el in self.values.iter_mut() {
 			*el *= scalar.clone();
 		}
+	}
+
+	pub fn mul_add(&self, a: f32, b: &Vector<f32>) -> Vector<f32> {
+		self.vectors_have_equal_length(b.clone());
+		return Vector::from_vec(self.values.iter().zip(b.values.iter())
+		.map(|(u, v)| u.mul_add(a, *v)).collect());
 	}
 
 	fn vec_arr_check_length(u: &[Vector<f32>]) -> bool {

@@ -7,7 +7,7 @@ pub struct Matrix<K> {
 	rows: usize
 }
 
-impl fmt::Display for Matrix<f64> {
+impl fmt::Display for Matrix<f32> {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
 		println!("The shape of the matrix is {} x {}", self.rows, self.cols);
 		for (i, v) in self.values.iter().enumerate() {
@@ -27,7 +27,7 @@ impl fmt::Display for Matrix<f64> {
 	}
 }
 
-impl Matrix<f64> {
+impl Matrix<f32> {
 	pub fn new() -> Self {
 		Matrix {
 			values: Vec::new(),
@@ -36,7 +36,7 @@ impl Matrix<f64> {
 		}
 	}
 
-	pub fn from(arr: &[&[f64]]) -> Self {
+	pub fn from(arr: &[&[f32]]) -> Self {
 		let mut ret = Vec::with_capacity(arr.len());
 		for v in arr.iter() {
 			ret.push(v.to_vec());
@@ -74,7 +74,7 @@ impl Matrix<f64> {
 		true
 	}
 
-	fn matrices_are_equally_sized(&self, other: Matrix<f64>) -> bool {
+	fn matrices_are_equally_sized(&self, other: Matrix<f32>) -> bool {
 		if self.cols != other.cols {
 			panic!("The matrices must have the same number of columns.");
 		};
@@ -84,32 +84,30 @@ impl Matrix<f64> {
 		true
 	}
 
-	fn matrices_are_regular(self, other: Matrix<f64>) -> bool {
+	fn matrices_are_regular(self, other: Matrix<f32>) -> bool {
 		return self.is_regular() && other.is_regular()
 			&& self.matrices_are_equally_sized(other);
 	}
 
-	pub fn add(&mut self, other: Matrix<f64>) {
-		if self.clone().matrices_are_regular(other.clone()) {
-			for (v1, v2) in self.values.iter_mut().zip(other.values.iter()) {
-				for (a, b) in v1.iter_mut().zip(v2.iter()) {
-					*a += b.clone();
-				}
+	pub fn add(&mut self, other: Matrix<f32>) {
+		self.clone().matrices_are_regular(other.clone());
+		for (v1, v2) in self.values.iter_mut().zip(other.values.iter()) {
+			for (a, b) in v1.iter_mut().zip(v2.iter()) {
+				*a += b.clone();
 			}
 		}
 	}
 
-	pub fn sub(&mut self, other: Matrix<f64>) {
-		if self.clone().matrices_are_regular(other.clone()) {
-			for (v1, v2) in self.values.iter_mut().zip(other.values.iter()) {
-				for (a, b) in v1.iter_mut().zip(v2.iter()) {
-					*a -= b.clone();
-				}
+	pub fn sub(&mut self, other: Matrix<f32>) {
+		self.clone().matrices_are_regular(other.clone());
+		for (v1, v2) in self.values.iter_mut().zip(other.values.iter()) {
+			for (a, b) in v1.iter_mut().zip(v2.iter()) {
+				*a -= b.clone();
 			}
 		}
 	}
 
-	pub fn scl(&mut self, scalar: f64) {
+	pub fn scl(&mut self, scalar: f32) {
 		for v in self.values.iter_mut() {
 			for el in v.iter_mut() {
 				*el *= scalar.clone();
