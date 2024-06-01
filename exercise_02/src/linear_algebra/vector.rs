@@ -51,14 +51,14 @@ impl fmt::Display for Vector<f32> {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
 		println!("The vector has {} rows.", self.rows);
 		println!("The magnitude or length of the vector is {}.", self.magnitude());
-		write!(fmt, "[")?;
 		for (i, n) in self.values.iter().enumerate() {
+			write!(fmt, "[")?;
 			write!(fmt, "{}", n)?;
+			write!(fmt, "]")?;
 			if i < self.values.len() - 1 {
-				write!(fmt, " ")?;
+				write!(fmt, "\n")?;
 			}
 		}
-		write!(fmt, "]")?;
 		Ok(())
 	}
 }
