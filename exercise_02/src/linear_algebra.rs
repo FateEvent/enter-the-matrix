@@ -1,26 +1,34 @@
 use crate::linear_algebra::vector::Vector;
-use crate::linear_algebra::matrix::Matrix;
+// use crate::linear_algebra::matrix::Matrix;
 
 pub mod vector;
-pub mod matrix;
+// pub mod matrix;
+// pub mod lerp;
 
-// impl<V> lerp for Vector<f32> {
-// 	type Output = Vector<f32>;
+pub trait Lerp<V> {
+	fn lerp(&self, u: V, v: V, t: f32) -> V;
+}
 
-// 	fn lerp(self, _rhs: Vector<f32>) -> Vector<f32> {
-// 		self.vectors_have_equal_length(_rhs.clone());
-// 		let mut diff: Vector<f32> = Vector::new();
-// 		for (a, b) in self.values.iter().zip(_rhs.values.iter()) {
-// 			diff.values.push(a - b);
-// 			diff.rows += 1;
-// 		}
-// 		diff
-// 	}
-// }
+impl Lerp<f32> for f32 {
+	fn lerp(&self, u: f32, v: f32, t: f32) -> f32 {
+		if t < 0.0 || t > 1.0 {
+			panic!("t must be comprised between 0 and 1");
+		}
+		(1. - t).mul_add(u, t * v)
+	}
+}
 
-pub fn lerp<V>(u: V, v: V, t: f32) -> V {
-    if t < 0.0 || t > 1.0 {
-        panic!("t must be comprised between 0 and 1");
-    }
-    return (1. - t) * u + t * v;
+impl Lerp<Vector<f32>> for Vector<f32> {
+	fn lerp(&self, u: Vector<f32>, v: Vector<f32>, t: f32) -> Vector<f32> {
+		if t < 0.0 || t > 1.0 {
+			panic!("t must be comprised between 0 and 1");
+		}
+		(1.0 - t) * u + t * v
+	}
+}
+
+pub fn lerp<V: Clone>(u: V, v: V, t: f32) -> V
+where V: Lerp<V>,
+{
+    u.lerp(u.clone(), v, t)
 }
