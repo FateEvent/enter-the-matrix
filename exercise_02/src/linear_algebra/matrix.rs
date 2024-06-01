@@ -23,17 +23,15 @@ impl std::ops::Sub<Matrix<f32>> for Matrix<f32> {
 			m.rows += 1;
 		}
 		m.cols = m.values.len();
-		println!("The matrix after mul:\nself: {}\n{}", self, m);
 		m
 
 	}
-}		
+}
 
 impl std::ops::Mul<Matrix<f32>> for f32 {
 	type Output = Matrix<f32>;
 
 	fn mul(self, _rhs: Matrix<f32>) -> Matrix<f32> {
-		println!("The matrix before mul:\n{}", _rhs);
 		let mut m: Matrix<f32> = Matrix::new();
 		for v in _rhs.values.iter() {
 			let mut vec = Vec::new();
@@ -44,7 +42,6 @@ impl std::ops::Mul<Matrix<f32>> for f32 {
 			m.rows += 1;
 		}
 		m.cols = m.values.len();
-		println!("The matrix after mul:\nself: {}\n{}", self, m);
 		m
 	}
 }
@@ -162,11 +159,8 @@ impl Matrix<f32> {
 		
 		let mut m: Matrix<f32> = Matrix::new();
 		for (u, v) in self.values.iter().zip(b.values.iter()) {
-			println!("u: {:#?} v: {:#?}", u, v);
 			let mut vec = Vec::new();
-			for (e1, e2) in v.iter().zip(u.iter()) {
-				println!("e1: {} * a: {} + e2: {}", e1, a, e2);
-				println!("mul_add: {}", e1);
+			for (e1, e2) in u.iter().zip(v.iter()) {
 				vec.push(e1.mul_add(a, *e2));
 			}
 			m.values.push(vec);

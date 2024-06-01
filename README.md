@@ -104,6 +104,9 @@ impl std::ops::Mul<Vector<f32>> for f32 {
 	}
 }
 ```
+
+The same had to be done for `Matrix<f32>`.
+
 ### Exercise 3
 
 

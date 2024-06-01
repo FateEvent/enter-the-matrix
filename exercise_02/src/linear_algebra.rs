@@ -39,5 +39,4 @@ pub fn lerp<V: Clone>(u: V, v: V, t: f32) -> V
 where V: Lerp<V>,
 {
 	u.lerp(u.clone(), v, t)
-}
-  
+}  
