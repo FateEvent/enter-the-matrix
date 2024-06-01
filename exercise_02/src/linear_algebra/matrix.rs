@@ -7,8 +7,7 @@ pub struct Matrix<K> {
 	rows: usize
 }
 
-impl<K> fmt::Display for Matrix<K>
-where K: fmt::Display {
+impl fmt::Display for Matrix<f64> {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
 		println!("The shape of the matrix is {} x {}", self.rows, self.cols);
 		for (i, v) in self.values.iter().enumerate() {
@@ -28,8 +27,7 @@ where K: fmt::Display {
 	}
 }
 
-impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
-+ std::ops::SubAssign + std::ops::MulAssign> Matrix<K> {
+impl Matrix<f64> {
 	pub fn new() -> Self {
 		Matrix {
 			values: Vec::new(),
@@ -38,7 +36,7 @@ impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output =
 		}
 	}
 
-	pub fn from(arr: &[&[K]]) -> Self {
+	pub fn from(arr: &[&[f64]]) -> Self {
 		let mut ret = Vec::with_capacity(arr.len());
 		for v in arr.iter() {
 			ret.push(v.to_vec());
@@ -76,7 +74,7 @@ impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output =
 		true
 	}
 
-	fn matrices_are_equally_sized(&self, other: Matrix<K>) -> bool {
+	fn matrices_are_equally_sized(&self, other: Matrix<f64>) -> bool {
 		if self.cols != other.cols {
 			panic!("The matrices must have the same number of columns.");
 		};
@@ -86,12 +84,12 @@ impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output =
 		true
 	}
 
-	fn matrices_are_regular(self, other: Matrix<K>) -> bool {
+	fn matrices_are_regular(self, other: Matrix<f64>) -> bool {
 		return self.is_regular() && other.is_regular()
 			&& self.matrices_are_equally_sized(other);
 	}
 
-	pub fn add(&mut self, other: Matrix<K>) {
+	pub fn add(&mut self, other: Matrix<f64>) {
 		if self.clone().matrices_are_regular(other.clone()) {
 			for (v1, v2) in self.values.iter_mut().zip(other.values.iter()) {
 				for (a, b) in v1.iter_mut().zip(v2.iter()) {
@@ -101,7 +99,7 @@ impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output =
 		}
 	}
 
-	pub fn sub(&mut self, other: Matrix<K>) {
+	pub fn sub(&mut self, other: Matrix<f64>) {
 		if self.clone().matrices_are_regular(other.clone()) {
 			for (v1, v2) in self.values.iter_mut().zip(other.values.iter()) {
 				for (a, b) in v1.iter_mut().zip(v2.iter()) {
@@ -111,7 +109,7 @@ impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output =
 		}
 	}
 
-	pub fn scl(&mut self, scalar: K) {
+	pub fn scl(&mut self, scalar: f64) {
 		for v in self.values.iter_mut() {
 			for el in v.iter_mut() {
 				*el *= scalar.clone();

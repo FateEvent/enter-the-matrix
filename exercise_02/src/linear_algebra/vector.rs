@@ -1,9 +1,4 @@
 use core::fmt;
-use core::ops::Add;
-use core::ops::AddAssign;
-use core::ops::Mul;
-
-use super::{ ToF64, ToK };
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Vector<K> {
@@ -11,37 +6,39 @@ pub struct Vector<K> {
 	rows: usize
 }
 
-impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
-+ std::ops::SubAssign + std::ops::MulAssign + std::ops::Mul> std::ops::Add<Vector<K>> for Vector<K>
-where f64: AddAssign<<K as Mul>::Output>, K: AddAssign<<K as Mul>::Output> + Mul<K, Output = K>
-+ ToF64 + From<f64> + ToK, Vector<K>: Mul<K, Output = Vector<K>> + Add<Vector<K>, Output = Vector<K>> {
-	type Output = Vector<K>;
+impl std::ops::Sub<Vector<f32>> for Vector<f32> {
+	type Output = Vector<f32>;
 
-	fn add(self, _rhs: Vector<K>) -> Vector<K> {
-		let mut a: Vector<K> = Vector::new();
-		for (e1, e2) in self.values.iter().zip(_rhs.values.iter()) {
-			a.values.push(e1.clone() + e2.clone());
-			a.rows += 1;
+	fn sub(self, _rhs: Vector<f32>) -> Vector<f32> {
+		self.vectors_have_equal_length(_rhs.clone());
+		let mut diff: Vector<f32> = Vector::new();
+		for (a, b) in self.values.iter().zip(_rhs.values.iter()) {
+			diff.values.push(a - b);
+			diff.rows += 1;
 		}
-		a
+		diff
 	}
 }
 
-impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
-+ std::ops::SubAssign + std::ops::MulAssign + std::ops::Mul> ToK for K
-where f64: AddAssign<<K as Mul>::Output>, K: Mul<f64, Output = K> + ToF64 + From<f64> {
-	fn from_f64(value: f64) -> K {
-		K::from(value)
+impl std::ops::Add<Vector<f32>> for Vector<f32> {
+	type Output = Vector<f32>;
+
+	fn add(self, _rhs: Vector<f32>) -> Vector<f32> {
+		self.vectors_have_equal_length(_rhs.clone());
+		let mut sum: Vector<f32> = Vector::new();
+		for (a, b) in self.values.iter().zip(_rhs.values.iter()) {
+			sum.values.push(a + b);
+			sum.rows += 1;
+		}
+		sum
 	}
 }
 
-impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
-+ std::ops::SubAssign + std::ops::MulAssign + std::ops::Mul> std::ops::Mul<Vector<K>> for f64
-where f64: AddAssign<<K as Mul>::Output>, K: Mul<f64, Output = K> + ToF64 + From<f64> {
-	type Output = Vector<K>;
+impl std::ops::Mul<Vector<f32>> for f32 {
+	type Output = Vector<f32>;
 
-	fn mul(self, _rhs: Vector<K>) -> Vector<K> {
-		let mut a: Vector<K> = Vector::new();
+	fn mul(self, _rhs: Vector<f32>) -> Vector<f32> {
+		let mut a: Vector<f32> = Vector::new();
 		for el in _rhs.values.iter() {
 			a.values.push(el.clone() * self);
 			a.rows += 1;
@@ -50,27 +47,7 @@ where f64: AddAssign<<K as Mul>::Output>, K: Mul<f64, Output = K> + ToF64 + From
 	}
 }
 
-impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
-+ std::ops::SubAssign + std::ops::MulAssign + std::ops::Mul> std::ops::Mul<K> for Vector<K>
-where f64: AddAssign<<K as Mul>::Output>, K: AddAssign<<K as Mul>::Output> + Mul<K, Output = K>
-+ ToF64 + From<f64> + ToK, Vector<K>: Mul<K, Output = Vector<K>> + Add<Vector<K>, Output = Vector<K>> {
-	type Output = Vector<K>;
-
-	fn mul(self, _rhs: K) -> Vector<K> {
-		let mut a: Vector<K> = Vector::new();
-		for el in self.values.iter() {
-			a.values.push(el.clone() * _rhs.clone());
-			a.rows += 1;
-		}
-		a
-	}
-}
-
-
-impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
-+ std::ops::SubAssign + std::ops::MulAssign + std::ops::Mul + ToK> fmt::Display for Vector<K>
-where K: fmt::Display + ToF64 + From<f64> + ToK, f64: AddAssign<<K as Mul>::Output>,
-Vector<K>: Add<Vector<K>, Output = Vector<K>> {
+impl fmt::Display for Vector<f32> {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
 		println!("The vector has {} rows.", self.rows);
 		println!("The magnitude or length of the vector is {}.", self.magnitude());
@@ -86,10 +63,7 @@ Vector<K>: Add<Vector<K>, Output = Vector<K>> {
 	}
 }
 
-impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output = K>
-+ std::ops::SubAssign + std::ops::MulAssign + std::ops::Mul> Vector<K>
-where f64: AddAssign<<K as Mul>::Output>, K: ToF64 + From<f64> + ToK,
-Vector<K>: Add<Vector<K>, Output = Vector<K>> {
+impl Vector<f32> {
 	pub fn new() -> Self {
 		Vector {
 			values: Vec::new(),
@@ -97,7 +71,7 @@ Vector<K>: Add<Vector<K>, Output = Vector<K>> {
 		}
 	}
 	
-	pub fn from(arr: &[K]) -> Self {
+	pub fn from(arr: &[f32]) -> Self {
 		Vector {
 			values: arr.to_vec(),
 			rows: arr.len()
@@ -112,44 +86,42 @@ Vector<K>: Add<Vector<K>, Output = Vector<K>> {
 		self.rows
 	}
 
-	fn vectors_have_equal_length(&self, other: Vector<K>) -> bool {
-		if self.rows != other.rows {
-			panic!("Vectors must be of the same length.");
-		};
-		true
-	}
-
-	pub fn magnitude(&self) -> f64 {
-		let mut sum: f64 = 0.0;
+	pub fn magnitude(&self) -> f32 {
+		let mut sum: f32 = 0.0;
 		for el in self.values.iter() {
 			sum += el.clone() * el.clone();
 		}
 		return sum.sqrt();
 	}
 
-	pub fn add(&mut self, other: Vector<K>) {
-		if self.vectors_have_equal_length(other.clone()) {
-			for (a, b) in self.values.iter_mut().zip(other.values.iter()) {
-				*a += b.clone();
-			}
+	fn vectors_have_equal_length(&self, other: Vector<f32>) -> bool {
+		if self.rows != other.rows {
+			panic!("Vectors must be of the same length.");
+		};
+		true
+	}
+
+	pub fn add(&mut self, other: Vector<f32>) {
+		self.vectors_have_equal_length(other.clone());
+		for (a, b) in self.values.iter_mut().zip(other.values.iter()) {
+			*a += b.clone();
 		}
 	}
 
-	pub fn sub(&mut self, other: Vector<K>) {
-		if self.vectors_have_equal_length(other.clone()) {
-			for (a, b) in self.values.iter_mut().zip(other.values.iter()) {
-				*a -= b.clone();
-			}
+	pub fn sub(&mut self, other: Vector<f32>) {
+		self.vectors_have_equal_length(other.clone());
+		for (a, b) in self.values.iter_mut().zip(other.values.iter()) {
+			*a -= b.clone();
 		}
 	}
 
-	pub fn scl(&mut self, scalar: K) {
+	pub fn scl(&mut self, scalar: f32) {
 		for el in self.values.iter_mut() {
 			*el *= scalar.clone();
 		}
 	}
 
-	fn vec_arr_check_length(u: &[Vector<K>]) -> bool {
+	fn vec_arr_check_length(u: &[Vector<f32>]) -> bool {
 		for v in u {
 			if !Vector::vectors_have_equal_length(&u[0], v.clone()) {
 				return false;
@@ -158,29 +130,20 @@ Vector<K>: Add<Vector<K>, Output = Vector<K>> {
 		true
 	}
 
-	pub fn linear_combination(u: &[Vector<K>], coefs: &[K]) -> Vector<K> {
+	pub fn linear_combination(u: &[Vector<f32>], coefs: &[f32]) -> Vector<f32> {
 		Vector::vec_arr_check_length(u);
 		let len = u[0].values.len();
-		let mut combo: Vector<K> = Vector::new();
-		let mut sum: f64;
+		let mut combo: Vector<f32> = Vector::new();
+		let mut sum: f32;
 
 		for row in 0..len {
 			sum = 0.0;
 			for (v, coef) in u.iter().zip(coefs.iter()) {
-				sum = coef.to_f64().mul_add((v.values[row]).to_f64(), sum);
+				sum = (*coef).mul_add(v.values[row], sum);
 			}
-			combo.values.push(K::from_f64(sum));
+			combo.values.push(sum);
 			combo.rows += 1;
 		}
 		return combo;
-	}
-
-	pub fn lerp(u: Vector<K>, v: Vector<K>, t: f64) -> Vector<K> {
-		if t < 0.0 || t > 1.0 {
-			panic!("t must be comprised between 0 and 1");
-		}
-		// return (1 - t).mul_add(u, t * v);
-		return (1. - t) * u + t * v;
-	
 	}
 }

@@ -79,4 +79,30 @@ impl Vector<f32> {
 			*el *= scalar.clone();
 		}
 	}
+
+	fn vec_arr_check_length(u: &[Vector<f32>]) -> bool {
+		for v in u {
+			if !Vector::vectors_have_equal_length(&u[0], v.clone()) {
+				return false;
+			}
+		}
+		true
+	}
+
+	pub fn linear_combination(u: &[Vector<f32>], coefs: &[f32]) -> Vector<f32> {
+		Vector::vec_arr_check_length(u);
+		let len = u[0].values.len();
+		let mut combo: Vector<f32> = Vector::new();
+		let mut sum: f32;
+
+		for row in 0..len {
+			sum = 0.0;
+			for (v, coef) in u.iter().zip(coefs.iter()) {
+				sum = (*coef).mul_add(v.values[row], sum);
+			}
+			combo.values.push(sum);
+			combo.rows += 1;
+		}
+		return combo;
+	}
 }

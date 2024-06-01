@@ -35,34 +35,48 @@ Before starting, I learnt to use Rust with the [Rustlings](https://github.com/ru
 
 To prepare for this exercise, I implemented the `vector` and `matrix` structures and some help methods as `print`, `get_rows` (for `vector`), `shape` and `is_regular` (for `matrix`).
 
-The goal of the exercise is to implement, for each structure, the methods for addition, subtraction and scale.
+The goal of the exercise is to implement, for each `struct`, the methods for addition, subtraction and scaling.
 
-I also implemented a funtion to calculate the magnitude of the vector, for which I used the [sqrt](https://doc.rust-lang.org/std/primitive.f64.html#method.sqrt) function implemented for the f64 primitive.
+I also implemented a funtion to calculate the magnitude of the vector, for which I used the [sqrt](https://doc.rust-lang.org/std/primitive.f32.html#method.sqrt) function implemented for the f32 primitive.
 
+Using [generic types](https://doc.rust-lang.org/book/ch10-01-syntax.html) implies implementing functions for a specific data type if the operators used are not implemented for that particular type. [Traits](https://doc.rust-lang.org/std/ops/index.html#traits) are used in Rust to implement [operator overloading](https://doc.rust-lang.org/rust-by-example/trait/ops.html).
+ 
 For my `main` function I used a list of [colour escape sequences](https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences) (it's important to note that Rust only considers [hexadecimal escape sequences](https://stackoverflow.com/questions/69981449/how-do-i-print-colored-text-to-the-terminal-in-rust)).
 
 ### Exercise 1
 
 For this exercise I had to implement a function calculating a linear combination of an array of vectors and an array of scalars.
 
-For this, I had to implement the `Mul<Vector<K>>` method for the `f64` primitive.
+To implement the `linear_combination` function, I used the fused multiply-add function implemented by the [mul_add](https://doc.rust-lang.org/std/primitive.f32.html#method.mul_add) function for the `f32` primitive.
 
-To implement the `linear_combination` function, I used the fused multiply-add function implemented by the [mul_add](https://doc.rust-lang.org/std/primitive.f64.html#method.mul_add) function for the `f64` primitive, and created the `ToF64` trait for the primitive type.
 
-[Traits](https://doc.rust-lang.org/std/ops/index.html#traits) are used in Rust to implement [operator overloading](https://doc.rust-lang.org/rust-by-example/trait/ops.html).
+### Exercise 2
+
+[Linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation) is a method of [curve fitting](https://en.wikipedia.org/wiki/Curve_fitting) (i.e. the process of constructing a curve, or mathematical function, that has the best fit to a series of data points) using [linear polynomials](https://en.wikipedia.org/wiki/Polynomial#linear_polynomial) to construct new data points within the range of a discrete set of known data points.
+
+A polynomial is a mathematical expression consisting of indeterminates and coefficients involving only the operations of addition, subtraction, multiplication, and positive-integer powers of variables of degree one, and a linear polynomial is a polynomial of degree one.
+
+
+
+
+
+
+
+
+
 
 #### Trait Bounds
 
-I used traits already present in the STD library and traits I had to implement, as `ToF64` and `ToK`, that I created __and__ implemented:
+I used traits already present in the STD library and traits I had to implement, as `ToF32` and `ToK`, that I created __and__ implemented:
 
 ```rust
-pub trait ToF64 {
-	fn to_f64(&self) -> f64;
+pub trait ToF32 {
+	fn to_f32(&self) -> f32;
 }
 
-// Implement the ToF64 trait for f64 itself
-impl ToF64 for f64 {
-	fn to_f64(&self) -> f64 {
+// Implement the ToF32 trait for f32 itself
+impl ToF32 for f32 {
+	fn to_f32(&self) -> f32 {
 		*self
 	}
 }
@@ -90,8 +104,3 @@ where K: Clone + std::fmt::Display + std::ops::AddAssign,
 }
 ```
 In this case, the bounds `where K: Clone + std::fmt::Display + std::ops::AddAssign` serve the same purpose as placing the bounds directly between the angle brackets of `impl<>`, but `where` clauses are preferred when the constraints are more complex or to make the code more readable.
-
-### Exercise 2
-
-[Linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation) is a method of [curve fitting](https://en.wikipedia.org/wiki/Curve_fitting) (i.e. the process of constructing a curve, or mathematical function, that has the best fit to a series of data points) using [linear polynomials](https://en.wikipedia.org/wiki/Polynomial#linear_polynomial) (a polynomial is a mathematical expression consisting of indeterminates and coefficients involving only the operations of addition, subtraction, multiplication, and positive-integer powers of variables of degree one, and a linear polynomial is a polynomial of degree one) to construct new data points within the range of a discrete set of known data points.
-

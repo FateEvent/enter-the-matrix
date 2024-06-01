@@ -1,31 +1,26 @@
-use core::ops::Add;
-use core::ops::AddAssign;
-use core::ops::Mul;
-
-use vector::Vector;
-// use matrix::Matrix;
+use crate::linear_algebra::vector::Vector;
+use crate::linear_algebra::matrix::Matrix;
 
 pub mod vector;
 pub mod matrix;
 
-pub trait ToF64 {
-	fn to_f64(&self) -> f64;
-}
+// impl<V> lerp for Vector<f32> {
+// 	type Output = Vector<f32>;
 
-// Implement the ToF64 trait for f64 itself
-impl ToF64 for f64 {
-	fn to_f64(&self) -> f64 {
-		*self
-	}
-}
-
-pub trait ToK {
-	fn from_f64(value: f64) -> Self;
-}
-
-// pub fn lerp<V>(u: V, v: V, t: f64) -> V {
-// 	if t < 0.0 || t > 1.0 {
-// 		panic!("t must be comprised between 0 and 1");
+// 	fn lerp(self, _rhs: Vector<f32>) -> Vector<f32> {
+// 		self.vectors_have_equal_length(_rhs.clone());
+// 		let mut diff: Vector<f32> = Vector::new();
+// 		for (a, b) in self.values.iter().zip(_rhs.values.iter()) {
+// 			diff.values.push(a - b);
+// 			diff.rows += 1;
+// 		}
+// 		diff
 // 	}
-// 	return (1 - t).mul_add(u, t * v);
 // }
+
+pub fn lerp<V>(u: V, v: V, t: f32) -> V {
+    if t < 0.0 || t > 1.0 {
+        panic!("t must be comprised between 0 and 1");
+    }
+    return (1. - t) * u + t * v;
+}
