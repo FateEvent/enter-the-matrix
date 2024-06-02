@@ -117,11 +117,13 @@ Here's explanations for the dot product taken from [Wikipedia](https://en.wikipe
 
 ### Exercise 4
 
+From [Wiki](https://en.wikipedia.org/wiki/Norm_(mathematics)):
 
+![Taxicab norm](varia/img/taxicab.png)
 
+![Supremum norm](varia/img/supremum.png)
 
-
-
+![Euclidean norm](varia/img/euclidean.png)
 
 
 

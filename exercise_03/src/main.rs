@@ -23,9 +23,9 @@ fn main() {
 		v.print();
 		println!("{}", t.dot(v));
 		let p = Vector::from(&[4., -1., 2.]);
-		u.print();
+		p.print();
 		let q = Vector::from(&[1., 2., 4.]);
-		u.print();
+		q.print();
 		println!("{}", p.dot(q));
 	});
 }

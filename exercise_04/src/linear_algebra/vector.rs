@@ -96,9 +96,9 @@ impl Vector<f32> {
 	pub fn magnitude(&self) -> f32 {
 		let mut sum: f32 = 0.0;
 		for el in self.values.iter() {
-			sum += el.clone() * el.clone();
+			sum += el.powf(2.);
 		}
-		return sum.sqrt();
+		return sum.powf(0.5);
 	}
 
 	fn vectors_have_equal_length(&self, other: Vector<f32>) -> bool {
@@ -167,5 +167,25 @@ impl Vector<f32> {
 			sum += e1 * e2;
 		}
 		sum		
+	}
+
+	pub fn norm_1(&self) -> f32 {
+		let mut sum: f32 = 0.0;
+		for el in self.values.iter() {
+			sum += el.abs();
+		}
+		return sum;
+	}
+
+	pub fn norm(&self) -> f32 {
+		return self.magnitude();
+	}
+
+	pub fn norm_inf(&self) -> f32 {
+		let mut max: f32 = 0.0;
+		for el in self.values.iter() {
+			if max < el.abs() { max = el.abs(); }
+		}
+		return max;
 	}
 }
