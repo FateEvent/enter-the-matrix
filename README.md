@@ -109,8 +109,13 @@ The same had to be done for `Matrix<f32>`.
 
 ### Exercise 3
 
+Here's explanations for the dot product taken from [Wikipedia](https://en.wikipedia.org/wiki/Dot_product) and an article from the [Khan Academy](https://www.khanacademy.org/math/multivariable-calculus/thinking-about-multivariable-function/x786f2022:vectors-and-matrices/a/dot-products-mvc):
 
+![dot product wiki](varia/img/dot_product.png)
 
+![dot product Khan Academy](varia/img/dot_product_khan.png)
+
+### Exercise 4
 
 
 
