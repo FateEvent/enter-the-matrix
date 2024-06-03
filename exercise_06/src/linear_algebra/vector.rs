@@ -57,14 +57,13 @@ impl std::ops::Mul<Vector<f32>> for f32 {
 
 impl fmt::Display for Vector<f32> {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-		for (i, n) in self.values.iter().enumerate() {
+		for n in self.values.iter() {
 			write!(fmt, "[")?;
 			write!(fmt, "{}", n)?;
 			write!(fmt, "]")?;
-			if i < self.values.len() - 1 {
-				write!(fmt, "\n")?;
-			}
+			write!(fmt, "\n")?;
 		}
+		println!("The vector has {} rows.", self.rows);
 		Ok(())
 	}
 }
@@ -99,8 +98,8 @@ impl Vector<f32> {
 		self.rows
 	}
 
-	pub fn magnitude(&self) -> f32 {
-		self.norm()
+	pub fn set_rows(&mut self, val: usize) {
+		self.rows = val;
 	}
 
 	fn vectors_have_equal_length(&self, other: Vector<f32>) -> bool {
