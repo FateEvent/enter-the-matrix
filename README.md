@@ -215,3 +215,6 @@ impl std::ops::Index<usize> for Vector<f32> {
 
 ### Exercise 07
 
+[Matrix multiplication](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices/x9e81a4f98389efdf:multiplying-matrices-by-matrices/a/multiplying-matrices):
+
+![alt text](varia/img/matrix_mul.png)
