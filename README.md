@@ -141,6 +141,8 @@ Here's explanations for the dot product taken from [Wikipedia](https://en.wikipe
 
 ![dot product Khan Academy](varia/img/dot_product_khan.png)
 
+The dot product measures how much two vectors point in the same direction.
+
 ### Exercise 04
 
 From [Wiki](https://en.wikipedia.org/wiki/Norm_(mathematics)):
@@ -177,6 +179,8 @@ where
     θ is the angle between a and b in the plane containing them (hence, it is between 0° and 180°),
     ‖a‖ and ‖b‖ are the magnitudes of vectors a and b,
     n is a unit vector perpendicular to the plane containing a and b, with direction such that the ordered set (a, b, n) is positively oriented.
+
+If the dot product measures how much two vectors point in the same direction, the cross product measures how much two vectors point in different directions.
 
 I will implement the following [formula](https://www.khanacademy.org/math/multivariable-calculus/thinking-about-multivariable-function/x786f2022:vectors-and-matrices/a/cross-products-mvc):
 
