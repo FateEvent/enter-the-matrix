@@ -11,7 +11,7 @@ fn main() {
 		let u = Vector::from(&[5., 7.]);
 		u.print();
 
-		println!("\n\x1b[32mLinear combination:\x1b[0m\n");
+		println!("\n\x1b[32mLinear Combination:\x1b[0m\n");
 		let v = Vector::linear_combination(&[t, u], &[4., 7.]);
 		v.print();
 	});

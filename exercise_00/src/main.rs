@@ -20,7 +20,7 @@ fn main() {
 		u.sub(t.clone());
 		u.print();
 
-		println!("\n\x1b[34mScalar multiplication:\x1b[0m\n");
+		println!("\n\x1b[34mScalar Multiplication:\x1b[0m\n");
 		t.scl(5.);
 		t.print();
 	});
@@ -40,12 +40,12 @@ fn main() {
 		m2.sub(m1.clone());
 		m2.print();
 
-		println!("\n\x1b[34mScalar multiplication:\x1b[0m\n");
+		println!("\n\x1b[34mScalar Multiplication:\x1b[0m\n");
 		m2.scl(5.);
 		m2.print();
 	});
 
-	println!("\n\x1b[31;1;4mInvalid matrices\x1b[0m\n");
+	println!("\n\x1b[31;1;4mInvalid Matrices\x1b[0m\n");
 	let _ = panic::catch_unwind(|| {
 		let _m1 = Matrix::from(&[&[5., 7.], &[3., 4.], &[1.]]);
 	});
@@ -57,7 +57,7 @@ fn main() {
 	});
 
 	let _ = panic::catch_unwind(|| {
-		println!("\n\x1b[31;1;4mSquare matrices\x1b[0m\n");
+		println!("\n\x1b[31;1;4mSquare Matrices\x1b[0m\n");
 		let m1 = Matrix::from(&[&[5., 7.,], &[3., 4.]]);
 		m1.print();
 		println!("Is the matrix a square matrix? {}\n", m1.is_square());

@@ -29,13 +29,13 @@ We can find these instructions in [Rust](https://docs.rs/num-traits/latest/num_t
 
 [A Guide to Porting C/C++ to Rust](https://locka99.gitbooks.io/a-guide-to-porting-c-to-rust)
 
-### Exercise 0
+### Exercise 00
 
 Before starting, I learnt to use Rust with the [Rustlings](https://github.com/rust-lang/rustlings), a series of exercises which is very helpful to understand Rust and its compiler.
 
 To prepare for this exercise, I implemented the `vector` and `matrix` structures and some help methods as `print`, `get_rows` (for `vector`), `shape` and `is_regular` (for `matrix`).
 
-The goal of the exercise is to implement, for each `struct`, the methods for addition, subtraction and scaling.
+The goal of the exercise 0is to implement, for each `struct`, the methods for addition, subtraction and scaling.
 
 I also implemented a funtion to calculate the magnitude of the vector, for which I used the [sqrt](https://doc.rust-lang.org/std/primitive.f32.html#method.sqrt) function implemented for the f32 primitive.
 
@@ -43,14 +43,14 @@ Using [generic types](https://doc.rust-lang.org/book/ch10-01-syntax.html) implie
  
 For my `main` function I used a list of [colour escape sequences](https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences) (it's important to note that Rust only considers [hexadecimal escape sequences](https://stackoverflow.com/questions/69981449/how-do-i-print-colored-text-to-the-terminal-in-rust)).
 
-### Exercise 1
+### Exercise 01
 
-For this exercise I had to implement a function calculating a linear combination of an array of vectors and an array of scalars.
+For this exercise 0I had to implement a function calculating a linear combination of an array of vectors and an array of scalars.
 
 To implement the `linear_combination` function, I used the fused multiply-add function implemented by the [mul_add](https://doc.rust-lang.org/std/primitive.f32.html#method.mul_add) function for the `f32` primitive.
 
 
-### Exercise 2
+### Exercise 02
 
 [Linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation) is a method of [curve fitting](https://en.wikipedia.org/wiki/Curve_fitting) (i.e. the process of constructing a curve, or mathematical function, that has the best fit to a series of data points) using [linear polynomials](https://en.wikipedia.org/wiki/Polynomial#linear_polynomial) to construct new data points within the range of a discrete set of known data points.
 
@@ -107,36 +107,9 @@ impl std::ops::Mul<Vector<f32>> for f32 {
 
 The same had to be done for `Matrix<f32>`.
 
-### Exercise 3
-
-Here's explanations for the dot product taken from [Wikipedia](https://en.wikipedia.org/wiki/Dot_product) and an article from the [Khan Academy](https://www.khanacademy.org/math/multivariable-calculus/thinking-about-multivariable-function/x786f2022:vectors-and-matrices/a/dot-products-mvc):
-
-![dot product wiki](varia/img/dot_product.png)
-
-![dot product Khan Academy](varia/img/dot_product_khan.png)
-
-### Exercise 4
-
-From [Wiki](https://en.wikipedia.org/wiki/Norm_(mathematics)):
-
-![Taxicab norm](varia/img/taxicab.png)
-
-![Euclidean norm](varia/img/euclidean.png)
-
-![Supremum norm](varia/img/supremum.png)
-
-### Exercise 5
-
-From [wiki How](https://www.wikihow.com/Find-the-Angle-Between-Two-Vectors):
-![cos_theta](varia/img/cos_theta.png)
-
-
-
-
-
 #### Trait Bounds
 
-Trait bounds directly inserted in between angle brackets after `impl<>` specify constraints on the type parameters for the entire implementation block. These bounds apply globally to all functions and associated items within the implementation. For example:
+Trait bounds directly inserted in between angle brackets after `impl` specify constraints on the type parameters for the entire implementation block. These bounds apply globally to all functions and associated items within the implementation. For example:
 
 ```rust
 
@@ -159,3 +132,82 @@ where K: Clone + std::fmt::Display + std::ops::AddAssign,
 }
 ```
 In this case, the bounds `where K: Clone + std::fmt::Display + std::ops::AddAssign` serve the same purpose as placing the bounds directly between the angle brackets of `impl<>`, but `where` clauses are preferred when the constraints are more complex or to make the code more readable.
+
+### Exercise 03
+
+Here's explanations for the dot product taken from [Wikipedia](https://en.wikipedia.org/wiki/Dot_product) and an article from the [Khan Academy](https://www.khanacademy.org/math/multivariable-calculus/thinking-about-multivariable-function/x786f2022:vectors-and-matrices/a/dot-products-mvc):
+
+![dot product wiki](varia/img/dot_product.png)
+
+![dot product Khan Academy](varia/img/dot_product_khan.png)
+
+### Exercise 04
+
+From [Wiki](https://en.wikipedia.org/wiki/Norm_(mathematics)):
+
+![Taxicab norm](varia/img/taxicab.png)
+
+![Euclidean norm](varia/img/euclidean.png)
+
+![Supremum norm](varia/img/supremum.png)
+
+### Exercise 05
+
+To calculate the [cosine](https://en.wikipedia.org/wiki/Sine_and_cosine) of an angle between two vectors cos(θ), I used the [formula](https://www.wikihow.com/Find-the-Angle-Between-Two-Vectors):
+![cos_theta](varia/img/cos_theta.png)
+
+```rust
+impl AngleCos<f32> for Vector<f32> {
+	fn angle_cos(&self, u: Vector<f32>, v: Vector<f32>) -> f32 {
+		u.dot(v.clone()) / (u.norm() * v.norm())
+	}
+}
+```
+
+### Exercise 06
+
+The [cross product](https://en.wikipedia.org/wiki/Cross_product) is a binary operation on two vectors in a three-dimensional oriented Euclidean vector space, and is denoted by the symbol ×. Given two linearly independent vectors a and b, the cross product, a × b (read "a cross b"), is a vector that is perpendicular to both a and b, and thus normal to the plane containing them.
+
+The cross product is defined by the formula
+
+    a × b = ‖ a ‖ ‖ b ‖ sin( θ ) n
+
+where
+
+    θ is the angle between a and b in the plane containing them (hence, it is between 0° and 180°),
+    ‖a‖ and ‖b‖ are the magnitudes of vectors a and b,
+    n is a unit vector perpendicular to the plane containing a and b, with direction such that the ordered set (a, b, n) is positively oriented.
+
+I will implement the following [formula](https://www.khanacademy.org/math/multivariable-calculus/thinking-about-multivariable-function/x786f2022:vectors-and-matrices/a/cross-products-mvc):
+
+![cross product](varia/img/cross_product.png)
+
+```rust
+impl CrossProduct<f32> for Vector<f32> {
+	fn cross_product(&self, u: Vector<f32>, v: Vector<f32>) -> Vector<f32> {
+		if u.get_rows() != 3 || v.get_rows() != 3 {
+			panic!("Vectors must have three dimensions.");
+		};
+		let mut cross = Vector::new();
+		cross.push(u[1].mul_add(v[2], -(u[2] * v[1])));
+		cross.push(u[2].mul_add(v[0], -(u[0] * v[2])));
+		cross.push(u[0].mul_add(v[1], -(u[1] * v[0])));
+
+		cross
+	}
+}
+```
+
+To implement the `cross_product` function I had to implement the `Index` trait for `Vector<f32>`:
+```rust
+impl std::ops::Index<usize> for Vector<f32> {
+	type Output = f32;
+
+	fn index(&self, index: usize) -> &f32 {
+		&self.values[index]
+	}
+}
+```
+
+### Exercise 07
+
