@@ -121,9 +121,14 @@ From [Wiki](https://en.wikipedia.org/wiki/Norm_(mathematics)):
 
 ![Taxicab norm](varia/img/taxicab.png)
 
+![Euclidean norm](varia/img/euclidean.png)
+
 ![Supremum norm](varia/img/supremum.png)
 
-![Euclidean norm](varia/img/euclidean.png)
+### Exercise 5
+
+From [wiki How](https://www.wikihow.com/Find-the-Angle-Between-Two-Vectors):
+![cos_theta](varia/img/cos_theta.png)
 
 
 
