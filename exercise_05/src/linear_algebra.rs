@@ -34,3 +34,24 @@ impl Lerp<Matrix<f32>> for Matrix<f32> {
 		u.mul_add(1.0 - t, &(t * v))
 	}
 }
+
+pub fn lerp<V: Clone>(u: V, v: V, t: f32) -> V
+where V: Lerp<V>,
+{
+	u.lerp(u.clone(), v, t)
+}
+
+pub trait AngleCos<K> {
+	fn angle_cos(&self, u: Vector<K>, v: Vector<K>) -> f32;
+}
+
+impl AngleCos<f32> for Vector<f32> {
+	fn angle_cos(&self, u: Vector<f32>, v: Vector<f32>) -> f32 {
+		u.dot(v.clone()) / (u.norm() * v.norm())
+	}
+}
+
+pub fn angle_cos<K: Clone>(u: Vector<K>, v: Vector<K>) -> f32
+where Vector<K>: AngleCos<K> {
+	u.angle_cos(u.clone(), v)
+}

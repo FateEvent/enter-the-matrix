@@ -188,8 +188,4 @@ impl Vector<f32> {
 		}
 		return max;
 	}
-
-	pub fn angle_cos(u: Vector::<f32>, v: Vector::<f32>) -> f32 {
-		u.dot(v.clone()) / (u.norm() * v.norm())
-	}
 }

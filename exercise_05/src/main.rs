@@ -1,5 +1,6 @@
 use std::panic;
 use crate::linear_algebra::vector::Vector;
+use crate::linear_algebra::angle_cos;
 
 pub mod linear_algebra;
 
@@ -13,7 +14,7 @@ fn main() {
 		let v = Vector::from(&[1., 2., 3.]);
 		println!("The norm of u is: {}", v.norm());
 		println!("The dot product of u and v is: {}", u.dot(v.clone()));
-		println!("Cos theta is: {}\n", Vector::angle_cos(u, v));
+		println!("Cos theta is: {}\n", angle_cos(u, v));
 	});
 
 	let _ = panic::catch_unwind(|| {
@@ -22,7 +23,7 @@ fn main() {
 		let v = Vector::from(&[0., 1.]);
 		println!("The norm of u is: {}", v.norm());
 		println!("The dot product of u and v is: {}", u.dot(v.clone()));
-		println!("Cos theta is: {}\n", Vector::angle_cos(u, v));
+		println!("Cos theta is: {}\n", angle_cos(u, v));
 	});
 
 	let _ = panic::catch_unwind(|| {
@@ -31,7 +32,7 @@ fn main() {
 		let v = Vector::from(&[1., 0.]);
 		println!("The norm of u is: {}", v.norm());
 		println!("The dot product of u and v is: {}", u.dot(v.clone()));
-		println!("Cos theta is: {}\n", Vector::angle_cos(u, v));
+		println!("Cos theta is: {}\n", angle_cos(u, v));
 	});
 
 	let _ = panic::catch_unwind(|| {
@@ -40,6 +41,6 @@ fn main() {
 		let v = Vector::from(&[1., -1.]);
 		println!("The norm of u is: {}", v.norm());
 		println!("The dot product of u and v is: {}", u.dot(v.clone()));
-		println!("Cos theta is: {}\n", Vector::angle_cos(u, v));
+		println!("Cos theta is: {}\n", angle_cos(u, v));
 	});
 }
