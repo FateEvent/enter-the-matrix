@@ -4,7 +4,7 @@
 
 You need a pencil. Pencils are important. And yeah, a paper sheet. A lot of them, actually. And don't forget the course on linear algebra [_Essence of linear algebra_](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab) delivered by 3Blue1Brown.
 
-Another useful resource to start is the module on [linear algebra](https://www.khanacademy.org/math/linear-algebra) of the Khan Academy.
+Another useful resource to start is the module on [linear algebra](https://www.khanacademy.org/math/linear-algebra) and the modules about [vectors](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:vectors) and [matrices](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices) in the "Precalculus" section of the Khan Academy.
 
 #### Fused Multiply-Accumulate
 
