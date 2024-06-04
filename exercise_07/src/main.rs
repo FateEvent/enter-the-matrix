@@ -5,7 +5,7 @@ use crate::linear_algebra::matrix::Matrix;
 pub mod linear_algebra;
 
 fn main() {
-	println!("\n\x1b[31;1;4m   o  .  -  Vectors  -  .  o\x1b[0m\n");
+	println!("\n\x1b[31;1;4m   o  .  -  Matrices  -  .  o\x1b[0m\n");
 		
 	println!("\n\x1b[32mMatrix Multiplication:\x1b[0m\n");
 

@@ -218,3 +218,11 @@ impl std::ops::Index<usize> for Vector<f32> {
 [Matrix multiplication](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices/x9e81a4f98389efdf:multiplying-matrices-by-matrices/a/multiplying-matrices):
 
 ![alt text](varia/img/matrix_mul.png)
+
+### Exercise 08
+
+The [trace](https://en.wikipedia.org/wiki/Trace_(linear_algebra)) of an *n × n* square matrix __A__ is defined as:
+
+![trace formula](varia/img/trace.png) 
+
+where *a<sub>ii</sub>* denotes the entry on the *i*th row and *i*th column of __A__. The entries of __A__ can be real numbers, complex numbers, or more generally elements of a field __F__. The trace is not defined for non-square matrices.
