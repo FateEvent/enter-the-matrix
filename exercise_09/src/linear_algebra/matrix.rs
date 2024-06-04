@@ -106,8 +106,8 @@ impl Matrix<f32> {
 		self.rows = rows;
 	}
 
-	pub fn push_col(&mut self, col: Vec<f32>) {
-		self.values.push(col);
+	pub fn push(&mut self, vec: Vector<f32>) {
+		self.values.push(vec.get_values());
 		self.cols += 1;
 	}
 
@@ -239,7 +239,7 @@ impl Matrix<f32> {
 		let mut matrix = Matrix::new();
 		for col in 0..self.cols {
 			let capture_col = Vector::capture_column(self.clone(), col);
-			matrix.values.push(capture_col.get_values());
+			matrix.push(capture_col);
 		}
 		matrix.set_rows(self.rows);
 		matrix.set_cols(self.cols);

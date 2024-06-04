@@ -106,11 +106,6 @@ impl Matrix<f32> {
 		self.rows = rows;
 	}
 
-	pub fn push_col(&mut self, col: Vec<f32>) {
-		self.values.push(col);
-		self.cols += 1;
-	}
-
 	pub fn shape(&self) -> (usize, usize) {
 		(self.rows, self.cols)
 	}
