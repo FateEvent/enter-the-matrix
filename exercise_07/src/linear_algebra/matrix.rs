@@ -98,6 +98,14 @@ impl Matrix<f32> {
 		self.values.clone()
 	}
 
+	pub fn set_cols(&mut self, cols: usize) {
+		self.cols = cols;
+	}
+
+	pub fn set_rows(&mut self, rows: usize) {
+		self.rows = rows;
+	}
+
 	pub fn push_col(&mut self, col: Vec<f32>) {
 		self.values.push(col);
 		self.cols += 1;
@@ -180,10 +188,22 @@ impl Matrix<f32> {
 		m
 	}
 
-	// pub fn mul_vec(&mut self, vec: Vector<f32>) -> Vector<f32>;
+	pub fn mul_vec(&self, vec: Vector<f32>) -> Vector<f32> {
+		if self.cols != vec.get_rows() {
+			panic!("The number of columns of the matrix must coincide with the number of rows of the vector.")
+		}
+		
+		let mut vector = Vector::new();
+		for row in 0..self.rows {
+			let capture_row = Vector::capture_row(self.clone(), row);
+			vector.push(capture_row.dot(vec.clone()));
+		}
+		vector
+	}
+
 	pub fn mul_mat(&self, mat: Matrix<f32>) -> Matrix<f32> {
-		if self.rows != mat.cols {
-			panic!("The number of rows of the first matrix and the number of columns of the second matrix must coincide.")
+		if self.cols != mat.rows {
+			panic!("The number of columns of the first matrix must coincide with the number of rows of the second one.")
 		}
 		
 		let mut matrix = Matrix::new();
@@ -195,10 +215,9 @@ impl Matrix<f32> {
 				matrix_row.push(capture_row.dot(capture_col));
 			}
 			matrix.values.push(matrix_row);
-			matrix.rows += 1;
-			matrix.cols += 1;
 		}
-		
+		matrix.set_rows(self.rows);
+		matrix.set_cols(mat.cols);
 		matrix
 	}
 }
