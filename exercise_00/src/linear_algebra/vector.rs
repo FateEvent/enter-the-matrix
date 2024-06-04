@@ -8,16 +8,13 @@ pub struct Vector<K> {
 
 impl fmt::Display for Vector<f32> {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-		println!("The vector has {} rows.", self.rows);
-		println!("The magnitude or length of the vector is {}.", self.magnitude());
-		for (i, n) in self.values.iter().enumerate() {
+		for n in self.values.iter() {
 			write!(fmt, "[")?;
 			write!(fmt, "{}", n)?;
 			write!(fmt, "]")?;
-			if i < self.values.len() - 1 {
-				write!(fmt, "\n")?;
-			}
+			write!(fmt, "\n")?;
 		}
+		println!("The vector has {} rows.", self.rows);
 		Ok(())
 	}
 }
@@ -43,14 +40,6 @@ impl Vector<f32> {
 
 	pub fn get_rows(&self) -> usize {
 		self.rows
-	}
-
-	pub fn magnitude(&self) -> f32 {
-		let mut sum: f32 = 0.0;
-		for el in self.values.iter() {
-			sum += el.clone() * el.clone();
-		}
-		return sum.sqrt();
 	}
 
 	fn vectors_have_equal_length(&self, other: Vector<f32>) -> bool {

@@ -5,7 +5,7 @@ use crate::linear_algebra::cross_product;
 pub mod linear_algebra;
 
 fn main() {
-	println!("\x1b[31;1;4m   o  .  -  Vectors  -  .  o\x1b[0m\n");
+	println!("\n\x1b[31;1;4m   o  .  -  Vectors  -  .  o\x1b[0m\n");
 		
 	println!("\n\x1b[32mCross Product:\x1b[0m\n");
 	let _ = panic::catch_unwind(|| {

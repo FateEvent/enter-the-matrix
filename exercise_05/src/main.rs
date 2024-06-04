@@ -5,7 +5,7 @@ use crate::linear_algebra::angle_cos;
 pub mod linear_algebra;
 
 fn main() {
-	println!("\x1b[31;1;4m   o  .  -  Vectors  -  .  o\x1b[0m\n");
+	println!("\n\x1b[31;1;4m   o  .  -  Vectors  -  .  o\x1b[0m\n");
 		
 	println!("\n\x1b[32mCosine:\x1b[0m\n");
 	let _ = panic::catch_unwind(|| {

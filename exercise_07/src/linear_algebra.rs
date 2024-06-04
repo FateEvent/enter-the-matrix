@@ -69,7 +69,6 @@ impl CrossProduct<f32> for Vector<f32> {
 		cross.push(u[1].mul_add(v[2], -(u[2] * v[1])));
 		cross.push(u[2].mul_add(v[0], -(u[0] * v[2])));
 		cross.push(u[0].mul_add(v[1], -(u[1] * v[0])));
-		cross.set_rows(3);
 
 		cross
 	}

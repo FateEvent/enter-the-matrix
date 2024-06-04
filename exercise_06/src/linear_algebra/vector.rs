@@ -98,10 +98,6 @@ impl Vector<f32> {
 		self.rows
 	}
 
-	pub fn set_rows(&mut self, val: usize) {
-		self.rows = val;
-	}
-
 	fn vectors_have_equal_length(&self, other: Vector<f32>) -> bool {
 		if self.rows != other.rows {
 			panic!("Vectors must be of the same length.");
@@ -196,5 +192,6 @@ impl Vector<f32> {
 
 	pub fn push(&mut self, val: f32) {
 		self.values.push(val);
+		self.rows += 1;
 	}
 }

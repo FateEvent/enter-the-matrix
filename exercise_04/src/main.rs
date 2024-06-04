@@ -5,7 +5,7 @@ pub mod linear_algebra;
 
 fn main() {
 	let _ = panic::catch_unwind(|| {
-		println!("\x1b[31;1;4m   o  .  -  Vectors  -  .  o\x1b[0m\n");
+		println!("\n\x1b[31;1;4m   o  .  -  Vectors  -  .  o\x1b[0m\n");
 		
 		println!("\n\x1b[32mNorm:\x1b[0m\n");
 		let u = Vector::from(&[0., 0., 0.]);

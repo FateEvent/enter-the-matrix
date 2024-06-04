@@ -90,10 +90,8 @@ impl<K: Clone + std::fmt::Display + std::ops::AddAssign + std::ops::Add<Output =
 	}
 }
 
-impl<K> fmt::Display for Matrix<K>
-where K: fmt::Display {
+impl fmt::Display for Matrix<f32> {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-		println!("The shape of the matrix is {} x {}", self.rows, self.cols);
 		for (i, v) in self.values.iter().enumerate() {
 			write!(fmt, "[")?;
 			for (j, n) in v.iter().enumerate() {

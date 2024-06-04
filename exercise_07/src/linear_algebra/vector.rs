@@ -1,5 +1,7 @@
 use core::fmt;
 
+use crate::linear_algebra::Matrix;
+
 #[derive(Debug, PartialEq, Clone)]
 pub struct Vector<K> {
 	values: Vec<K>,
@@ -98,10 +100,6 @@ impl Vector<f32> {
 		self.rows
 	}
 
-	pub fn set_rows(&mut self, val: usize) {
-		self.rows = val;
-	}
-
 	fn vectors_have_equal_length(&self, other: Vector<f32>) -> bool {
 		if self.rows != other.rows {
 			panic!("Vectors must be of the same length.");
@@ -196,5 +194,27 @@ impl Vector<f32> {
 
 	pub fn push(&mut self, val: f32) {
 		self.values.push(val);
+		self.rows += 1;
+	}
+
+	pub fn capture_column(matrix: Matrix<f32>, index: usize) -> Vector<f32> {
+		if index >= matrix.shape().1 {
+			panic!("Column index out of bounds.")
+		}
+		let mut capture = Vector::new();
+
+		for v in matrix.get_values().iter() {
+			capture.push(v[index]);
+		}
+		capture
+	}
+
+	pub fn capture_row(matrix: Matrix<f32>, index: usize) -> Vector<f32> {
+		if index >= matrix.shape().0 {
+			panic!("Row index out of bounds.")
+		}
+		let capture = Vector::from_vec(matrix.get_values()[index].clone());
+
+		capture
 	}
 }

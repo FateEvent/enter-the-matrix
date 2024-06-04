@@ -1,5 +1,7 @@
 use core::fmt;
 
+use super::vector::Vector;
+
 #[derive(Debug, PartialEq, Clone)]
 pub struct Matrix<K> {
 	values: Vec<Vec<K>>,
@@ -48,7 +50,6 @@ impl std::ops::Mul<Matrix<f32>> for f32 {
 
 impl fmt::Display for Matrix<f32> {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-		println!("The shape of the matrix is {} x {}", self.rows, self.cols);
 		for (i, v) in self.values.iter().enumerate() {
 			write!(fmt, "[")?;
 			for (j, n) in v.iter().enumerate() {
@@ -91,6 +92,15 @@ impl Matrix<f32> {
 
 	pub fn print(&self) {
 		println!("{}", self);
+	}
+
+	pub fn get_values(&self) -> Vec<Vec<f32>> {
+		self.values.clone()
+	}
+
+	pub fn push_col(&mut self, col: Vec<f32>) {
+		self.values.push(col);
+		self.cols += 1;
 	}
 
 	pub fn shape(&self) -> (usize, usize) {
@@ -171,5 +181,24 @@ impl Matrix<f32> {
 	}
 
 	// pub fn mul_vec(&mut self, vec: Vector<f32>) -> Vector<f32>;
-	// pub fn mul_mat(&mut self, mat: Matrix<f32>) -> Matrix<f32>;
+	pub fn mul_mat(&self, mat: Matrix<f32>) -> Matrix<f32> {
+		if self.rows != mat.cols {
+			panic!("The number of rows of the first matrix and the number of columns of the second matrix must coincide.")
+		}
+		
+		let mut matrix = Matrix::new();
+		for row in 0..self.rows {
+			let capture_row = Vector::capture_row(self.clone(), row);
+			let mut matrix_row = Vec::new();
+			for col in 0..mat.shape().1 {
+				let capture_col = Vector::capture_column(mat.clone(), col);
+				matrix_row.push(capture_row.dot(capture_col));
+			}
+			matrix.values.push(matrix_row);
+			matrix.rows += 1;
+			matrix.cols += 1;
+		}
+		
+		matrix
+	}
 }
