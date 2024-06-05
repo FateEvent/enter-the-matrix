@@ -4,7 +4,7 @@
 
 You need a pencil. Pencils are important. And yeah, a paper sheet. A lot of them, actually. And don't forget the course on linear algebra [_Essence of linear algebra_](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab) delivered by 3Blue1Brown.
 
-Another useful resource to start is the module on [linear algebra](https://www.khanacademy.org/math/linear-algebra) and the modules about [vectors](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:vectors) and [matrices](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices) in the "Precalculus" section of the Khan Academy.
+Another useful resources to start are the module on [linear algebra](https://www.khanacademy.org/math/linear-algebra) and the modules about [vectors](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:vectors) and [matrices](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices) in the "Precalculus" section of the Khan Academy, and the legendary __Introduction to Linear Algebra__ (now at its 6th edition) by [Gilbert Strang](https://en.wikipedia.org/wiki/Gilbert_Strang).
 
 #### Fused Multiply-Accumulate
 
@@ -226,3 +226,40 @@ The [trace](https://en.wikipedia.org/wiki/Trace_(linear_algebra)) of an *n × n*
 ![trace formula](varia/img/trace.png) 
 
 where *a<sub>ii</sub>* denotes the entry on the *i*th row and *i*th column of __A__. The entries of __A__ can be real numbers, complex numbers, or more generally elements of a field __F__. The trace is not defined for non-square matrices.
+
+### Exercise 09
+
+The [transpose](https://en.wikipedia.org/wiki/Transpose) of a matrix is an operator which flips a matrix over its diagonal; that is, it switches the row and column indices of the matrix __A__ by producing another matrix, often denoted by __A<sup>T</sup>__ (among other notations).
+
+![transpose](transpose.png)
+
+### Exercise 10
+
+A matrix is in [row echelon](https://en.wikipedia.org/wiki/Row_echelon_form) form if
+
+- All rows having only zero entries are at the bottom.
+- The leading entry (that is, the left-most nonzero entry) of every nonzero row, called the pivot, is on the right of the leading entry of every row above.
+
+Some texts add the condition that the leading coefficient must be 1 while others require this only in reduced row echelon form.
+
+These two conditions imply that all entries in a column below a leading coefficient are zeros.
+
+The following is an example of a 4 × 5 matrix in row echelon form, but not in reduced row echelon form (see below):
+
+![row echelon form](varia/img/row_echelon_form.png)
+
+I will make use of [*Gaussian elimination*](https://en.wikipedia.org/wiki/Gaussian_elimination) algorithm to reduce matrices to their row echelon form.
+
+In mathematics, *Gaussian elimination*, also known as *row reduction*, is an algorithm for solving systems of linear equations consisting of a sequence of elementary row operations modifying the matrix until the lower left-hand corner of the matrix is filled with zeros. There are three types of elementary row operations:
+
+- Swapping two rows,
+- Multiplying a row by a nonzero number,
+- Adding a multiple of one row to another row.
+
+Using these operations, a matrix can always be transformed into an upper triangular matrix, and in fact one that is in row echelon form.
+
+Once all of the leading coefficients (the leftmost nonzero entry in each row) are 1, and every column containing a leading coefficient has zeros elsewhere, the matrix is said to be in reduced row echelon form. This final form is unique; in other words, it is independent of the sequence of row operations used. For example, in the following sequence of row operations (where two elementary operations on different rows are done at the first and third steps), the third and fourth matrices are the ones in row echelon form, and the final matrix is the unique reduced row echelon form.
+
+![Gaussian elimination](gaussian_elimination.png)
+
+At first I implemented the elementary row operations.
