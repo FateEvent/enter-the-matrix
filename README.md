@@ -258,8 +258,8 @@ In mathematics, *Gaussian elimination*, also known as *row reduction*, is an alg
 
 Using these operations, a matrix can always be transformed into an upper triangular matrix, and in fact one that is in row echelon form.
 
-Once all of the leading coefficients (the leftmost nonzero entry in each row) are 1, and every column containing a leading coefficient has zeros elsewhere, the matrix is said to be in reduced row echelon form. This final form is unique; in other words, it is independent of the sequence of row operations used. For example, in the following sequence of row operations (where two elementary operations on different rows are done at the first and third steps), the third and fourth matrices are the ones in row echelon form, and the final matrix is the unique reduced row echelon form.
+Once all of the leading coefficients (the leftmost nonzero entry in each row) are 1, and every column containing a leading coefficient has zeros elsewhere, the matrix is said to be in __reduced row echelon form__. This final form is unique; in other words, it is independent of the sequence of row operations used. For example, in the following sequence of row operations (where two elementary operations on different rows are done at the first and third steps), the third and fourth matrices are the ones in row echelon form, and the final matrix is the unique reduced row echelon form.
 
 ![Gaussian elimination](gaussian_elimination.png)
 
-At first I implemented the elementary row operations.
+In order to implement the [REF algorithm](https://web.stanford.edu/~hammond/matrixAlgC20.pdf), I started by implementing the elementary row operations.
