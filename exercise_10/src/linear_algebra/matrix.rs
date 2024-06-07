@@ -260,12 +260,38 @@ impl Matrix<f32> {
 		matrix
 	}
 
-	pub fn print_diagonal(self) {
 
-		for (row, col) in (0..self.rows).zip(0..self.cols) {
-			println!("{}", self.values[row][col]);
+
+
+
+
+
+
+
+
+
+
+	// functions to obtain the row echelon form of a matrix
+
+
+	
+
+	pub fn find_multiple(self, row_index: usize, col_index: usize) -> usize {
+
+		let mut pos = row_index;
+		for row in 0..self.rows {
+			let entry = self[row][col_index];
+			if entry % self[row_index][col_index] == 0.
+				&& row != row_index && entry != self[row_index][col_index] {
+				pos = row;
+			}
 		}
+		pos
 	}
+
+	
+	
+	
 
 	pub fn row_swap(&mut self, a: usize, b: usize) {
 		let tmp = Vector::capture_row(self.clone(), a);
@@ -281,6 +307,41 @@ impl Matrix<f32> {
 	// add to row A a scalar multiple of row B
 	pub fn add_row_multiple(&mut self, a: usize, b: usize, scalar: f32) {
 		self[a] = (scalar * Vector::from_vec(self[b].clone()) + Vector::from_vec(self[a].clone())).get_values();
+	}
+
+	pub fn row_echelon_form(&mut self) {
+
+		let mut pivot: usize = 0;
+		for col in 0..self.cols {
+			for row in pivot..self.rows {
+				if self[row][col] != 0.0 {
+					if row != pivot {
+						self.row_swap(pivot, row);
+						
+					}
+					for r in pivot + 1..self.rows {
+						self.add_row_multiple(r, 0, -1. * self[r][col] / self[pivot][col]);
+			
+					}
+					pivot += 1;
+					break ;
+				}
+
+			}
+		}
+
+		
+
+		// let tup = self.clone().check_for_zero_column(0, 0);
+		// if tup != (usize::MAX, usize::MAX) {
+		// 	self.row_scl(tup.0, 1.0/self[tup.0][tup.1]);
+		// }
+		// for row in tup.0 + 1..self.rows {
+		// 	while self[row][tup.1] != 0.0 {
+		// 		println!("{}", self[row][tup.1]);
+		// 		self.add_row_multiple(row, tup.1, -1.);
+		// 	}
+		// }
 	}
 
 }
