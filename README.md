@@ -235,10 +235,10 @@ The [transpose](https://en.wikipedia.org/wiki/Transpose) of a matrix is an opera
 
 ### Exercise 10
 
-A matrix is in [row echelon](https://en.wikipedia.org/wiki/Row_echelon_form) form if
+A matrix is in [row echelon](https://en.wikipedia.org/wiki/Row_echelon_form) form if:
 
-- All rows having only zero entries are at the bottom.
-- The leading entry (that is, the left-most nonzero entry) of every nonzero row, called the pivot, is on the right of the leading entry of every row above.
+- all rows having only zero entries are at the bottom;
+- the leading entry (that is, the left-most nonzero entry) of every nonzero row, called the pivot, is on the right of the leading entry of every row above.
 
 Some texts add the condition that the leading coefficient must be 1 while others require this only in reduced row echelon form.
 
@@ -252,9 +252,9 @@ I will make use of [*Gaussian elimination*](https://en.wikipedia.org/wiki/Gaussi
 
 In mathematics, *Gaussian elimination*, also known as *row reduction*, is an algorithm for solving systems of linear equations consisting of a sequence of elementary row operations modifying the matrix until the lower left-hand corner of the matrix is filled with zeros. There are three types of elementary row operations:
 
-- Swapping two rows,
-- Multiplying a row by a nonzero number,
-- Adding a multiple of one row to another row.
+- swapping two rows,
+- multiplying a row by a nonzero number,
+- adding a multiple of one row to another row.
 
 Using these operations, a matrix can always be transformed into an upper triangular matrix, and in fact one that is in row echelon form.
 
@@ -262,14 +262,13 @@ Once all of the leading coefficients (the leftmost nonzero entry in each row) ar
 
 ![Gaussian elimination](gaussian_elimination.png)
 
-In order to implement the [REF algorithm](https://web.stanford.edu/~hammond/matrixAlgC20.pdf), I started by implementing the elementary row operations.
+In order to implement [REF and RREF algorithms](https://web.stanford.edu/~hammond/matrixAlgC20.pdf), I followed the leads of [this answer](https://stackoverflow.com/questions/31756413/solving-a-simple-matrix-in-row-reduced-form-in-c) posted on StackOverflow.
 
-[Suggestions](https://math.stackexchange.com/questions/1149771/best-way-to-find-reduced-row-echelon-form-rref-of-a-matrix)
+I also found [this answer](https://math.stackexchange.com/questions/1149771/best-way-to-find-reduced-row-echelon-form-rref-of-a-matrix) inspiring.
 
+### Exercise 11
 
-
-
-
+[](https://www.mathsisfun.com/algebra/matrix-determinant.html)
 
 
 

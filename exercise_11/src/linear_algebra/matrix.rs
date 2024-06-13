@@ -322,4 +322,51 @@ impl Matrix<f32> {
 			pivot += 1;
 		}
 	}
+
+	fn determinant_2x2(&self) -> f32 {
+		if self.rows != 2 || self.cols != 2 {
+			panic!("The matrix must be a 2x2 matrix.")
+		};
+
+		return self[0][0] * self[1][1] - self[0][1] * self[1][0]
+	}
+
+	fn determinant_3x3(&self) -> f32 {
+		if self.rows != 3 || self.cols != 3 {
+			panic!("The matrix must be a 3x3 matrix.")
+		};
+
+		let mut det: f32 = 0.;
+		let mut matrix = Matrix::new();
+		for i in 0..self.cols {
+			for col in 0..self.cols {
+				if i != col {
+					matrix.push(Vector::capture_column(self.clone(), col));
+				}
+			}
+			if i % 2 == 0 {
+				det += self[0][i] * matrix.determinant_2x2();
+			} else {
+				det -= self[0][i] * matrix.determinant_2x2();
+			}
+		}
+		return det
+	}
+
+	pub fn determinant(&self) -> f32 {
+		if !self.is_square() {
+			panic!("The matrix must be a square matrix.")
+		};
+
+		// if self.rows == 2 && self.cols == 2 {
+			return self.determinant_2x2();
+		// }
+		// else if self.rows == 3 && self.cols == 3 {
+			
+
+		// } else if self.rows == 4 && self.cols == 4 {
+			
+		// }
+		// ;
+	}
 }
