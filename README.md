@@ -97,7 +97,7 @@ impl std::ops::Mul<Vector<f32>> for f32 {
 	fn mul(self, _rhs: Vector<f32>) -> Vector<f32> {
 		let mut a: Vector<f32> = Vector::new();
 		for el in _rhs.values.iter() {
-			a.values.push(el.clone() * self);
+			a.values.push((*el * self * 100.).round() / 100.);
 			a.rows += 1;
 		}
 		a
@@ -263,3 +263,23 @@ Once all of the leading coefficients (the leftmost nonzero entry in each row) ar
 ![Gaussian elimination](gaussian_elimination.png)
 
 In order to implement the [REF algorithm](https://web.stanford.edu/~hammond/matrixAlgC20.pdf), I started by implementing the elementary row operations.
+
+[Suggestions](https://math.stackexchange.com/questions/1149771/best-way-to-find-reduced-row-echelon-form-rref-of-a-matrix)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Exercise 14
+
+[Frustum](https://en.wikipedia.org/wiki/Frustum)

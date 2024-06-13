@@ -15,9 +15,20 @@ fn main() {
 
 		let mut u = Matrix::from(&[&[1., 2.,], &[3., 4.]]);
 		println!("u is equal to:\n{}", u);
+		// u.row_echelon_form();
+		// u.print();
+		let mut v = Matrix::from(&[&[5., 7., 15.], &[3., 4., 5.]]);
+		// v.row_echelon_form();
+		// v.print();
+
+		// u.find_divisors(0);
+		// v.find_divisors(0);
+		u.reduced_row_echelon_form();
+		u.print();
 		u.row_echelon_form();
 		u.print();
-		let mut v = Matrix::from(&[&[5., 7., 15.], &[3., 4., 5.]]);
+		v.reduced_row_echelon_form();
+		v.print();
 		v.row_echelon_form();
 		v.print();
 	});

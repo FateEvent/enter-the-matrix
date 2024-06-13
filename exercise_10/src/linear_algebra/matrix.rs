@@ -52,7 +52,7 @@ impl std::ops::Mul<Matrix<f32>> for f32 {
 		for v in _rhs.values.iter() {
 			let mut vec = Vec::new();
 			for el in v.iter() {
-				vec.push(*el * self);
+				vec.push((*el * self * 100.).round() / 100.);
 			}
 			m.values.push(vec);
 			m.rows += 1;
@@ -268,44 +268,47 @@ impl Matrix<f32> {
 
 
 
-
-
-
-	// functions to obtain the row echelon form of a matrix
-
-
-	
-
-	pub fn find_multiple(self, row_index: usize, col_index: usize) -> usize {
-
-		let mut pos = row_index;
+	pub fn find_divisors(&self, col: usize) {
+		if col >= self.cols {
+			panic!("Column index out of bounds.")
+		}
 		for row in 0..self.rows {
-			let entry = self[row][col_index];
-			if entry % self[row_index][col_index] == 0.
-				&& row != row_index && entry != self[row_index][col_index] {
-				pos = row;
+			let mut i: f32 = 1.;
+			let n = self[row][col];
+			while i * i < n { 
+				if n % i == 0. {
+					print!("{} ", i);
+				}
+				i += 1.;
+			}
+			if i - (n / i) == 1. { 
+				i -= 1.; 
+			} 
+			while i >= 1. { 
+				if n % i == 0. {
+					print!("{} ", n / i);
+				}
+				i -= 1.;
 			}
 		}
-		pos
-	}
+	} 
 
-	
-	
-	
 
-	pub fn row_swap(&mut self, a: usize, b: usize) {
+
+	// functions to obtain the row echelon form of a matrix	
+	fn row_swap(&mut self, a: usize, b: usize) {
 		let tmp = Vector::capture_row(self.clone(), a);
 
 		self[a] = self[b].clone();
 		self[b] = tmp.get_values();
 	}
 
-	pub fn row_scl(&mut self, i: usize, scalar: f32) {
+	fn row_scl(&mut self, i: usize, scalar: f32) {
 		self[i] = (scalar * Vector::from_vec(self[i].clone())).get_values();
 	}
 
 	// add to row A a scalar multiple of row B
-	pub fn add_row_multiple(&mut self, a: usize, b: usize, scalar: f32) {
+	fn add_row_multiple(&mut self, a: usize, b: usize, scalar: f32) {
 		self[a] = (scalar * Vector::from_vec(self[b].clone()) + Vector::from_vec(self[a].clone())).get_values();
 	}
 
@@ -319,29 +322,41 @@ impl Matrix<f32> {
 						self.row_swap(pivot, row);
 						
 					}
-					for r in pivot + 1..self.rows {
-						self.add_row_multiple(r, 0, -1. * self[r][col] / self[pivot][col]);
-			
+					for p_row in pivot + 1..self.rows {
+						self.add_row_multiple(p_row, 0, -1. * self[p_row][col] / self[pivot][col]);
 					}
 					pivot += 1;
 					break ;
 				}
-
 			}
 		}
-
-		
-
-		// let tup = self.clone().check_for_zero_column(0, 0);
-		// if tup != (usize::MAX, usize::MAX) {
-		// 	self.row_scl(tup.0, 1.0/self[tup.0][tup.1]);
-		// }
-		// for row in tup.0 + 1..self.rows {
-		// 	while self[row][tup.1] != 0.0 {
-		// 		println!("{}", self[row][tup.1]);
-		// 		self.add_row_multiple(row, tup.1, -1.);
-		// 	}
-		// }
 	}
 
+	pub fn reduced_row_echelon_form(&mut self) {
+
+		let mut pivot: usize = 0;
+		while pivot < self.rows {
+			let mut d: f32;
+			let mut m: f32;
+
+			for row in 0..self.rows {
+				d = self[pivot][pivot];
+				m = self[row][pivot] / self[pivot][pivot];
+				
+
+				for col in 0..self.cols {
+					if row == pivot {
+						self[row][col] = (self[row][col] / d * 100.).round() / 100.;
+					} else {
+						self[row][col] = self[row][col] - (self[pivot][col] * m * 100.).round() / 100.;
+					}
+					if self[row][col] == -0. {
+						self[row][col] = 0.
+					}
+				}
+
+			}
+			pivot += 1;
+		}
+	}
 }

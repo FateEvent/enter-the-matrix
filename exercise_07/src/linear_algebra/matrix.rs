@@ -38,7 +38,7 @@ impl std::ops::Mul<Matrix<f32>> for f32 {
 		for v in _rhs.values.iter() {
 			let mut vec = Vec::new();
 			for el in v.iter() {
-				vec.push(*el * self);
+				vec.push((*el * self * 100.).round() / 100.);
 			}
 			m.values.push(vec);
 			m.rows += 1;
