@@ -268,8 +268,48 @@ I also found [this answer](https://math.stackexchange.com/questions/1149771/best
 
 ### Exercise 11
 
-[](https://www.mathsisfun.com/algebra/matrix-determinant.html)
+The determinant is a number representing a matrix in different contexts. For example,
 
+To compute the [determinant](https://www.mathsisfun.com/algebra/matrix-determinant.html) of a matrix,
+
+I compared my results with the results of this [calculator](https://www.symbolab.com/solver/matrix-determinant-calculator)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Exercise 12
+
+The [inverse](https://www.mathsisfun.com/algebra/matrix-inverse.html) of a matrix.
+
+To calculate it, we need to find the [__adjoint matrix__](https://www.sangakoo.com/en/unit/inverse-matrix-using-determinants) of our matrix, that is calculated [as follows](https://www.mathsisfun.com/algebra/matrix-inverse-minors-cofactors-adjugate.html):
+
+Firstly, we compute its __matrix of minors__:
+
+![minor matrix](varia/img/minor_matrix_calc.png)
+
+![minor matrix](varia/img/minor_matrix.png)
+
+secondly, we compute its __matrix of cofactors__:
+
+![cofactor matrix](varia/img/cofactor_matrix.png)
+
+by following the following scheme:
+
+![cofactor matrix scheme](varia/img/cofactor_matrix_scheme.png)
+
+and finally, we calculate the __adjugate__ (or __adjoint__) by transposing the elements of the matrix of cofactors:
+
+![adjoint matrix](varia/img/adjoint_matrix.png)
 
 
 
