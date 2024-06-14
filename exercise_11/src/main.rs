@@ -10,22 +10,22 @@ fn main() {
 
 
 	let _ = panic::catch_unwind(|| {
-		let mut z: Matrix<f32> = Matrix::from(&[&[1., 0.,], &[0., 1.]]);
-		println!("\nz is equal to:\n{}", z);
+		// let z: Matrix<f32> = Matrix::from(&[&[1., 0.,], &[0., 1.]]);
+		// println!("\nz is equal to:\n{}", z);
 
-		println!("{}", z.determinant());
-		z.print();
-
-
-		let mut u = Matrix::from(&[&[1., 2.,], &[3., 4.]]);
-		println!("\nu is equal to:\n{}", u);
-
-		println!("{}", u.determinant());
-		u.print();
+		// println!("{}", z.determinant());
+		// z.print();
 
 
+		// let u = Matrix::from(&[&[1., 2.,], &[3., 4.]]);
+		// println!("\nu is equal to:\n{}", u);
 
-		let mut v = Matrix::from(&[&[5., 7., 15.], &[3., 4., 5.]]);
+		// println!("{}", u.determinant());
+		// u.print();
+
+
+
+		let v = Matrix::from(&[&[5., 7., 15.], &[3., 4., 5.], &[5., 7., 15.]]);
 		println!("\nv is equal to:\n{}", v);
 
 		println!("{}", v.determinant());

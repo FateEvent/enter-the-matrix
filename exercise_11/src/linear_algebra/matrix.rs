@@ -331,23 +331,38 @@ impl Matrix<f32> {
 		return self[0][0] * self[1][1] - self[0][1] * self[1][0]
 	}
 
-	fn determinant_3x3(&self) -> f32 {
-		if self.rows != 3 || self.cols != 3 {
-			panic!("The matrix must be a 3x3 matrix.")
-		};
-
-		let mut det: f32 = 0.;
+	fn create_submatrix(&self, index: usize) -> Matrix<f32> {
 		let mut matrix = Matrix::new();
-		for i in 0..self.cols {
+		for row in 1..self.rows {
+			let mut vec = Vector::new();
 			for col in 0..self.cols {
-				if i != col {
-					matrix.push(Vector::capture_column(self.clone(), col));
+				if index != col {
+					vec.push(self[row][col]);
 				}
 			}
+			matrix.push(vec);
+			matrix.set_rows(self.rows - 1);
+			matrix.set_cols(self.cols - 1);
+		}
+		return matrix;
+	}
+
+	fn determinant_3x3(&self) -> f32 {
+		// if self.rows != 3 || self.cols != 3 {
+		// 	panic!("The matrix must be a 3x3 matrix.")
+		// };
+
+		let mut det: f32 = 0.;
+		for i in 0..self.cols {
+			let matrix = self.create_submatrix(i);
+			println!("{}", matrix);
+			println!("\n");
 			if i % 2 == 0 {
 				det += self[0][i] * matrix.determinant_2x2();
+				println!("pair {} {} {}", i, self[0][i], self[0][i] * matrix.determinant_2x2());
 			} else {
 				det -= self[0][i] * matrix.determinant_2x2();
+				println!("impair {} {} {}", i, self[0][i], self[0][i] * matrix.determinant_2x2());
 			}
 		}
 		return det
@@ -358,15 +373,19 @@ impl Matrix<f32> {
 			panic!("The matrix must be a square matrix.")
 		};
 
-		// if self.rows == 2 && self.cols == 2 {
-			return self.determinant_2x2();
-		// }
-		// else if self.rows == 3 && self.cols == 3 {
-			
+		let size = self.rows;
+		println!("size: {} {} {}", size, self.rows, self.cols);
 
-		// } else if self.rows == 4 && self.cols == 4 {
+		if size == 2 {
+			return self.determinant_2x2();
+		} else if size == 3 {
+			return self.determinant_3x3();
+		} else {
+			panic!("Did not implement determinant for 4x4 matrices yet!")
+		};
+
+		// else if size == 4 {
 			
-		// }
-		// ;
+		// };
 	}
 }
