@@ -323,6 +323,7 @@ impl Matrix<f32> {
 		}
 	}
 
+	// functions to compute the determinant of a matrix
 	fn determinant_2x2(&self) -> f32 {
 		if self.rows != 2 || self.cols != 2 {
 			panic!("The matrix must be a 2x2 matrix.")
@@ -347,22 +348,24 @@ impl Matrix<f32> {
 		return matrix;
 	}
 
-	fn determinant_3x3(&self) -> f32 {
-		// if self.rows != 3 || self.cols != 3 {
-		// 	panic!("The matrix must be a 3x3 matrix.")
-		// };
+	fn determinant_nxn(&self) -> f32 {
 
+		let size = self.rows;
 		let mut det: f32 = 0.;
 		for i in 0..self.cols {
 			let matrix = self.create_submatrix(i);
-			println!("{}", matrix);
-			println!("\n");
-			if i % 2 == 0 {
-				det += self[0][i] * matrix.determinant_2x2();
-				println!("pair {} {} {}", i, self[0][i], self[0][i] * matrix.determinant_2x2());
+			if size == 3 {
+				if i % 2 == 0 {
+					det += self[0][i] * matrix.determinant_2x2();
+				} else {
+					det -= self[0][i] * matrix.determinant_2x2();
+				}
 			} else {
-				det -= self[0][i] * matrix.determinant_2x2();
-				println!("impair {} {} {}", i, self[0][i], self[0][i] * matrix.determinant_2x2());
+				if i % 2 == 0 {
+					det += self[0][i] * matrix.determinant_nxn();
+				} else {
+					det -= self[0][i] * matrix.determinant_nxn();
+				}
 			}
 		}
 		return det
@@ -374,18 +377,14 @@ impl Matrix<f32> {
 		};
 
 		let size = self.rows;
-		println!("size: {} {} {}", size, self.rows, self.cols);
 
 		if size == 2 {
 			return self.determinant_2x2();
-		} else if size == 3 {
-			return self.determinant_3x3();
+		} else if size >= 3 && size <= 5 {
+			return self.determinant_nxn();
 		} else {
-			panic!("Did not implement determinant for 4x4 matrices yet!")
+			panic!("Determinant cannot be calculated for matrices greater than 5x5.")
 		};
 
-		// else if size == 4 {
-			
-		// };
 	}
 }

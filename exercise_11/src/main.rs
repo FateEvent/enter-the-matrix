@@ -29,7 +29,23 @@ fn main() {
 		println!("\nv is equal to:\n{}", v);
 
 		println!("{}", v.determinant());
+		// 0
 		v.print();
+
+
+		let r = Matrix::from(&[&[5., 7., 15., 18.], &[3., 4., 5., 3.], &[5., 7., 15., 3.], &[1., 2., 1., 3.]]);
+		println!("\nv is equal to:\n{}", v);
+
+		println!("{}", r.determinant());
+		// 210
+		r.print();
+
+
+		let s = Matrix::from(&[&[5., 7., 15., 18., 17.], &[3., 4., 5., 3., 3.], &[5., 7., 15., 3., 7.], &[1., 2., 1., 3., 5.], &[5., 7., 15., 18., 7.]]);
+		println!("\nv is equal to:\n{}", v);
+
+		println!("{}", s.determinant());
+		s.print();
 
 	});
 
