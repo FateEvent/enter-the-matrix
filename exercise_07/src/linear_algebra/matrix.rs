@@ -39,7 +39,6 @@ impl std::ops::Mul<Matrix<f32>> for f32 {
 			let mut vec = Vec::new();
 			for el in v.iter() {
 				vec.push(*el * self);
-				// vec.push((*el * self * 100.).round() / 100.);
 			}
 			m.values.push(vec);
 			m.rows += 1;
@@ -54,7 +53,7 @@ impl fmt::Display for Matrix<f32> {
 		for (i, v) in self.values.iter().enumerate() {
 			write!(fmt, "[")?;
 			for (j, n) in v.iter().enumerate() {
-				write!(fmt, "{}", n)?;
+				write!(fmt, "{}", (n * 100.).round() / 100.)?;
 				if j < v.len() - 1 {
 					write!(fmt, " ")?;
 				}

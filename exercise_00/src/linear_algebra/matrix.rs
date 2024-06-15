@@ -12,7 +12,7 @@ impl fmt::Display for Matrix<f32> {
 		for (i, v) in self.values.iter().enumerate() {
 			write!(fmt, "[")?;
 			for (j, n) in v.iter().enumerate() {
-				write!(fmt, "{}", n)?;
+				write!(fmt, "{}", (n * 100.).round() / 100.)?;
 				if j < v.len() - 1 {
 					write!(fmt, " ")?;
 				}

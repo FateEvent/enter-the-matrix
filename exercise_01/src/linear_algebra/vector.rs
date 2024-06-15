@@ -10,7 +10,7 @@ impl fmt::Display for Vector<f32> {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
 		for n in self.values.iter() {
 			write!(fmt, "[")?;
-			write!(fmt, "{}", n)?;
+			write!(fmt, "{}", (n * 100.).round() / 100.)?;
 			write!(fmt, "]")?;
 			write!(fmt, "\n")?;
 		}

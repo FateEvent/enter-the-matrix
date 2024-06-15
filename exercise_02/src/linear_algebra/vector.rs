@@ -41,7 +41,6 @@ impl std::ops::Mul<Vector<f32>> for f32 {
 		let mut a: Vector<f32> = Vector::new();
 		for el in _rhs.values.iter() {
 			a.values.push(*el * self);
-			// a.values.push((*el * self * 100.).round() / 100.);
 			a.rows += 1;
 		}
 		a
@@ -52,7 +51,7 @@ impl fmt::Display for Vector<f32> {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
 		for n in self.values.iter() {
 			write!(fmt, "[")?;
-			write!(fmt, "{}", n)?;
+			write!(fmt, "{}", (n * 100.).round() / 100.)?;
 			write!(fmt, "]")?;
 			write!(fmt, "\n")?;
 		}

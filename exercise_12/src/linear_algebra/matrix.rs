@@ -53,7 +53,6 @@ impl std::ops::Mul<Matrix<f32>> for f32 {
 			let mut vec = Vec::new();
 			for el in v.iter() {
 				vec.push(*el * self);
-				// vec.push((*el * self * 100.).round() / 100.);
 			}
 			m.values.push(vec);
 			m.rows += 1;
@@ -68,7 +67,7 @@ impl fmt::Display for Matrix<f32> {
 		for (i, v) in self.values.iter().enumerate() {
 			write!(fmt, "[")?;
 			for (j, n) in v.iter().enumerate() {
-				write!(fmt, "{}", n)?;
+				write!(fmt, "{}", (n * 100.).round() / 100.)?;
 				if j < v.len() - 1 {
 					write!(fmt, " ")?;
 				}
@@ -252,6 +251,7 @@ impl Matrix<f32> {
 	pub fn transpose(&self) -> Self {
 
 		let mut matrix = Matrix::new();
+		println!("{}", self.cols);
 		for col in 0..self.cols {
 			let capture_col = Vector::capture_column(self.clone(), col);
 			matrix.push(capture_col);
@@ -387,5 +387,40 @@ impl Matrix<f32> {
 			panic!("Determinant cannot be calculated for matrices greater than 5x5.")
 		};
 
+	}
+
+	// functions to compute the inverse of a matrix
+	pub fn create_adjoint(&self) -> Matrix<f32> {
+
+		let mut min_mat = Matrix::new();
+		min_mat.set_rows(self.rows);
+		min_mat.set_cols(self.cols);
+
+		let mut neg: f32 = 1.;
+		for i in 0..self.rows {
+			let mut minor_vec = Vec::new();
+			for j in 0..self.cols {
+				let mut matrix = Matrix::new();
+
+				for row in 0..self.rows {
+					if i == row {
+						continue;
+					}
+					let mut vec = Vector::new();
+					for col in 0..self.cols {
+						if j != col {
+							vec.push(self[row][col]);
+						}
+					}
+					matrix.push(vec);
+					matrix.set_rows(self.rows - 1);
+					matrix.set_cols(self.cols - 1);
+				}
+				minor_vec.push(matrix.determinant() * neg * if j % 2 == 1 { -1. } else { 1. });
+			}
+			min_mat.values.push(minor_vec);
+			neg *= -1.;
+		}
+		return min_mat.transpose();
 	}
 }
