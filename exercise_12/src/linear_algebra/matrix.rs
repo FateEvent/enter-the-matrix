@@ -277,50 +277,54 @@ impl Matrix<f32> {
 		self[a] = (scalar * Vector::from_vec(self[b].clone()) + Vector::from_vec(self[a].clone())).get_values();
 	}
 
-	pub fn row_echelon_form(&mut self) {
+	pub fn row_echelon_form(&self) -> Matrix<f32> {
 
+		let mut matrix = self.clone();
 		let mut pivot: usize = 0;
-		for col in 0..self.cols {
-			for row in pivot..self.rows {
-				if self[row][col] != 0.0 {
+		for col in 0..matrix.cols {
+			for row in pivot..matrix.rows {
+				if matrix[row][col] != 0.0 {
 					if row != pivot {
-						self.row_swap(pivot, row);
+						matrix.row_swap(pivot, row);
 						
 					}
-					for p_row in pivot + 1..self.rows {
-						self.add_row_multiple(p_row, 0, -1. * self[p_row][col] / self[pivot][col]);
+					for p_row in pivot + 1..matrix.rows {
+						matrix.add_row_multiple(p_row, 0, -1. * matrix[p_row][col] / matrix[pivot][col]);
 					}
 					pivot += 1;
 					break ;
 				}
 			}
 		}
+		return matrix;
 	}
 
-	pub fn reduced_row_echelon_form(&mut self) {
+	pub fn reduced_row_echelon_form(&self) -> Matrix<f32> {
 
+		let mut matrix = self.clone();
 		let mut pivot: usize = 0;
-		while pivot < self.rows {
+		while pivot < matrix.rows {
 			let mut d: f32;
 			let mut m: f32;
 
-			for row in 0..self.rows {
-				d = self[pivot][pivot];
-				m = self[row][pivot] / self[pivot][pivot];
+			for row in 0..matrix.rows {
+				d = matrix[pivot][pivot];
+				m = matrix[row][pivot] / matrix[pivot][pivot];
 
 				if row == pivot {
-					self.row_scl(row, 1./d);
+					matrix.row_scl(row, 1./d);
 				} else {
-					self.add_row_multiple(row, pivot, -1. * m);
+					matrix.add_row_multiple(row, pivot, -1. * m);
 				}
-				for col in 0..self.cols {
-					if self[row][col] == 0. {
-						self[row][col] = 0.
+				for col in 0..matrix.cols {
+					if matrix[row][col] == 0. {
+						matrix[row][col] = 0.
 					}
 				}
 			}
 			pivot += 1;
 		}
+		return matrix;
 	}
 
 	// functions to compute the determinant of a matrix
