@@ -40,7 +40,8 @@ impl std::ops::Mul<Vector<f32>> for f32 {
 	fn mul(self, _rhs: Vector<f32>) -> Vector<f32> {
 		let mut a: Vector<f32> = Vector::new();
 		for el in _rhs.values.iter() {
-			a.values.push((*el * self * 100.).round() / 100.);
+			a.values.push(*el * self);
+			// a.values.push((*el * self * 100.).round() / 100.);
 			a.rows += 1;
 		}
 		a

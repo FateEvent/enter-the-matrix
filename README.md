@@ -97,7 +97,8 @@ impl std::ops::Mul<Vector<f32>> for f32 {
 	fn mul(self, _rhs: Vector<f32>) -> Vector<f32> {
 		let mut a: Vector<f32> = Vector::new();
 		for el in _rhs.values.iter() {
-			a.values.push((*el * self * 100.).round() / 100.);
+			a.values.push(*el * self);
+			// a.values.push((*el * self * 100.).round() / 100.);
 			a.rows += 1;
 		}
 		a
@@ -275,8 +276,11 @@ To compute the [determinant](https://www.mathsisfun.com/algebra/matrix-determina
 I compared my results with the results of this [calculator](https://www.symbolab.com/solver/matrix-determinant-calculator)
 
 
+From the subject:
 
+> If you remember the aside on the exterior algebra from before, you might want to know that n-vectors inside an n-dimensional exterior algebra tend to behave a lot like scalars, and are referred to as "pseudoscalars" for this reason.
 
+> The determinant is actually the magnitude of the pseudoscalar (the measure of the n-parallelepiped) which is created by the successive wedge product of all the columns vectors of a square matrix. Read that again, slowly.
 
 
 

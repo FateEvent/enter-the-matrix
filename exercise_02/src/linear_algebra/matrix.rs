@@ -17,7 +17,7 @@ impl std::ops::Sub<Matrix<f32>> for Matrix<f32> {
 		for (v1, v2) in self.values.iter().zip(_rhs.values.iter()) {
 			let mut vec = Vec::new();
 			for (a, b) in v1.iter().zip(v2.iter()) {
-				vec.push(*a - b.clone());
+				vec.push(*a - *b);
 			}
 			m.values.push(vec);
 			m.rows += 1;
@@ -36,7 +36,8 @@ impl std::ops::Mul<Matrix<f32>> for f32 {
 		for v in _rhs.values.iter() {
 			let mut vec = Vec::new();
 			for el in v.iter() {
-				vec.push((*el * self * 100.).round() / 100.);
+				vec.push(*el * self);
+				// vec.push((*el * self * 100.).round() / 100.);
 			}
 			m.values.push(vec);
 			m.rows += 1;
