@@ -295,9 +295,13 @@ From the subject:
 
 ### Exercise 12
 
-The [inverse](https://www.mathsisfun.com/algebra/matrix-inverse.html) of a matrix.
+The [__inverse__](https://www.mathsisfun.com/algebra/matrix-inverse.html) of a matrix of size 2x2 may be calculated as follows:
 
-To calculate it, we need to find the [__adjoint matrix__](https://www.sangakoo.com/en/unit/inverse-matrix-using-determinants) of our matrix, that is calculated [as follows](https://www.mathsisfun.com/algebra/matrix-inverse-minors-cofactors-adjugate.html):
+![2x2 matrix inverse](varia/img/inverse_2x2.png)
+
+Hint: *d* is the __inverse__ of *a* and viceversa.
+
+To calculate the __inverse__ of a matrix of greater size, we need to find the [__adjoint matrix__](https://www.sangakoo.com/en/unit/inverse-matrix-using-determinants) of our matrix, that is calculated [as follows](https://www.mathsisfun.com/algebra/matrix-inverse-minors-cofactors-adjugate.html):
 
 Firstly, we compute its __matrix of minors__:
 
@@ -317,12 +321,11 @@ and finally, we calculate the __adjugate__ (or __adjoint__) by transposing the e
 
 ![adjoint matrix](varia/img/adjoint_matrix.png)
 
+### Exercise 13
 
+The [rank](https://www.mathsisfun.com/algebra/matrix-rank.html) of a matrix can be defined as [the largest order](https://cp-algorithms.com/linear_algebra/rank-matrix.html) of any non-zero minor in the matrix.
 
-
-
-
-
+It's also the number of linearly independent vectors in the matrix. That's why a non-zero determinant in a square matrix tells us that all rows (or columns) are linearly independent vectors, so it is "full rank" and its rank equals the number of rows.
 
 
 ### Exercise 14

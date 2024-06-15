@@ -431,4 +431,25 @@ impl Matrix<f32> {
 		}
 		return 1./det * self.create_adjoint();
 	}
+
+	pub fn rank(& self) -> usize {
+		if self.is_square() {
+			let det = self.determinant();
+			if det > 0. {
+				return self.rows;
+			}
+		}
+		let mut r_ef = self.row_echelon_form();
+		let mut rank: usize = 0;
+		let mut col: usize = 0;
+		let mut row: usize = 0;
+		while row < r_ef.rows && row < r_ef.cols {
+			if r_ef[row][col] > 0. {
+				rank += 1;
+			}
+			row += 1;
+			col += 1;
+		}
+		return rank;
+	}
 }
