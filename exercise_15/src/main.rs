@@ -57,22 +57,26 @@ fn main() {
 	// 	m1.sub(m2.clone());
 	// });
 
-	println!("\n\x1b[31;1;4mThe Norm\x1b[0m\n");
-
 	let _ = panic::catch_unwind(|| {
 		let complex_numbers = [
 			Complex::new(1.0, 1.0),
 			Complex::new(1.0, -1.0)
 		];
 
-		let mut vec: Vec<Complex<f32>> = complex_numbers.to_vec();
+		let vec: Vec<Complex<f32>> = complex_numbers.to_vec();
 
-		let mut t = Vector::from_vec(vec);
-		// t.print();
+		let t = Vector::from_vec(vec);
+		t.print();
 
-		println!("{}", t.norm());
-		// let mut u = Vector::from(&[5., 7.]);
-		// u.print();
+		let v = Vector::from(&complex_numbers);
+
+		println!("\n\x1b[31;1;4mThe Dot Product\x1b[0m\n");
+
+		println!("{}", v.dot(t));
+
+		println!("\n\x1b[31;1;4mThe Norm\x1b[0m\n");
+
+		println!("{}", v.norm());
 
 	});
 

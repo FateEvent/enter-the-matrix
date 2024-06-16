@@ -264,11 +264,20 @@ impl fmt::Display for Vector<Complex<f32>> {
 }
 
 impl Vector<Complex<f32>> {
+	pub fn dot(&self, v: Vector<Complex<f32>>) -> Complex<f32> {
+		self.vectors_have_equal_length(v.clone());
+		let mut sum = Complex::<f32>::zero();
+		for (e1, e2) in self.values.iter().zip(v.values.iter()) {
+			sum += *e1 * e2.conj();
+		}
+		sum		
+	}
+
 	pub fn norm(&self) -> Complex<f32> {
 		println!("Tom!\n");
 		let mut sum = Complex::<f32>::zero();
 		for el in self.values.iter() {
-			sum += el.powf(2.);
+			sum += el.norm().powf(2.);
 		}
 		return sum.powf(0.5);
 	}

@@ -361,6 +361,10 @@ In Rust, the [Complex type](https://docs.rs/num/latest/num/complex/struct.Comple
 
 To calculate the [norms](https://math.stackexchange.com/questions/285398/what-is-the-norm-of-a-complex-number) of a complex number, we need to find its [conjugate](https://math.libretexts.org/Bookshelves/Linear_Algebra/Matrix_Analysis_(Cox)/06%3A_Complex_Analysis_I/6.01%3A_Complex_Numbers_Vectors_and_Matrices),
 
+At the same time, the [dot product between complex vectors](https://en.wikipedia.org/wiki/Dot_product#Complex_vectors) is given by the dot product of the first term with the conjugate of the second term:
+
+![dot product of complex vectors](varia/img/complex_dot_product.png)
+
 Some [help](https://rust-lang-nursery.github.io/rust-cookbook/science/mathematics/complex_numbers.html) to work with Complex number type in Rust.
 [Hints](https://earvinkayonga.com/posts/implement-complex-numbers-in-rust) to implement one's own complex number class.
 
