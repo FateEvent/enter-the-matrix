@@ -1,3 +1,5 @@
+use num::complex::Complex;
+
 use crate::linear_algebra::vector::Vector;
 use crate::linear_algebra::matrix::Matrix;
 

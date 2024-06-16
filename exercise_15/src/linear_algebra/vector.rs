@@ -1,6 +1,7 @@
 use core::fmt;
 
 use crate::linear_algebra::Matrix;
+use crate::linear_algebra::Complex;
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Vector<K> {
@@ -8,7 +9,7 @@ pub struct Vector<K> {
 	rows: usize
 }
 
-impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::Add<Output = K>
+impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::Add + std::ops::Add<Output = K>
 + std::ops::SubAssign + std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
 + std::ops::Mul<Output = K>> std::ops::Sub<Vector<K>> for Vector<K>
 where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
@@ -25,7 +26,7 @@ where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
 	}
 }
 
-impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::Add<Output = K>
+impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::Add + std::ops::Add<Output = K>
 + std::ops::SubAssign + std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
 + std::ops::Mul<Output = K>> std::ops::Add<Vector<K>> for Vector<K>
 where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
@@ -42,8 +43,8 @@ where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
 	}
 }
 
-impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::SubAssign
-+ std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
+impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::Add + std::ops::Add<Output = K>
++ std::ops::SubAssign + std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
 + std::ops::Mul<Output = K>> std::ops::Index<usize> for Vector<K> {
 	type Output = K;
 
@@ -52,8 +53,8 @@ impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::SubAssign
 	}
 }
 
-impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::SubAssign
-+ std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
+impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::Add + std::ops::Add<Output = K>
++ std::ops::SubAssign + std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
 + std::ops::Mul<Output = K>> Vector<K>
 where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
 	pub fn new() -> Self {
@@ -130,15 +131,6 @@ where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
 		true
 	}
 
-	pub fn dot(&self, v: Vector<K>) -> K {
-		self.vectors_have_equal_length(v.clone());
-		let mut sum = K::default();
-		for (e1, e2) in self.values.iter().zip(v.values.iter()) {
-			sum += *e1 * *e2;
-		}
-		sum		
-	}
-
 	pub fn capture_column(matrix: Matrix<K>, index: usize) -> Vector<K> {
 		if index >= matrix.shape().1 {
 			panic!("Column index out of bounds.")
@@ -159,6 +151,15 @@ where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
 
 		capture
 	}
+
+	// pub fn dot(&self, v: Vector<K>) -> K {
+	// 	self.vectors_have_equal_length(v.clone());
+	// 	let mut sum = K::default();
+	// 	for (e1, e2) in self.values.iter().zip(v.values.iter()) {
+	// 		sum += *e1 * *e2;
+	// 	}
+	// 	sum		
+	// }
 }
 
 impl std::ops::Mul<Vector<f32>> for f32 {
@@ -210,6 +211,15 @@ impl Vector<f32> {
 		return combo;
 	}
 
+	pub fn dot(&self, v: Vector<f32>) -> f32 {
+		self.vectors_have_equal_length(v.clone());
+		let mut sum = f32::default();
+		for (e1, e2) in self.values.iter().zip(v.values.iter()) {
+			sum += *e1 * *e2;
+		}
+		sum		
+	}
+
 	pub fn norm_1(&self) -> f32 {
 		let mut sum: f32 = 0.0;
 		for el in self.values.iter() {
@@ -234,3 +244,51 @@ impl Vector<f32> {
 		return max;
 	}
 }
+
+// impl Vector<Complex<f32>> {
+// 	// pub fn mul_add(&self, a: f32, b: &Vector<f32>) -> Vector<f32> {
+// 	// 	self.vectors_have_equal_length(b.clone());
+// 	// 	return Vector::from_vec(self.values.iter().zip(b.values.iter())
+// 	// 	.map(|(u, v)| u.mul_add(a, *v)).collect());
+// 	// }
+
+// 	// pub fn linear_combination(u: &[Vector<f32>], coefs: &[f32]) -> Vector<f32> {
+// 	// 	Vector::vec_arr_check_length(u);
+// 	// 	let len = u[0].values.len();
+// 	// 	let mut combo: Vector<f32> = Vector::new();
+		
+// 	// 	for row in 0..len {
+// 	// 		let mut sum = f32::default();
+// 	// 		for (v, coef) in u.iter().zip(coefs.iter()) {
+// 	// 			sum = (*coef).mul_add(v.values[row], sum);
+// 	// 		}
+// 	// 		combo.values.push(sum);
+// 	// 		combo.rows += 1;
+// 	// 	}
+// 	// 	return combo;
+// 	// }
+
+// 	// pub fn norm_1(&self) -> f32 {
+// 	// 	let mut sum: f32 = 0.0;
+// 	// 	for el in self.values.iter() {
+// 	// 		sum += el.abs();
+// 	// 	}
+// 	// 	return sum;
+// 	// }
+
+// 	pub fn norm(&self) -> f32 {
+// 		let mut sum: f32 = 0.0;
+// 		for el in self.values.iter() {
+// 			sum += el.powf(2.);
+// 		}
+// 		return sum.powf(0.5);
+// 	}
+
+// 	pub fn norm_inf(&self) -> f32 {
+// 		let mut max: f32 = 0.0;
+// 		for el in self.values.iter() {
+// 			if max < el.abs() { max = el.abs(); }
+// 		}
+// 		return max;
+// 	}
+// }

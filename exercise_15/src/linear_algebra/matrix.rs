@@ -9,8 +9,8 @@ pub struct Matrix<K> {
 	rows: usize
 }
 
-impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::SubAssign
-+ std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
+impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::Add + std::ops::Add<Output = K>
++ std::ops::SubAssign + std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
 + std::ops::Mul<Output = K>> std::ops::Index<usize> for Matrix<K> {
 	type Output = Vec<K>;
 
@@ -19,16 +19,16 @@ impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::SubAssign
 	}
 }
 
-impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::SubAssign
-+ std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
+impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::Add + std::ops::Add<Output = K>
++ std::ops::SubAssign + std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
 + std::ops::Mul<Output = K>> std::ops::IndexMut<usize> for Matrix<K> {
 	fn index_mut(&mut self, index: usize) -> &mut Vec<K> {
 		&mut self.values[index]
 	}
 }
 
-impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::SubAssign
-+ std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
+impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::Add + std::ops::Add<Output = K>
++ std::ops::SubAssign + std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
 + std::ops::Mul<Output = K>> std::ops::Sub<Matrix<K>> for Matrix<K>
 where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
 	type Output = Matrix<K>;
@@ -51,8 +51,8 @@ where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
 	}
 }
 
-impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::SubAssign
-+ std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
+impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::Add + std::ops::Add<Output = K>
++ std::ops::SubAssign + std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
 + std::ops::Mul<Output = K>> Matrix<K>
 where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
 	pub fn new() -> Self {
@@ -159,39 +159,6 @@ where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
 		}
 	}
 
-	pub fn mul_vec(&self, vec: Vector<K>) -> Vector<K> {
-		if self.cols != vec.get_rows() {
-			panic!("The number of columns of the matrix must coincide with the number of rows of the vector.")
-		}
-		
-		let mut vector = Vector::new();
-		for row in 0..self.rows {
-			let capture_row = Vector::capture_row(self.clone(), row);
-			vector.push(capture_row.dot(vec.clone()));
-		}
-		vector
-	}
-
-	pub fn mul_mat(&self, mat: Matrix<K>) -> Matrix<K> {
-		if self.cols != mat.rows {
-			panic!("The number of columns of the first matrix must coincide with the number of rows of the second one.")
-		}
-		
-		let mut matrix = Matrix::new();
-		for row in 0..self.rows {
-			let capture_row = Vector::capture_row(self.clone(), row);
-			let mut matrix_row = Vec::new();
-			for col in 0..mat.shape().1 {
-				let capture_col = Vector::capture_column(mat.clone(), col);
-				matrix_row.push(capture_row.dot(capture_col));
-			}
-			matrix.values.push(matrix_row);
-		}
-		matrix.set_rows(self.rows);
-		matrix.set_cols(mat.cols);
-		matrix
-	}
-
 	pub fn trace(&self) -> K {
 		if !self.is_square() {
 			panic!("The matrix must be a square matrix.")
@@ -272,63 +239,38 @@ impl Matrix<f32> {
 		m
 	}
 
-	// pub fn mul_vec(&self, vec: Vector<f32>) -> Vector<f32> {
-	// 	if self.cols != vec.get_rows() {
-	// 		panic!("The number of columns of the matrix must coincide with the number of rows of the vector.")
-	// 	}
+	pub fn mul_vec(&self, vec: Vector<f32>) -> Vector<f32> {
+		if self.cols != vec.get_rows() {
+			panic!("The number of columns of the matrix must coincide with the number of rows of the vector.")
+		}
 		
-	// 	let mut vector = Vector::new();
-	// 	for row in 0..self.rows {
-	// 		let capture_row = Vector::capture_row(self.clone(), row);
-	// 		vector.push(capture_row.dot(vec.clone()));
-	// 	}
-	// 	vector
-	// }
+		let mut vector = Vector::new();
+		for row in 0..self.rows {
+			let capture_row = Vector::capture_row(self.clone(), row);
+			vector.push(capture_row.dot(vec.clone()));
+		}
+		vector
+	}
 
-	// pub fn mul_mat(&self, mat: Matrix<f32>) -> Matrix<f32> {
-	// 	if self.cols != mat.rows {
-	// 		panic!("The number of columns of the first matrix must coincide with the number of rows of the second one.")
-	// 	}
+	pub fn mul_mat(&self, mat: Matrix<f32>) -> Matrix<f32> {
+		if self.cols != mat.rows {
+			panic!("The number of columns of the first matrix must coincide with the number of rows of the second one.")
+		}
 		
-	// 	let mut matrix = Matrix::new();
-	// 	for row in 0..self.rows {
-	// 		let capture_row = Vector::capture_row(self.clone(), row);
-	// 		let mut matrix_row = Vec::new();
-	// 		for col in 0..mat.shape().1 {
-	// 			let capture_col = Vector::capture_column(mat.clone(), col);
-	// 			matrix_row.push(capture_row.dot(capture_col));
-	// 		}
-	// 		matrix.values.push(matrix_row);
-	// 	}
-	// 	matrix.set_rows(self.rows);
-	// 	matrix.set_cols(mat.cols);
-	// 	matrix
-	// }
-
-	// pub fn trace(&self) -> f32 {
-	// 	if !self.is_square() {
-	// 		panic!("The matrix must be a square matrix.")
-	// 	};
-
-	// 	let mut sum: f32 = 0.;
-	// 	for entry in 0..self.rows {
-	// 		let capture_row = Vector::capture_row(self.clone(), entry);
-	// 		sum += capture_row[entry];
-	// 	}
-	// 	sum
-	// }
-
-	// pub fn transpose(&self) -> Self {
-
-	// 	let mut matrix = Matrix::new();
-	// 	for col in 0..self.cols {
-	// 		let capture_col = Vector::capture_column(self.clone(), col);
-	// 		matrix.push(capture_col);
-	// 	}
-	// 	matrix.set_rows(self.rows);
-	// 	matrix.set_cols(self.cols);
-	// 	matrix
-	// }
+		let mut matrix = Matrix::new();
+		for row in 0..self.rows {
+			let capture_row = Vector::capture_row(self.clone(), row);
+			let mut matrix_row = Vec::new();
+			for col in 0..mat.shape().1 {
+				let capture_col = Vector::capture_column(mat.clone(), col);
+				matrix_row.push(capture_row.dot(capture_col));
+			}
+			matrix.values.push(matrix_row);
+		}
+		matrix.set_rows(self.rows);
+		matrix.set_cols(mat.cols);
+		matrix
+	}
 
 	// functions to obtain the row echelon form of a matrix	
 	fn row_swap(&mut self, a: usize, b: usize) {

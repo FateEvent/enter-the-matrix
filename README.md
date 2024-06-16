@@ -351,4 +351,12 @@ We need to calculate a [projection matrix](https://www.scratchapixel.com/lessons
 
 ### Exercise 15
 
-The [Complex type](https://docs.rs/num/latest/num/complex/struct.Complex.html) has a [method](https://docs.rs/num/latest/num/complex/struct.Complex.html#method.i) to return the imaginary part of the number that I can use for calculations. 
+[Complex numbers](https://www.khanacademy.org/math/algebra-home/alg-complex-numbers) are numbers made up of a real number and an imaginary part _i_. _i_ is the imaginary unit.
+
+![The imaginary unit](varia/img/imaginary_unit.png)
+
+Complex numbers are used to take the square root of negative numbers.
+
+In Rust, the [Complex type](https://docs.rs/num/latest/num/complex/struct.Complex.html) has a [method](https://docs.rs/num/latest/num/complex/struct.Complex.html#method.i) to return the imaginary part of the number that I can use for calculations.
+
+To calculate the [norms](https://math.stackexchange.com/questions/285398/what-is-the-norm-of-a-complex-number) of a complex number, we need to find its [conjugate](https://math.libretexts.org/Bookshelves/Linear_Algebra/Matrix_Analysis_(Cox)/06%3A_Complex_Analysis_I/6.01%3A_Complex_Numbers_Vectors_and_Matrices), 
