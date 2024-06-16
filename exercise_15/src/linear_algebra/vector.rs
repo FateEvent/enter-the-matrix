@@ -9,8 +9,20 @@ pub struct Vector<K> {
 	rows: usize
 }
 
+impl<K> std::ops::Index<usize> for Vector<K>
+where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
+K: Copy + Clone + num::Num + std::ops::AddAssign
++ std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
++ std::ops::Neg<Output = K> {
+	type Output = K;
+
+	fn index(&self, index: usize) -> &K {
+		&self.values[index]
+	}
+}
+
 impl<K> std::ops::Sub<Vector<K>> for Vector<K>
-where Vector<K>: std::fmt::Display,
+where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
 K: Copy + Clone + num::Num + std::ops::AddAssign
 + std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
 + std::ops::Neg<Output = K> {
@@ -28,7 +40,7 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 }
 
 impl<K> std::ops::Add<Vector<K>> for Vector<K>
-where Vector<K>: std::fmt::Display,
+where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
 K: Copy + Clone + num::Num + std::ops::AddAssign
 + std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
 + std::ops::Neg<Output = K> {
@@ -45,20 +57,8 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 	}
 }
 
-impl<K> std::ops::Index<usize> for Vector<K>
-where Vector<K>: std::fmt::Display,
-K: Copy + Clone + num::Num + std::ops::AddAssign
-+ std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
-+ std::ops::Neg<Output = K> {
-	type Output = K;
-
-	fn index(&self, index: usize) -> &K {
-		&self.values[index]
-	}
-}
-
 impl<K> Vector<K>
-where Vector<K>: std::fmt::Display,
+where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
 K: Copy + Clone + num::Num + std::ops::AddAssign
 + std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
 + std::ops::Neg<Output = K> {
@@ -136,26 +136,26 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 		true
 	}
 
-	// pub fn capture_column(matrix: Matrix<K>, index: usize) -> Vector<K> {
-	// 	if index >= matrix.shape().1 {
-	// 		panic!("Column index out of bounds.")
-	// 	}
-	// 	let mut capture = Vector::new();
+	pub fn capture_column(matrix: Matrix<K>, index: usize) -> Vector<K> {
+		if index >= matrix.shape().1 {
+			panic!("Column index out of bounds.")
+		}
+		let mut capture = Vector::new();
 
-	// 	for v in matrix.get_values().iter() {
-	// 		capture.values.push(v[index]);
-	// 	}
-	// 	capture
-	// }
+		for v in matrix.get_values().iter() {
+			capture.values.push(v[index]);
+		}
+		capture
+	}
 
-	// pub fn capture_row(matrix: Matrix<K>, index: usize) -> Vector<K> {
-	// 	if index >= matrix.shape().0 {
-	// 		panic!("Row index out of bounds.")
-	// 	}
-	// 	let capture = Vector::from_vec(matrix.get_values()[index].clone());
+	pub fn capture_row(matrix: Matrix<K>, index: usize) -> Vector<K> {
+		if index >= matrix.shape().0 {
+			panic!("Row index out of bounds.")
+		}
+		let capture = Vector::from_vec(matrix.get_values()[index].clone());
 
-	// 	capture
-	// }
+		capture
+	}
 
 	// pub fn dot(&self, v: Vector<K>) -> K {
 	// 	self.vectors_have_equal_length(v.clone());
