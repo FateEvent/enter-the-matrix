@@ -79,6 +79,6 @@ where Vector<K>: CrossProduct<K> {
 	u.cross_product(u.clone(), v)
 }
 
-fn projection(fov: f32, ratio: f32, near: f32, far: f32) -> Matrix<f32> {
+// fn projection(fov: f32, ratio: f32, near: f32, far: f32) -> Matrix<f32> {
 
-}
+// }

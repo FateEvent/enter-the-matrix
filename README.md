@@ -341,3 +341,14 @@ It's also the number of linearly independent vectors in the matrix. That's why a
 > Viewing-frustum culling is the process of removing from the rendering process those objects that lie completely outside the viewing frustum.[6] Rendering these objects would be a waste of resources since they are not directly visible. To make culling fast, it is usually done using bounding volumes surrounding the objects rather than the objects themselves.
 
 We need to calculate a [projection matrix](https://www.scratchapixel.com/lessons/3d-basic-rendering/perspective-and-orthographic-projection-matrix/building-basic-perspective-projection-matrix.html) for the camera frustum.
+
+
+
+
+
+
+
+
+### Exercise 15
+
+The [Complex type](https://docs.rs/num/latest/num/complex/struct.Complex.html) has a [method](https://docs.rs/num/latest/num/complex/struct.Complex.html#method.i) to return the imaginary part of the number that I can use for calculations. 
