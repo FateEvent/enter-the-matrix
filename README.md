@@ -359,4 +359,9 @@ Complex numbers are used to take the square root of negative numbers.
 
 In Rust, the [Complex type](https://docs.rs/num/latest/num/complex/struct.Complex.html) has a [method](https://docs.rs/num/latest/num/complex/struct.Complex.html#method.i) to return the imaginary part of the number that I can use for calculations.
 
-To calculate the [norms](https://math.stackexchange.com/questions/285398/what-is-the-norm-of-a-complex-number) of a complex number, we need to find its [conjugate](https://math.libretexts.org/Bookshelves/Linear_Algebra/Matrix_Analysis_(Cox)/06%3A_Complex_Analysis_I/6.01%3A_Complex_Numbers_Vectors_and_Matrices), 
+To calculate the [norms](https://math.stackexchange.com/questions/285398/what-is-the-norm-of-a-complex-number) of a complex number, we need to find its [conjugate](https://math.libretexts.org/Bookshelves/Linear_Algebra/Matrix_Analysis_(Cox)/06%3A_Complex_Analysis_I/6.01%3A_Complex_Numbers_Vectors_and_Matrices),
+
+Some [help](https://rust-lang-nursery.github.io/rust-cookbook/science/mathematics/complex_numbers.html) to work with Complex number type in Rust.
+[Hints](https://earvinkayonga.com/posts/implement-complex-numbers-in-rust) to implement one's own complex number class.
+
+https://ubcmath.github.io/MATH307/dft/complex.html

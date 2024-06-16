@@ -1,7 +1,7 @@
-use core::fmt;
-
 use crate::linear_algebra::Matrix;
 use crate::linear_algebra::Complex;
+use crate::linear_algebra::fmt;
+use super::Zero;
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Vector<K> {
@@ -9,10 +9,11 @@ pub struct Vector<K> {
 	rows: usize
 }
 
-impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::Add + std::ops::Add<Output = K>
-+ std::ops::SubAssign + std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
-+ std::ops::Mul<Output = K>> std::ops::Sub<Vector<K>> for Vector<K>
-where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
+impl<K> std::ops::Sub<Vector<K>> for Vector<K>
+where Vector<K>: std::fmt::Display,
+K: Copy + Clone + num::Num + std::ops::AddAssign
++ std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
++ std::ops::Neg<Output = K> {
 	type Output = Vector<K>;
 
 	fn sub(self, _rhs: Vector<K>) -> Vector<K> {
@@ -26,10 +27,11 @@ where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
 	}
 }
 
-impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::Add + std::ops::Add<Output = K>
-+ std::ops::SubAssign + std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
-+ std::ops::Mul<Output = K>> std::ops::Add<Vector<K>> for Vector<K>
-where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
+impl<K> std::ops::Add<Vector<K>> for Vector<K>
+where Vector<K>: std::fmt::Display,
+K: Copy + Clone + num::Num + std::ops::AddAssign
++ std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
++ std::ops::Neg<Output = K> {
 	type Output = Vector<K>;
 
 	fn add(self, _rhs: Vector<K>) -> Vector<K> {
@@ -43,9 +45,11 @@ where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
 	}
 }
 
-impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::Add + std::ops::Add<Output = K>
-+ std::ops::SubAssign + std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
-+ std::ops::Mul<Output = K>> std::ops::Index<usize> for Vector<K> {
+impl<K> std::ops::Index<usize> for Vector<K>
+where Vector<K>: std::fmt::Display,
+K: Copy + Clone + num::Num + std::ops::AddAssign
++ std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
++ std::ops::Neg<Output = K> {
 	type Output = K;
 
 	fn index(&self, index: usize) -> &K {
@@ -53,10 +57,11 @@ impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::Add + std::ops:
 	}
 }
 
-impl<K: Default + Copy + Clone + std::ops::AddAssign + std::ops::Add + std::ops::Add<Output = K>
-+ std::ops::SubAssign + std::ops::Sub + std::ops::Sub<Output = K> + std::ops::MulAssign
-+ std::ops::Mul<Output = K>> Vector<K>
-where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
+impl<K> Vector<K>
+where Vector<K>: std::fmt::Display,
+K: Copy + Clone + num::Num + std::ops::AddAssign
++ std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
++ std::ops::Neg<Output = K> {
 	pub fn new() -> Self {
 		Vector {
 			values: Vec::new(),
@@ -131,30 +136,30 @@ where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display {
 		true
 	}
 
-	pub fn capture_column(matrix: Matrix<K>, index: usize) -> Vector<K> {
-		if index >= matrix.shape().1 {
-			panic!("Column index out of bounds.")
-		}
-		let mut capture = Vector::new();
+	// pub fn capture_column(matrix: Matrix<K>, index: usize) -> Vector<K> {
+	// 	if index >= matrix.shape().1 {
+	// 		panic!("Column index out of bounds.")
+	// 	}
+	// 	let mut capture = Vector::new();
 
-		for v in matrix.get_values().iter() {
-			capture.values.push(v[index]);
-		}
-		capture
-	}
+	// 	for v in matrix.get_values().iter() {
+	// 		capture.values.push(v[index]);
+	// 	}
+	// 	capture
+	// }
 
-	pub fn capture_row(matrix: Matrix<K>, index: usize) -> Vector<K> {
-		if index >= matrix.shape().0 {
-			panic!("Row index out of bounds.")
-		}
-		let capture = Vector::from_vec(matrix.get_values()[index].clone());
+	// pub fn capture_row(matrix: Matrix<K>, index: usize) -> Vector<K> {
+	// 	if index >= matrix.shape().0 {
+	// 		panic!("Row index out of bounds.")
+	// 	}
+	// 	let capture = Vector::from_vec(matrix.get_values()[index].clone());
 
-		capture
-	}
+	// 	capture
+	// }
 
 	// pub fn dot(&self, v: Vector<K>) -> K {
 	// 	self.vectors_have_equal_length(v.clone());
-	// 	let mut sum = K::default();
+	// 	let mut sum = K::zero();
 	// 	for (e1, e2) in self.values.iter().zip(v.values.iter()) {
 	// 		sum += *e1 * *e2;
 	// 	}
@@ -201,7 +206,7 @@ impl Vector<f32> {
 		let mut combo: Vector<f32> = Vector::new();
 		
 		for row in 0..len {
-			let mut sum = f32::default();
+			let mut sum = f32::zero();
 			for (v, coef) in u.iter().zip(coefs.iter()) {
 				sum = (*coef).mul_add(v.values[row], sum);
 			}
@@ -213,7 +218,7 @@ impl Vector<f32> {
 
 	pub fn dot(&self, v: Vector<f32>) -> f32 {
 		self.vectors_have_equal_length(v.clone());
-		let mut sum = f32::default();
+		let mut sum = f32::zero();
 		for (e1, e2) in self.values.iter().zip(v.values.iter()) {
 			sum += *e1 * *e2;
 		}
@@ -245,44 +250,28 @@ impl Vector<f32> {
 	}
 }
 
-// impl Vector<Complex<f32>> {
-// 	// pub fn mul_add(&self, a: f32, b: &Vector<f32>) -> Vector<f32> {
-// 	// 	self.vectors_have_equal_length(b.clone());
-// 	// 	return Vector::from_vec(self.values.iter().zip(b.values.iter())
-// 	// 	.map(|(u, v)| u.mul_add(a, *v)).collect());
-// 	// }
+impl fmt::Display for Vector<Complex<f32>> {
+	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+		for n in self.values.iter() {
+			write!(fmt, "[")?;
+			write!(fmt, "{}", n)?;
+			write!(fmt, "]")?;
+			write!(fmt, "\n")?;
+		}
+		println!("The vector has {} rows.", self.rows);
+		Ok(())
+	}
+}
 
-// 	// pub fn linear_combination(u: &[Vector<f32>], coefs: &[f32]) -> Vector<f32> {
-// 	// 	Vector::vec_arr_check_length(u);
-// 	// 	let len = u[0].values.len();
-// 	// 	let mut combo: Vector<f32> = Vector::new();
-		
-// 	// 	for row in 0..len {
-// 	// 		let mut sum = f32::default();
-// 	// 		for (v, coef) in u.iter().zip(coefs.iter()) {
-// 	// 			sum = (*coef).mul_add(v.values[row], sum);
-// 	// 		}
-// 	// 		combo.values.push(sum);
-// 	// 		combo.rows += 1;
-// 	// 	}
-// 	// 	return combo;
-// 	// }
-
-// 	// pub fn norm_1(&self) -> f32 {
-// 	// 	let mut sum: f32 = 0.0;
-// 	// 	for el in self.values.iter() {
-// 	// 		sum += el.abs();
-// 	// 	}
-// 	// 	return sum;
-// 	// }
-
-// 	pub fn norm(&self) -> f32 {
-// 		let mut sum: f32 = 0.0;
-// 		for el in self.values.iter() {
-// 			sum += el.powf(2.);
-// 		}
-// 		return sum.powf(0.5);
-// 	}
+impl Vector<Complex<f32>> {
+	pub fn norm(&self) -> Complex<f32> {
+		println!("Tom!\n");
+		let mut sum = Complex::<f32>::zero();
+		for el in self.values.iter() {
+			sum += el.powf(2.);
+		}
+		return sum.powf(0.5);
+	}
 
 // 	pub fn norm_inf(&self) -> f32 {
 // 		let mut max: f32 = 0.0;
@@ -291,4 +280,4 @@ impl Vector<f32> {
 // 		}
 // 		return max;
 // 	}
-// }
+}

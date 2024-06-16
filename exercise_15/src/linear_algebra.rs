@@ -1,4 +1,10 @@
-use num::complex::Complex;
+pub use core::fmt;
+pub use core::ops::Neg;
+
+pub use num::complex::Complex;
+pub use num::Num;
+pub use num::Zero;
+
 
 use crate::linear_algebra::vector::Vector;
 use crate::linear_algebra::matrix::Matrix;
