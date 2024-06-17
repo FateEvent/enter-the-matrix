@@ -269,11 +269,11 @@ impl fmt::Display for Vector<Complex<f32>> {
 }
 
 impl Vector<Complex<f32>> {
-	pub fn dot(&self, v: Vector<Complex<f32>>) -> Complex<f32> {
+	pub fn dot(&self, v: Vector<Complex<f32>>) -> f32 {
 		self.vectors_have_equal_length(v.clone());
-		let mut sum = Complex::<f32>::zero();
+		let mut sum = f32::zero();
 		for (e1, e2) in self.values.iter().zip(v.values.iter()) {
-			sum += *e1 * e2.conj();
+			sum += (*e1 * e2.conj()).re;
 		}
 		sum
 	}

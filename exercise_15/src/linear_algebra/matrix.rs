@@ -535,19 +535,5 @@ impl fmt::Display for Matrix<Complex<f32>> {
 }
 
 impl Matrix<Complex<f32>> {
-	// pub fn mul_add(&self, a: Complex<f32>, b: &Matrix<Complex<f32>>) -> Matrix<Complex<f32>> {
-	// 	self.clone().matrices_are_regular(b.clone());
-		
-	// 	let mut m: Matrix<Complex<f32>> = Matrix::new();
-	// 	for (u, v) in self.values.iter().zip(b.values.iter()) {
-	// 		let mut vec = Vec::new();
-	// 		for (e1, e2) in u.iter().zip(v.iter()) {
-	// 			vec.push(e1.mul_add(a, *e2));
-	// 		}
-	// 		m.values.push(vec);
-	// 		m.rows += 1;
-	// 	}
-	// 	m.cols = m.values.len();
-	// 	m
-	// }
+	
 }

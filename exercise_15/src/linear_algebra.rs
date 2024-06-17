@@ -2,6 +2,7 @@ pub use core::fmt;
 pub use core::ops::Neg;
 
 pub use num::complex::Complex;
+use num::complex::ComplexFloat;
 pub use num::Num;
 pub use num::Zero;
 pub use num::traits::MulAdd;
@@ -87,6 +88,12 @@ pub trait AngleCos<K> {
 
 impl AngleCos<f32> for Vector<f32> {
 	fn angle_cos(&self, u: Vector<f32>, v: Vector<f32>) -> f32 {
+		u.dot(v.clone()) / (u.norm() * v.norm())
+	}
+}
+
+impl AngleCos<Complex<f32>> for Vector<Complex<f32>> {
+	fn angle_cos(&self, u: Vector<Complex<f32>>, v: Vector<Complex<f32>>) -> f32 {
 		u.dot(v.clone()) / (u.norm() * v.norm())
 	}
 }
