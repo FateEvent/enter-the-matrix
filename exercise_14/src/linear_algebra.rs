@@ -57,7 +57,7 @@ where Vector<K>: AngleCos<K> {
 }
 
 pub trait CrossProduct<K> {
-	fn cross_product(&self, u: Vector<K>, v: Vector<K>) -> Vector<f32>;
+	fn cross_product(&self, u: Vector<K>, v: Vector<K>) -> Vector<K>;
 }
 
 impl CrossProduct<f32> for Vector<f32> {
@@ -74,7 +74,7 @@ impl CrossProduct<f32> for Vector<f32> {
 	}
 }
 
-pub fn cross_product<K: Clone>(u: Vector<K>, v: Vector<K>) -> Vector<f32>
+pub fn cross_product<K: Clone>(u: Vector<K>, v: Vector<K>) -> Vector<K>
 where Vector<K>: CrossProduct<K> {
 	u.cross_product(u.clone(), v)
 }

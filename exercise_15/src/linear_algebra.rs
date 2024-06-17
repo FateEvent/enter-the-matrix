@@ -97,7 +97,7 @@ where Vector<K>: AngleCos<K> {
 }
 
 pub trait CrossProduct<K> {
-	fn cross_product(&self, u: Vector<K>, v: Vector<K>) -> Vector<f32>;
+	fn cross_product(&self, u: Vector<K>, v: Vector<K>) -> Vector<K>;
 }
 
 impl CrossProduct<f32> for Vector<f32> {
@@ -114,7 +114,21 @@ impl CrossProduct<f32> for Vector<f32> {
 	}
 }
 
-pub fn cross_product<K: Clone>(u: Vector<K>, v: Vector<K>) -> Vector<f32>
+impl CrossProduct<Complex<f32>> for Vector<Complex<f32>> {
+	fn cross_product(&self, u: Vector<Complex<f32>>, v: Vector<Complex<f32>>) -> Vector<Complex<f32>> {
+		if u.get_rows() != 3 || v.get_rows() != 3 {
+			panic!("Vectors must have three dimensions.");
+		};
+		let mut cross = Vector::new();
+		cross.push(u[1].mul_add(v[2], -(u[2] * v[1])));
+		cross.push(u[2].mul_add(v[0], -(u[0] * v[2])));
+		cross.push(u[0].mul_add(v[1], -(u[1] * v[0])));
+
+		cross
+	}
+}
+
+pub fn cross_product<K: Clone>(u: Vector<K>, v: Vector<K>) -> Vector<K>
 where Vector<K>: CrossProduct<K> {
 	u.cross_product(u.clone(), v)
 }
