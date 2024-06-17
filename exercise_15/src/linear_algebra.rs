@@ -4,6 +4,7 @@ pub use core::ops::Neg;
 pub use num::complex::Complex;
 pub use num::Num;
 pub use num::Zero;
+pub use num::traits::MulAdd;
 
 
 use crate::linear_algebra::vector::Vector;
@@ -54,23 +55,25 @@ impl Lerp<Complex<f32>> for Complex<f32> {
 	}
 }
 
+
+
 impl Lerp<Vector<Complex<f32>>> for Vector<Complex<f32>> {
 	fn lerp(&self, u: Vector<Complex<f32>>, v: Vector<Complex<f32>>, t: f32) -> Vector<Complex<f32>> {
 		if t < 0.0 || t > 1.0 {
 			panic!("t must be comprised between 0 and 1");
 		}
-		(1. - t) * u + t * v
+		u.mul_add(Complex::<f32>::from(1.0 - t), &(t * v))
 	}
 }
 
-// impl Lerp<Matrix<Complex<f32>>> for Matrix<Complex<f32>> {
-// 	fn lerp(&self, u: Matrix<Complex<f32>>, v: Matrix<Complex<f32>>, t: f32) -> Matrix<Complex<f32>> {
-// 		if t < 0.0 || t > 1.0 {
-// 			panic!("t must be comprised between 0 and 1");
-// 		}
-// 		(1. - t) * u + t * v
-// 	}
-// }
+impl Lerp<Matrix<Complex<f32>>> for Matrix<Complex<f32>> {
+	fn lerp(&self, u: Matrix<Complex<f32>>, v: Matrix<Complex<f32>>, t: f32) -> Matrix<Complex<f32>> {
+		if t < 0.0 || t > 1.0 {
+			panic!("t must be comprised between 0 and 1");
+		}
+		u.mul_add(Complex::<f32>::from(1.0 - t), &(t * v))
+	}
+}
 
 pub fn lerp<V: Clone>(u: V, v: V, t: f32) -> V
 where V: Lerp<V>,

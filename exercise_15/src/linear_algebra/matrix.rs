@@ -1,6 +1,7 @@
 use super::vector::Vector;
 use super::fmt;
 use super::Complex;
+use super::MulAdd;
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Matrix<K> {
@@ -13,7 +14,7 @@ impl<K> std::ops::Index<usize> for Matrix<K>
 where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
 K: Copy + Clone + num::Num + std::ops::AddAssign
 + std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
-+ std::ops::Neg<Output = K> {
++ std::ops::Neg<Output = K> + MulAdd<Output = K> {
 	type Output = Vec<K>;
 
 	fn index(&self, index: usize) -> &Vec<K> {
@@ -25,7 +26,7 @@ impl<K> std::ops::IndexMut<usize> for Matrix<K>
 where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
 K: Copy + Clone + num::Num + std::ops::AddAssign
 + std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
-+ std::ops::Neg<Output = K> {
++ std::ops::Neg<Output = K> + MulAdd<Output = K> {
 	fn index_mut(&mut self, index: usize) -> &mut Vec<K> {
 		&mut self.values[index]
 	}
@@ -35,7 +36,7 @@ impl<K> std::ops::Sub<Matrix<K>> for Matrix<K>
 where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
 K: Copy + Clone + num::Num + std::ops::AddAssign
 + std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
-+ std::ops::Neg<Output = K> {
++ std::ops::Neg<Output = K> + MulAdd<Output = K> {
 	type Output = Matrix<K>;
 
 	fn sub(self, _rhs: Matrix<K>) -> Matrix<K> {
@@ -60,7 +61,7 @@ impl<K> Matrix<K>
 where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
 K: Copy + Clone + num::Num + std::ops::AddAssign
 + std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
-+ std::ops::Neg<Output = K> {
++ std::ops::Neg<Output = K> + MulAdd<Output = K> {
 	pub fn new() -> Self {
 		Matrix {
 			values: Vec::new(),
@@ -165,6 +166,22 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 		}
 	}
 
+	pub fn mul_add(&self, a: K, b: &Matrix<K>) -> Matrix<K> {
+		self.clone().matrices_are_regular(b.clone());
+		
+		let mut m: Matrix<K> = Matrix::new();
+		for (u, v) in self.values.iter().zip(b.values.iter()) {
+			let mut vec = Vec::new();
+			for (e1, e2) in u.iter().zip(v.iter()) {
+				vec.push(e1.mul_add(a, *e2));
+			}
+			m.values.push(vec);
+			m.rows += 1;
+		}
+		m.cols = m.values.len();
+		m
+	}
+
 	pub fn trace(&self) -> K {
 		if !self.is_square() {
 			panic!("The matrix must be a square matrix.")
@@ -229,22 +246,6 @@ impl fmt::Display for Matrix<f32> {
 }
 
 impl Matrix<f32> {
-	pub fn mul_add(&self, a: f32, b: &Matrix<f32>) -> Matrix<f32> {
-		self.clone().matrices_are_regular(b.clone());
-		
-		let mut m: Matrix<f32> = Matrix::new();
-		for (u, v) in self.values.iter().zip(b.values.iter()) {
-			let mut vec = Vec::new();
-			for (e1, e2) in u.iter().zip(v.iter()) {
-				vec.push(e1.mul_add(a, *e2));
-			}
-			m.values.push(vec);
-			m.rows += 1;
-		}
-		m.cols = m.values.len();
-		m
-	}
-
 	pub fn mul_vec(&self, vec: Vector<f32>) -> Vector<f32> {
 		if self.cols != vec.get_rows() {
 			panic!("The number of columns of the matrix must coincide with the number of rows of the vector.")
@@ -477,6 +478,25 @@ impl Matrix<f32> {
 	}
 }
 
+impl std::ops::Add<Matrix<Complex<f32>>> for Matrix<Complex<f32>> {
+	type Output = Matrix<Complex<f32>>;
+
+	fn add(self, _rhs: Matrix<Complex<f32>>) -> Matrix<Complex<f32>> {
+		self.clone().matrices_are_regular(_rhs.clone());
+		let mut m: Matrix<Complex<f32>> = Matrix::new();
+		for (v1, v2) in self.values.iter().zip(_rhs.values.iter()) {
+			let mut vec: Vec<Complex<f32>> = Vec::new();
+			for (a, b) in v1.iter().zip(v2.iter()) {
+				vec.push(*a + *b);
+			}
+			m.values.push(vec);
+			m.rows += 1;
+		}
+		m.cols = m.values.len();
+		m
+	}
+}
+
 impl std::ops::Mul<Matrix<Complex<f32>>> for f32 {
 	type Output = Matrix<Complex<f32>>;
 
@@ -512,4 +532,22 @@ impl fmt::Display for Matrix<Complex<f32>> {
 		}
 		Ok(())
 	}
+}
+
+impl Matrix<Complex<f32>> {
+	// pub fn mul_add(&self, a: Complex<f32>, b: &Matrix<Complex<f32>>) -> Matrix<Complex<f32>> {
+	// 	self.clone().matrices_are_regular(b.clone());
+		
+	// 	let mut m: Matrix<Complex<f32>> = Matrix::new();
+	// 	for (u, v) in self.values.iter().zip(b.values.iter()) {
+	// 		let mut vec = Vec::new();
+	// 		for (e1, e2) in u.iter().zip(v.iter()) {
+	// 			vec.push(e1.mul_add(a, *e2));
+	// 		}
+	// 		m.values.push(vec);
+	// 		m.rows += 1;
+	// 	}
+	// 	m.cols = m.values.len();
+	// 	m
+	// }
 }

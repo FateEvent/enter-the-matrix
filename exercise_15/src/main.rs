@@ -83,9 +83,30 @@ fn main() {
 
 		println!("{}", lerp(Complex::new(21., 0.),  Complex::new(42., 0.), 0.3));
 		// 27.3
-		println!("{}", lerp(Vector::from(&[Complex::new(1., 0.), Complex::new(1., 0.)]), Vector::from(&[Complex::new(8., 0.), Complex::new(8., 0.)]), 0.8));
+
+		let i = [
+			Complex::new(2., 0.),
+			Complex::new(1., 0.)
+		];
+
+		let j = [
+			Complex::new(3., 0.),
+			Complex::new(4., 0.)
+		];
+
+		let k = [
+			Complex::new(20., 0.),
+			Complex::new(10., 0.)
+		];
+
+		let l = [
+			Complex::new(30., 0.),
+			Complex::new(40., 0.)
+		];
+		
+		println!("{}", lerp(Vector::from(&i), Vector::from(&[Complex::new(8., 0.), Complex::new(8., 0.)]), 0.8));
 		println!("{}", lerp(Vector::from(&[Complex::new(15., 0.), Complex::new(21., 0.)]), Vector::from(&[Complex::new(13., 0.), Complex::new(31., 0.)]), 0.5));
-		// println!("{}", lerp(Matrix::from(&[&[2., 1.], &[3., 4.]]), Matrix::from(&[&[20., 10.], &[30., 40.]]), 0.5));
+		println!("{}", lerp(Matrix::from(&[&i, &j]), Matrix::from(&[&k, &l]), 0.5));
 
 	});
 

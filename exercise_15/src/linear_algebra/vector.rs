@@ -2,6 +2,7 @@ use crate::linear_algebra::Matrix;
 use crate::linear_algebra::Complex;
 use crate::linear_algebra::fmt;
 use super::Zero;
+use super::MulAdd;
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Vector<K> {
@@ -13,7 +14,7 @@ impl<K> std::ops::Index<usize> for Vector<K>
 where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
 K: Copy + Clone + num::Num + std::ops::AddAssign
 + std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
-+ std::ops::Neg<Output = K> {
++ std::ops::Neg<Output = K> + MulAdd<Output = K> {
 	type Output = K;
 
 	fn index(&self, index: usize) -> &K {
@@ -25,7 +26,7 @@ impl<K> std::ops::Sub<Vector<K>> for Vector<K>
 where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
 K: Copy + Clone + num::Num + std::ops::AddAssign
 + std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
-+ std::ops::Neg<Output = K> {
++ std::ops::Neg<Output = K> + MulAdd<Output = K> {
 	type Output = Vector<K>;
 
 	fn sub(self, _rhs: Vector<K>) -> Vector<K> {
@@ -43,7 +44,7 @@ impl<K> std::ops::Add<Vector<K>> for Vector<K>
 where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
 K: Copy + Clone + num::Num + std::ops::AddAssign
 + std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
-+ std::ops::Neg<Output = K> {
++ std::ops::Neg<Output = K> + MulAdd<Output = K> {
 	type Output = Vector<K>;
 
 	fn add(self, _rhs: Vector<K>) -> Vector<K> {
@@ -61,7 +62,7 @@ impl<K> Vector<K>
 where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
 K: Copy + Clone + num::Num + std::ops::AddAssign
 + std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
-+ std::ops::Neg<Output = K> {
++ std::ops::Neg<Output = K> + MulAdd<Output = K> {
 	pub fn new() -> Self {
 		Vector {
 			values: Vec::new(),
@@ -127,6 +128,12 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 		}
 	}
 
+	pub fn mul_add(&self, a: K, b: &Vector<K>) -> Vector<K> {
+		self.vectors_have_equal_length(b.clone());
+		return Vector::from_vec(self.values.iter().zip(b.values.iter())
+		.map(|(u, v)| u.mul_add(a, *v)).collect());
+	}
+
 	fn vec_arr_check_length(u: &[Vector<K>]) -> bool {
 		for v in u {
 			if !Vector::vectors_have_equal_length(&u[0], v.clone()) {
@@ -185,12 +192,6 @@ impl fmt::Display for Vector<f32> {
 }
 
 impl Vector<f32> {
-	pub fn mul_add(&self, a: f32, b: &Vector<f32>) -> Vector<f32> {
-		self.vectors_have_equal_length(b.clone());
-		return Vector::from_vec(self.values.iter().zip(b.values.iter())
-		.map(|(u, v)| u.mul_add(a, *v)).collect());
-	}
-
 	pub fn linear_combination(u: &[Vector<f32>], coefs: &[f32]) -> Vector<f32> {
 		Vector::vec_arr_check_length(u);
 		let len = u[0].values.len();
