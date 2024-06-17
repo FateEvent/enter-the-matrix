@@ -51,7 +51,7 @@ impl Lerp<Complex<f32>> for Complex<f32> {
 		if t < 0.0 || t > 1.0 {
 			panic!("t must be comprised between 0 and 1");
 		}
-		(1. - t) * u + t * v
+		u.mul_add(Complex::<f32>::from(1. - t), t * v)
 	}
 }
 
