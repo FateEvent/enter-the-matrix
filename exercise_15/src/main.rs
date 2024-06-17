@@ -74,9 +74,9 @@ fn main() {
 
 		println!("{}", v.dot(t));
 
-		println!("\n\x1b[31;1;4mThe Norm\x1b[0m\n");
+		println!("\n\x1b[31;1;4mThe Norms\x1b[0m\n");
 
-		println!("{}", v.norm());
+		println!("{} {} {}", v.norm_1(), v.norm(), v.norm_inf());
 
 	});
 

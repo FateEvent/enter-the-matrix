@@ -156,15 +156,6 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 
 		capture
 	}
-
-	// pub fn dot(&self, v: Vector<K>) -> K {
-	// 	self.vectors_have_equal_length(v.clone());
-	// 	let mut sum = K::zero();
-	// 	for (e1, e2) in self.values.iter().zip(v.values.iter()) {
-	// 		sum += *e1 * *e2;
-	// 	}
-	// 	sum		
-	// }
 }
 
 impl std::ops::Mul<Vector<f32>> for f32 {
@@ -184,7 +175,7 @@ impl fmt::Display for Vector<f32> {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
 		for n in self.values.iter() {
 			write!(fmt, "[")?;
-			write!(fmt, "{}", (n * 100.).round() / 100.)?;
+			write!(fmt, "{}", (n * 1000.).round() / 1000.)?;
 			write!(fmt, "]")?;
 			write!(fmt, "\n")?;
 		}
@@ -273,8 +264,15 @@ impl Vector<Complex<f32>> {
 		sum
 	}
 
+	pub fn norm_1(&self) -> f32 {
+		let mut sum = f32::zero();
+		for el in self.values.iter() {
+			sum += el.norm();
+		}
+		return (sum * 1000.).round() / 1000.;
+	}
+
 	pub fn norm(&self) -> f32 {
-		println!("Tom!\n");
 		let mut sum = f32::zero();
 		for el in self.values.iter() {
 			sum += el.norm().powf(2.);
@@ -282,11 +280,11 @@ impl Vector<Complex<f32>> {
 		return (sum.powf(0.5) * 1000.).round() / 1000.;
 	}
 
-// 	pub fn norm_inf(&self) -> f32 {
-// 		let mut max = f32::zero();
-// 		for el in self.values.iter() {
-// 			if max < el.abs() { max = el.abs(); }
-// 		}
-// 		return max;
-// 	}
+	pub fn norm_inf(&self) -> f32 {
+		let mut max = f32::zero();
+		for el in self.values.iter() {
+			if max < el.norm() { max = el.norm(); }
+		}
+		return (max * 1000.).round() / 1000.;
+	}
 }

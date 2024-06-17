@@ -357,13 +357,18 @@ We need to calculate a [projection matrix](https://www.scratchapixel.com/lessons
 
 Complex numbers are used to take the square root of negative numbers.
 
-In Rust, the [Complex type](https://docs.rs/num/latest/num/complex/struct.Complex.html) has a [method](https://docs.rs/num/latest/num/complex/struct.Complex.html#method.i) to return the imaginary part of the number that I can use for calculations.
+In Rust, the [Complex type](https://docs.rs/num/latest/num/complex/struct.Complex.html) has many useful methods we can use.
 
-To calculate the [Euclidean norm](https://en.wikipedia.org/wiki/Norm_(mathematics)#Euclidean_norm_of_complex_numbers) of a complex number, we need to find its [conjugate](https://en.wikipedia.org/wiki/Complex_conjugate), i.e. the number with an equal real part and an imaginary part equal in magnitude but opposite in sign.
-
-In addition, the [dot product between complex vectors](https://en.wikipedia.org/wiki/Dot_product#Complex_vectors) is given by the dot product of the first term with the conjugate of the second term:
+The [dot product between complex vectors](https://en.wikipedia.org/wiki/Dot_product#Complex_vectors) is given by the dot product of the first term with the [conjugate](https://en.wikipedia.org/wiki/Complex_conjugate) of the second term, i.e. the number with an equal real part and an imaginary part equal in magnitude but opposite in sign.
 
 ![dot product of complex vectors](varia/img/complex_dot_product.png)
+
+To calculate the [Euclidean norm](https://en.wikipedia.org/wiki/Norm_(mathematics)#Euclidean_norm_of_complex_numbers) or L2 norm of a complex number, we need to find the absolute value, or norm, of each entry of the complex vector:
+
+[![complex vector norm formula](varia/img/complex_norm_formula.png)](https://mathworld.wolfram.com/L2-Norm.html)
+
+and the same is also true for [L1 norm](https://mathworld.wolfram.com/L1-Norm.html) and [infinity norm](https://mathworld.wolfram.com/L-Infinity-Norm.html)
+
 
 Some [help](https://rust-lang-nursery.github.io/rust-cookbook/science/mathematics/complex_numbers.html) to work with Complex number type in Rust.
 [Hints](https://earvinkayonga.com/posts/implement-complex-numbers-in-rust) to implement one's own complex number class.
