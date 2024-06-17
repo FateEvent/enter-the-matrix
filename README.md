@@ -153,6 +153,8 @@ From [Wiki](https://en.wikipedia.org/wiki/Norm_(mathematics)):
 
 ![Supremum norm](varia/img/supremum.png)
 
+[To go further](https://www.cs.utexas.edu/users/flame/Notes/NotesOnNorms.pdf).
+
 ### Exercise 05
 
 To calculate the [cosine](https://en.wikipedia.org/wiki/Sine_and_cosine) of an angle between two vectors cos(θ), I used the [formula](https://www.wikihow.com/Find-the-Angle-Between-Two-Vectors):

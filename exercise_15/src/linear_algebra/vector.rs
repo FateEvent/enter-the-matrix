@@ -241,6 +241,19 @@ impl Vector<f32> {
 	}
 }
 
+impl std::ops::Mul<Vector<Complex<f32>>> for f32 {
+	type Output = Vector<Complex<f32>>;
+
+	fn mul(self, _rhs: Vector<Complex<f32>>) -> Vector<Complex<f32>> {
+		let mut a: Vector<Complex<f32>> = Vector::new();
+		for el in _rhs.values.iter() {
+			a.values.push(*el * self);
+			a.rows += 1;
+		}
+		a
+	}
+}
+
 impl fmt::Display for Vector<Complex<f32>> {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
 		for n in self.values.iter() {

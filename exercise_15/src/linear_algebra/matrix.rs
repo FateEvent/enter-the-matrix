@@ -477,6 +477,24 @@ impl Matrix<f32> {
 	}
 }
 
+impl std::ops::Mul<Matrix<Complex<f32>>> for f32 {
+	type Output = Matrix<Complex<f32>>;
+
+	fn mul(self, _rhs: Matrix<Complex<f32>>) -> Matrix<Complex<f32>> {
+		let mut m: Matrix<Complex<f32>> = Matrix::new();
+		for v in _rhs.values.iter() {
+			let mut vec = Vec::new();
+			for el in v.iter() {
+				vec.push(*el * self);
+			}
+			m.values.push(vec);
+			m.rows += 1;
+		}
+		m.cols = m.values.len();
+		m
+	}
+}
+
 impl fmt::Display for Matrix<Complex<f32>> {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
 		for (i, v) in self.values.iter().enumerate() {
