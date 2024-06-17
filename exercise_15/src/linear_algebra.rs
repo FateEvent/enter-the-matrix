@@ -1,12 +1,9 @@
 pub use core::fmt;
 pub use core::ops::Neg;
-
 pub use num::complex::Complex;
-use num::complex::ComplexFloat;
 pub use num::Num;
 pub use num::Zero;
 pub use num::traits::MulAdd;
-
 
 use crate::linear_algebra::vector::Vector;
 use crate::linear_algebra::matrix::Matrix;

@@ -535,5 +535,234 @@ impl fmt::Display for Matrix<Complex<f32>> {
 }
 
 impl Matrix<Complex<f32>> {
-	
+	pub fn mul_vec(&self, vec: Vector<Complex<f32>>) -> Vector<f32> {
+		if self.cols != vec.get_rows() {
+			panic!("The number of columns of the matrix must coincide with the number of rows of the vector.")
+		}
+		
+		let mut vector = Vector::new();
+		for row in 0..self.rows {
+			let capture_row = Vector::capture_row(self.clone(), row);
+			vector.push(capture_row.dot(vec.clone()));
+		}
+		vector
+	}
+
+	pub fn mul_mat(&self, mat: Matrix<Complex<f32>>) -> Matrix<f32> {
+		if self.cols != mat.rows {
+			panic!("The number of columns of the first matrix must coincide with the number of rows of the second one.")
+		}
+		
+		let mut matrix = Matrix::new();
+		for row in 0..self.rows {
+			let capture_row = Vector::capture_row(self.clone(), row);
+			let mut matrix_row = Vec::new();
+			for col in 0..mat.shape().1 {
+				let capture_col = Vector::capture_column(mat.clone(), col);
+				matrix_row.push(capture_row.dot(capture_col));
+			}
+			matrix.values.push(matrix_row);
+		}
+		matrix.set_rows(self.rows);
+		matrix.set_cols(mat.cols);
+		matrix
+	}
+
+	// functions to obtain the row echelon form of a matrix	
+	fn row_swap(&mut self, a: usize, b: usize) {
+		let tmp = Vector::capture_row(self.clone(), a);
+
+		self[a] = self[b].clone();
+		self[b] = tmp.get_values();
+	}
+
+	fn row_scl(&mut self, i: usize, scalar: f32) {
+		self[i] = (scalar * Vector::from_vec(self[i].clone())).get_values();
+	}
+
+	// add to row A a scalar multiple of row B
+	fn add_row_multiple(&mut self, a: usize, b: usize, scalar: f32) {
+		self[a] = (scalar * Vector::from_vec(self[b].clone()) + Vector::from_vec(self[a].clone())).get_values();
+	}
+
+	// pub fn row_echelon_form(&self) -> Matrix<Complex<f32>> {
+
+	// 	let mut matrix = self.clone();
+	// 	let mut pivot: usize = 0;
+	// 	for col in 0..matrix.cols {
+	// 		for row in pivot..matrix.rows {
+	// 			if matrix[row][col] != Complex::<f32>::zero() {
+	// 				if row != pivot {
+	// 					matrix.row_swap(pivot, row);
+						
+	// 				}
+	// 				for p_row in pivot + 1..matrix.rows {
+	// 					matrix.add_row_multiple(p_row, 0, -1. * matrix[p_row][col] / matrix[pivot][col]);
+	// 				}
+	// 				pivot += 1;
+	// 				break ;
+	// 			}
+	// 		}
+	// 	}
+	// 	return matrix;
+	// }
+
+	// pub fn reduced_row_echelon_form(&self) -> Matrix<Complex<f32>> {
+
+	// 	let mut matrix = self.clone();
+	// 	let mut pivot: usize = 0;
+	// 	while pivot < matrix.rows {
+	// 		let mut d: Complex<f32>;
+	// 		let mut m: Complex<f32>;
+
+	// 		for row in 0..matrix.rows {
+	// 			d = matrix[pivot][pivot];
+	// 			m = matrix[row][pivot] / matrix[pivot][pivot];
+
+	// 			if row == pivot {
+	// 				matrix.row_scl(row, 1./d);
+	// 			} else {
+	// 				matrix.add_row_multiple(row, pivot, -1. * m);
+	// 			}
+	// 			for col in 0..matrix.cols {
+	// 				if matrix[row][col] == 0. {
+	// 					matrix[row][col] = 0.
+	// 				}
+	// 			}
+	// 		}
+	// 		pivot += 1;
+	// 	}
+	// 	return matrix;
+	// }
+
+	// // functions to compute the determinant of a matrix
+	// fn determinant_2x2(&self) -> f32 {
+	// 	if self.rows != 2 || self.cols != 2 {
+	// 		panic!("The matrix must be a 2x2 matrix.")
+	// 	};
+
+	// 	return self[0][0] * self[1][1] - self[0][1] * self[1][0]
+	// }
+
+	// fn create_submatrix(&self, index: usize) -> Matrix<f32> {
+	// 	let mut matrix = Matrix::new();
+	// 	for row in 1..self.rows {
+	// 		let mut vec = Vector::new();
+	// 		for col in 0..self.cols {
+	// 			if index != col {
+	// 				vec.push(self[row][col]);
+	// 			}
+	// 		}
+	// 		matrix.push(vec);
+	// 		matrix.set_rows(self.rows - 1);
+	// 		matrix.set_cols(self.cols - 1);
+	// 	}
+	// 	return matrix;
+	// }
+
+	// fn determinant_nxn(&self) -> f32 {
+
+	// 	let size = self.rows;
+	// 	let mut det: f32 = 0.;
+	// 	for i in 0..self.cols {
+	// 		let matrix = self.create_submatrix(i);
+	// 		if size == 3 {
+	// 			if i % 2 == 0 {
+	// 				det = self[0][i].mul_add(matrix.determinant_2x2(), det);
+	// 			} else {
+	// 				det -= self[0][i] * matrix.determinant_2x2();
+	// 			}
+	// 		} else {
+	// 			if i % 2 == 0 {
+	// 				det = self[0][i].mul_add(matrix.determinant_nxn(), det);
+	// 			} else {
+	// 				det -= self[0][i] * matrix.determinant_nxn();
+	// 			}
+	// 		}
+	// 	}
+	// 	return det
+	// }
+
+	// pub fn determinant(&self) -> f32 {
+	// 	if !self.is_square() {
+	// 		panic!("The matrix must be a square matrix.")
+	// 	};
+
+	// 	let size = self.rows;
+
+	// 	if size == 1 {
+	// 		return self[0][0];
+	// 	} else if size == 2 {
+	// 		return self.determinant_2x2();
+	// 	} else if size >= 3 && size <= 5 {
+	// 		return self.determinant_nxn();
+	// 	} else {
+	// 		panic!("Determinant cannot be calculated for matrices greater than 5x5.")
+	// 	};
+
+	// }
+
+	// // functions to compute the inverse of a matrix
+	// fn create_adjoint(&self) -> Matrix<f32> {
+
+	// 	let mut min_mat = Matrix::new();
+	// 	min_mat.set_rows(self.rows);
+	// 	min_mat.set_cols(self.cols);
+
+	// 	let mut neg: f32 = 1.;
+	// 	for i in 0..self.rows {
+	// 		let mut minor_vec = Vec::new();
+	// 		for j in 0..self.cols {
+	// 			let mut matrix = Matrix::new();
+	// 			matrix.set_rows(self.rows - 1);
+
+	// 			for row in 0..self.rows {
+	// 				if i == row {
+	// 					continue;
+	// 				}
+	// 				let mut vec = Vector::new();
+	// 				for col in 0..self.cols {
+	// 					if j != col {
+	// 						vec.push(self[row][col]);
+	// 					}
+	// 				}
+	// 				matrix.push(vec);
+	// 			}
+	// 			minor_vec.push(matrix.determinant() * neg * if j % 2 == 1 { -1. } else { 1. });
+	// 		}
+	// 		min_mat.values.push(minor_vec);
+	// 		neg *= -1.;
+	// 	}
+	// 	return min_mat.transpose();
+	// }
+
+	// pub fn inverse(&self) -> Matrix<f32> {
+	// 	let det = self.determinant();
+	// 	if det == 0. {
+	// 		panic!("The inverse of this matrix does not exist.")
+	// 	}
+	// 	return 1./det * self.create_adjoint();
+	// }
+
+	// pub fn rank(& self) -> usize {
+	// 	if self.is_square() {
+	// 		let det = self.determinant();
+	// 		if det > 0. {
+	// 			return self.rows;
+	// 		}
+	// 	}
+
+	// 	let r_ef = self.row_echelon_form();
+	// 	let mut rank: usize = 0;
+	// 	let mut col: usize = 0;
+	// 	let mut row: usize = 0;
+	// 	while row < r_ef.rows && row < r_ef.cols {
+	// 		if r_ef[row][col] > 0. {
+	// 			rank += 1;
+	// 		}
+	// 		row += 1;
+	// 		col += 1;
+	// 	}
+	// 	return rank;
+	// }
 }
