@@ -2,6 +2,7 @@ use super::vector::Vector;
 use super::fmt;
 use super::Complex;
 use super::MulAdd;
+use super::Zero;
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Matrix<K> {
@@ -327,6 +328,9 @@ impl Matrix<f32> {
 			let mut m: f32;
 
 			for row in 0..matrix.rows {
+				if pivot == matrix.cols {
+					break;
+				}
 				d = matrix[pivot][pivot];
 				m = matrix[row][pivot] / matrix[pivot][pivot];
 
@@ -520,7 +524,10 @@ impl fmt::Display for Matrix<Complex<f32>> {
 		for (i, v) in self.values.iter().enumerate() {
 			write!(fmt, "[")?;
 			for (j, n) in v.iter().enumerate() {
-				write!(fmt, "{}", n)?;
+				let mut c: Complex<f32> = *n;
+				c.re = (c.re * 1000.).round() / 1000.;
+				c.im = (c.im * 1000.).round() / 1000.;
+				write!(fmt, "{}", c)?;
 				if j < v.len() - 1 {
 					write!(fmt, " ")?;
 				}
@@ -576,64 +583,73 @@ impl Matrix<Complex<f32>> {
 		self[b] = tmp.get_values();
 	}
 
-	fn row_scl(&mut self, i: usize, scalar: f32) {
-		self[i] = (scalar * Vector::from_vec(self[i].clone())).get_values();
+	fn row_scl(&mut self, i: usize, multiplicator: Complex<f32>) {
+		self[i] = (multiplicator * Vector::from_vec(self[i].clone())).get_values();
 	}
 
-	// add to row A a scalar multiple of row B
-	fn add_row_multiple(&mut self, a: usize, b: usize, scalar: f32) {
-		self[a] = (scalar * Vector::from_vec(self[b].clone()) + Vector::from_vec(self[a].clone())).get_values();
+	// add to row A a multiplicator multiple of row B
+	fn add_row_multiple(&mut self, a: usize, b: usize, multiplicator: Complex<f32>) {
+		self[a] = (multiplicator * Vector::from_vec(self[b].clone()) + Vector::from_vec(self[a].clone())).get_values();
 	}
 
-	// pub fn row_echelon_form(&self) -> Matrix<Complex<f32>> {
+	pub fn row_echelon_form(&self) -> Matrix<Complex<f32>> {
 
-	// 	let mut matrix = self.clone();
-	// 	let mut pivot: usize = 0;
-	// 	for col in 0..matrix.cols {
-	// 		for row in pivot..matrix.rows {
-	// 			if matrix[row][col] != Complex::<f32>::zero() {
-	// 				if row != pivot {
-	// 					matrix.row_swap(pivot, row);
+		let mut matrix = self.clone();
+		let mut pivot: usize = 0;
+		for col in 0..matrix.cols {
+			for row in pivot..matrix.rows {
+				if matrix[row][col] != Complex::<f32>::zero() {
+					if row != pivot {
+						matrix.row_swap(pivot, row);
 						
-	// 				}
-	// 				for p_row in pivot + 1..matrix.rows {
-	// 					matrix.add_row_multiple(p_row, 0, -1. * matrix[p_row][col] / matrix[pivot][col]);
-	// 				}
-	// 				pivot += 1;
-	// 				break ;
-	// 			}
-	// 		}
-	// 	}
-	// 	return matrix;
-	// }
+					}
+					for p_row in pivot + 1..matrix.rows {
+						matrix.add_row_multiple(p_row, 0, -1. * matrix[p_row][col] / matrix[pivot][col]);
+					}
+					pivot += 1;
+					break ;
+				}
+			}
+		}
+		return matrix;
+	}
 
-	// pub fn reduced_row_echelon_form(&self) -> Matrix<Complex<f32>> {
+	pub fn reduced_row_echelon_form(&self) -> Matrix<Complex<f32>> {
 
-	// 	let mut matrix = self.clone();
-	// 	let mut pivot: usize = 0;
-	// 	while pivot < matrix.rows {
-	// 		let mut d: Complex<f32>;
-	// 		let mut m: Complex<f32>;
+		let mut matrix = self.clone();
+		let mut pivot: usize = 0;
+		while pivot < matrix.rows {
+			let mut d: Complex<f32>;
+			let mut m: Complex<f32>;
 
-	// 		for row in 0..matrix.rows {
-	// 			d = matrix[pivot][pivot];
-	// 			m = matrix[row][pivot] / matrix[pivot][pivot];
+			for row in 0..matrix.rows {
+				if pivot == matrix.cols {
+					break;
+				}
+				d = matrix[pivot][pivot];
+				m = matrix[row][pivot] / matrix[pivot][pivot];
 
-	// 			if row == pivot {
-	// 				matrix.row_scl(row, 1./d);
-	// 			} else {
-	// 				matrix.add_row_multiple(row, pivot, -1. * m);
-	// 			}
-	// 			for col in 0..matrix.cols {
-	// 				if matrix[row][col] == 0. {
-	// 					matrix[row][col] = 0.
-	// 				}
-	// 			}
-	// 		}
-	// 		pivot += 1;
-	// 	}
-	// 	return matrix;
-	// }
+				if row == pivot {
+					matrix.row_scl(row, 1./d);
+				} else {
+					matrix.add_row_multiple(row, pivot, -1. * m);
+				}
+				for col in 0..matrix.cols {
+					if matrix[row][col] == Complex::<f32>::zero() {
+						matrix[row][col] = Complex::<f32>::zero()
+					}
+				}
+			}
+			pivot += 1;
+		}
+		return matrix;
+	}
+
+
+
+
+
+
 
 	// // functions to compute the determinant of a matrix
 	// fn determinant_2x2(&self) -> f32 {

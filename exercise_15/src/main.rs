@@ -110,6 +110,69 @@ fn main() {
 
 	});
 
+	let _ = panic::catch_unwind(|| {
+		println!("\n\x1b[31;1;4mRow Echelon Form\x1b[0m\n");
+
+		let i = [
+			Complex::new(2., 0.),
+			Complex::new(1., 0.),
+			Complex::new(4., 0.)
+		];
+
+		let j = [
+			Complex::new(3., 0.),
+			Complex::new(4., 0.),
+			Complex::new(10., 0.)
+		];
+
+		let k = [
+			Complex::new(20., 0.),
+			Complex::new(10., 0.),
+			Complex::new(1., 0.)
+		];
+
+		let l = [
+			Complex::new(30., 0.),
+			Complex::new(40., 0.)
+		];
+
+		let m = [
+			Complex::new(2., 0.),
+			Complex::new(1., 0.)
+		];
+
+		let n = [
+			Complex::new(3., 15.),
+			Complex::new(4., 2.)
+		];
+
+		let o = [
+			Complex::new(20., 1.),
+			Complex::new(10., 5.)
+		];
+
+		let p = [
+			Complex::new(30., 40.),
+			Complex::new(40., 4.)
+		];
+
+		let m1 = Matrix::from(&[&i, &j, &k]);
+		m1.print();
+
+		println!("{}", m1.reduced_row_echelon_form());
+
+		let m2 = Matrix::from(&[&l, &m]);
+		m2.print();
+
+		println!("{}", m2.reduced_row_echelon_form());
+
+		let m3 = Matrix::from(&[&n, &o, &p]);
+		m3.print();
+
+		println!("{}", m3.reduced_row_echelon_form());
+	});
+
+
 	// let _ = panic::catch_unwind(|| {
 	// 	println!("\n\x1b[31;1;4mSquare Matrices\x1b[0m\n");
 	// 	let m1 = Matrix::from(&[&[5., 7.,], &[3., 4.]]);

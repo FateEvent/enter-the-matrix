@@ -53,8 +53,6 @@ impl Lerp<Complex<f32>> for Complex<f32> {
 	}
 }
 
-
-
 impl Lerp<Vector<Complex<f32>>> for Vector<Complex<f32>> {
 	fn lerp(&self, u: Vector<Complex<f32>>, v: Vector<Complex<f32>>, t: f32) -> Vector<Complex<f32>> {
 		if t < 0.0 || t > 1.0 {

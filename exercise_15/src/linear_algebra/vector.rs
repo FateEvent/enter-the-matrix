@@ -214,7 +214,7 @@ impl Vector<f32> {
 		for (e1, e2) in self.values.iter().zip(v.values.iter()) {
 			sum += *e1 * *e2;
 		}
-		sum		
+		sum
 	}
 
 	pub fn norm_1(&self) -> f32 {
@@ -255,11 +255,27 @@ impl std::ops::Mul<Vector<Complex<f32>>> for f32 {
 	}
 }
 
+impl std::ops::Mul<Vector<Complex<f32>>> for Complex<f32> {
+	type Output = Vector<Complex<f32>>;
+
+	fn mul(self, _rhs: Vector<Complex<f32>>) -> Vector<Complex<f32>> {
+		let mut a: Vector<Complex<f32>> = Vector::new();
+		for el in _rhs.values.iter() {
+			a.values.push(*el * self);
+			a.rows += 1;
+		}
+		a
+	}
+}
+
 impl fmt::Display for Vector<Complex<f32>> {
 	fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
 		for n in self.values.iter() {
+			let mut c: Complex<f32> = *n;
+			c.re = (c.re * 1000.).round() / 1000.;
+			c.im = (c.im * 1000.).round() / 1000.;
 			write!(fmt, "[")?;
-			write!(fmt, "{}", n)?;
+			write!(fmt, "{}", c)?;
 			write!(fmt, "]")?;
 			write!(fmt, "\n")?;
 		}
