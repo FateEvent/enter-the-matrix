@@ -226,7 +226,7 @@ impl Vector<f32> {
 	}
 
 	pub fn norm_1(&self) -> f32 {
-		let mut sum: f32 = 0.0;
+		let mut sum = f32::zero();
 		for el in self.values.iter() {
 			sum += el.abs();
 		}
@@ -234,7 +234,7 @@ impl Vector<f32> {
 	}
 
 	pub fn norm(&self) -> f32 {
-		let mut sum: f32 = 0.0;
+		let mut sum = f32::zero();
 		for el in self.values.iter() {
 			sum += el.powf(2.);
 		}
@@ -242,7 +242,7 @@ impl Vector<f32> {
 	}
 
 	pub fn norm_inf(&self) -> f32 {
-		let mut max: f32 = 0.0;
+		let mut max = f32::zero();
 		for el in self.values.iter() {
 			if max < el.abs() { max = el.abs(); }
 		}
@@ -270,20 +270,20 @@ impl Vector<Complex<f32>> {
 		for (e1, e2) in self.values.iter().zip(v.values.iter()) {
 			sum += *e1 * e2.conj();
 		}
-		sum		
+		sum
 	}
 
-	pub fn norm(&self) -> Complex<f32> {
+	pub fn norm(&self) -> f32 {
 		println!("Tom!\n");
-		let mut sum = Complex::<f32>::zero();
+		let mut sum = f32::zero();
 		for el in self.values.iter() {
 			sum += el.norm().powf(2.);
 		}
-		return sum.powf(0.5);
+		return (sum.powf(0.5) * 1000.).round() / 1000.;
 	}
 
 // 	pub fn norm_inf(&self) -> f32 {
-// 		let mut max: f32 = 0.0;
+// 		let mut max = f32::zero();
 // 		for el in self.values.iter() {
 // 			if max < el.abs() { max = el.abs(); }
 // 		}

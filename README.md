@@ -147,7 +147,7 @@ The dot product measures how much two vectors point in the same direction.
 
 From [Wiki](https://en.wikipedia.org/wiki/Norm_(mathematics)):
 
-![Taxicab norm](varia/img/taxicab.png)
+[![Taxicab norm](varia/img/taxicab.png)](https://en.wikipedia.org/wiki/Taxicab_geometry)
 
 ![Euclidean norm](varia/img/euclidean.png)
 
@@ -172,7 +172,7 @@ The [cross product](https://en.wikipedia.org/wiki/Cross_product) is a binary ope
 
 The cross product is defined by the formula
 
-    a × b = ‖ a ‖ ‖ b ‖ sin( θ ) n
+	a × b = ‖ a ‖ ‖ b ‖ sin( θ ) n
 
 where
 
@@ -359,13 +359,11 @@ Complex numbers are used to take the square root of negative numbers.
 
 In Rust, the [Complex type](https://docs.rs/num/latest/num/complex/struct.Complex.html) has a [method](https://docs.rs/num/latest/num/complex/struct.Complex.html#method.i) to return the imaginary part of the number that I can use for calculations.
 
-To calculate the [norms](https://math.stackexchange.com/questions/285398/what-is-the-norm-of-a-complex-number) of a complex number, we need to find its [conjugate](https://math.libretexts.org/Bookshelves/Linear_Algebra/Matrix_Analysis_(Cox)/06%3A_Complex_Analysis_I/6.01%3A_Complex_Numbers_Vectors_and_Matrices),
+To calculate the [Euclidean norm](https://en.wikipedia.org/wiki/Norm_(mathematics)#Euclidean_norm_of_complex_numbers) of a complex number, we need to find its [conjugate](https://en.wikipedia.org/wiki/Complex_conjugate), i.e. the number with an equal real part and an imaginary part equal in magnitude but opposite in sign.
 
-At the same time, the [dot product between complex vectors](https://en.wikipedia.org/wiki/Dot_product#Complex_vectors) is given by the dot product of the first term with the conjugate of the second term:
+In addition, the [dot product between complex vectors](https://en.wikipedia.org/wiki/Dot_product#Complex_vectors) is given by the dot product of the first term with the conjugate of the second term:
 
 ![dot product of complex vectors](varia/img/complex_dot_product.png)
 
 Some [help](https://rust-lang-nursery.github.io/rust-cookbook/science/mathematics/complex_numbers.html) to work with Complex number type in Rust.
 [Hints](https://earvinkayonga.com/posts/implement-complex-numbers-in-rust) to implement one's own complex number class.
-
-https://ubcmath.github.io/MATH307/dft/complex.html
