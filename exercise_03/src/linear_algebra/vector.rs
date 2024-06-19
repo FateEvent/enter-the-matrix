@@ -2,8 +2,7 @@ use core::fmt;
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Vector<K> {
-	values: Vec<K>,
-	rows: usize
+	values: Vec<K>
 }
 
 impl std::ops::Sub<Vector<f32>> for Vector<f32> {
@@ -14,7 +13,6 @@ impl std::ops::Sub<Vector<f32>> for Vector<f32> {
 		let mut diff: Vector<f32> = Vector::new();
 		for (a, b) in self.values.iter().zip(_rhs.values.iter()) {
 			diff.values.push(a - b);
-			diff.rows += 1;
 		}
 		diff
 	}
@@ -28,7 +26,6 @@ impl std::ops::Add<Vector<f32>> for Vector<f32> {
 		let mut sum: Vector<f32> = Vector::new();
 		for (a, b) in self.values.iter().zip(_rhs.values.iter()) {
 			sum.values.push(a + b);
-			sum.rows += 1;
 		}
 		sum
 	}
@@ -41,7 +38,6 @@ impl std::ops::Mul<Vector<f32>> for f32 {
 		let mut a: Vector<f32> = Vector::new();
 		for el in _rhs.values.iter() {
 			a.values.push(*el * self);
-			a.rows += 1;
 		}
 		a
 	}
@@ -55,7 +51,7 @@ impl fmt::Display for Vector<f32> {
 			write!(fmt, "]")?;
 			write!(fmt, "\n")?;
 		}
-		println!("The vector has {} rows.", self.rows);
+		println!("The vector has {} rows.", self.get_rows());
 		Ok(())
 	}
 }
@@ -63,22 +59,19 @@ impl fmt::Display for Vector<f32> {
 impl Vector<f32> {
 	pub fn new() -> Self {
 		Vector {
-			values: Vec::new(),
-			rows: 0
+			values: Vec::new()
 		}
 	}
 	
 	pub fn from(arr: &[f32]) -> Self {
 		Vector {
-			values: arr.to_vec(),
-			rows: arr.len()
+			values: arr.to_vec()
 		}
 	}
 
 	pub fn from_vec(vec: Vec<f32>) -> Self {
 		Vector {
-			values: vec.clone(),
-			rows: vec.len()
+			values: vec
 		}
 	}
 
@@ -87,11 +80,11 @@ impl Vector<f32> {
 	}
 
 	pub fn get_rows(&self) -> usize {
-		self.rows
+		self.values.len()
 	}
 
 	fn vectors_have_equal_length(&self, other: Vector<f32>) -> bool {
-		if self.rows != other.rows {
+		if self.get_rows() != other.get_rows() {
 			panic!("Vectors must be of the same length.");
 		};
 		true
@@ -144,7 +137,6 @@ impl Vector<f32> {
 				sum = (*coef).mul_add(v.values[row], sum);
 			}
 			combo.values.push(sum);
-			combo.rows += 1;
 		}
 		return combo;
 	}

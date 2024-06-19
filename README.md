@@ -98,7 +98,6 @@ impl std::ops::Mul<Vector<f32>> for f32 {
 		let mut a: Vector<f32> = Vector::new();
 		for el in _rhs.values.iter() {
 			a.values.push(*el * self);
-			a.rows += 1;
 		}
 		a
 	}

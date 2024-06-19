@@ -2,8 +2,7 @@ use core::fmt;
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Vector<K> {
-	values: Vec<K>,
-	rows: usize
+	values: Vec<K>
 }
 
 impl fmt::Display for Vector<f32> {
@@ -14,7 +13,7 @@ impl fmt::Display for Vector<f32> {
 			write!(fmt, "]")?;
 			write!(fmt, "\n")?;
 		}
-		println!("The vector has {} rows.", self.rows);
+		println!("The vector has {} rows.", self.get_rows());
 		Ok(())
 	}
 }
@@ -22,15 +21,13 @@ impl fmt::Display for Vector<f32> {
 impl Vector<f32> {
 	pub fn new() -> Self {
 		Vector {
-			values: Vec::new(),
-			rows: 0
+			values: Vec::new()
 		}
 	}
 	
 	pub fn from(arr: &[f32]) -> Self {
 		Vector {
-			values: arr.to_vec(),
-			rows: arr.len()
+			values: arr.to_vec()
 		}
 	}
 
@@ -39,11 +36,11 @@ impl Vector<f32> {
 	}
 
 	pub fn get_rows(&self) -> usize {
-		self.rows
+		self.values.len()
 	}
 
 	fn vectors_have_equal_length(&self, other: Vector<f32>) -> bool {
-		if self.rows != other.rows {
+		if self.get_rows() != other.get_rows() {
 			panic!("Vectors must be of the same length.");
 		};
 		true
