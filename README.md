@@ -341,12 +341,16 @@ It's also the number of linearly independent vectors in the matrix. That's why a
 
 > Viewing-frustum culling is the process of removing from the rendering process those objects that lie completely outside the viewing frustum.[6] Rendering these objects would be a waste of resources since they are not directly visible. To make culling fast, it is usually done using bounding volumes surrounding the objects rather than the objects themselves.
 
-We need to calculate a [projection matrix](https://www.scratchapixel.com/lessons/3d-basic-rendering/perspective-and-orthographic-projection-matrix/building-basic-perspective-projection-matrix.html) for the camera frustum.
+We need to calculate a [projection matrix](https://www.scratchapixel.com/lessons/3d-basic-rendering/perspective-and-orthographic-projection-matrix/projection-matrix-introduction.html) for the camera frustum.
+
+> Projection matrices are specialized 4x4 matrices designed to transform a 3D point in camera space into its projected counterpart on the canvas. Essentially, when you multiply a 3D point by a projection matrix, you determine its 2D coordinates on the canvas within NDC (Normalized Device Coordinates) space.
+
+For my algorithm I followed this very good explanation by Mads Elvheim on [StackOverflow](https://stackoverflow.com/questions/724219/how-to-convert-a-3d-point-into-2d-perspective-projection).
 
 
+The [clip matrix](https://stackoverflow.com/questions/7604322/clip-matrix-for-3d-perspective-projection) is the projection matrix.
 
-
-
+![Keanu Reeves in Cyberpunk 2077 looking at you](varia/img/keanu-reeves-as-johnny-silverhand-cyberpunk-2077.jpg)
 
 
 

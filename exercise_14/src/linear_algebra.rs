@@ -1,3 +1,5 @@
+pub use std::f32::consts::PI;
+
 use crate::linear_algebra::vector::Vector;
 use crate::linear_algebra::matrix::Matrix;
 
@@ -79,6 +81,13 @@ where Vector<K>: CrossProduct<K> {
 	u.cross_product(u.clone(), v)
 }
 
-// fn projection(fov: f32, ratio: f32, near: f32, far: f32) -> Matrix<f32> {
+pub fn projection(fov: f32, ratio: f32, near: f32, far: f32) -> Matrix<f32> {
 
-// }
+	let f: f32 = 1.0 / f32::tan(fov * 0.5);
+	return Matrix::from(&[
+		&[f * ratio, 0., 0., 0.],
+		&[0., f, 0., 0.],
+		&[0., 0., (far + near) / (far - near), (2.0 * near * far) / (near - far)],
+		&[0., 0., 1., 0.]
+	])
+}
