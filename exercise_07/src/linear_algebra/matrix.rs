@@ -184,7 +184,7 @@ impl Matrix<f32> {
 	}
 
 	pub fn mul_vec(&self, vec: Vector<f32>) -> Vector<f32> {
-		if self.cols != vec.get_rows() {
+		if self.cols != vec.rows() {
 			panic!("The number of columns of the matrix must coincide with the number of rows of the vector.")
 		}
 		

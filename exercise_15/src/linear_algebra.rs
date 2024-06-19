@@ -104,7 +104,7 @@ pub trait CrossProduct<K> {
 
 impl CrossProduct<f32> for Vector<f32> {
 	fn cross_product(&self, u: Vector<f32>, v: Vector<f32>) -> Vector<f32> {
-		if u.get_rows() != 3 || v.get_rows() != 3 {
+		if u.rows() != 3 || v.rows() != 3 {
 			panic!("Vectors must have three dimensions.");
 		};
 		let mut cross = Vector::new();
@@ -118,7 +118,7 @@ impl CrossProduct<f32> for Vector<f32> {
 
 impl CrossProduct<Complex<f32>> for Vector<Complex<f32>> {
 	fn cross_product(&self, u: Vector<Complex<f32>>, v: Vector<Complex<f32>>) -> Vector<Complex<f32>> {
-		if u.get_rows() != 3 || v.get_rows() != 3 {
+		if u.rows() != 3 || v.rows() != 3 {
 			panic!("Vectors must have three dimensions.");
 		};
 		let mut cross = Vector::new();

@@ -61,7 +61,7 @@ impl fmt::Display for Vector<f32> {
 			write!(fmt, "]")?;
 			write!(fmt, "\n")?;
 		}
-		println!("The vector has {} rows.", self.get_rows());
+		println!("The vector has {} rows.", self.rows());
 		Ok(())
 	}
 }
@@ -89,12 +89,12 @@ impl Vector<f32> {
 		println!("{}", self);
 	}
 
-	pub fn get_rows(&self) -> usize {
+	pub fn rows(&self) -> usize {
 		self.values.len()
 	}
 
 	fn vectors_have_equal_length(&self, other: Vector<f32>) -> bool {
-		if self.get_rows() != other.get_rows() {
+		if self.rows() != other.rows() {
 			panic!("Vectors must be of the same length.");
 		};
 		true

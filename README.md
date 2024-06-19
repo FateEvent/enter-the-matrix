@@ -33,7 +33,7 @@ We can find these instructions in [Rust](https://docs.rs/num-traits/latest/num_t
 
 Before starting, I learnt to use Rust with the [Rustlings](https://github.com/rust-lang/rustlings), a series of exercises which is very helpful to understand Rust and its compiler.
 
-To prepare for this exercise, I implemented the `vector` and `matrix` structures and some help methods as `print`, `get_rows` (for `vector`), `shape` and `is_regular` (for `matrix`).
+To prepare for this exercise, I implemented the `vector` and `matrix` structures and some help methods as `print`, `rows` (for `vector`), `shape` and `is_regular` (for `matrix`).
 
 The goal of the exercise 0is to implement, for each `struct`, the methods for addition, subtraction and scaling.
 
@@ -190,7 +190,7 @@ I will implement the following [formula](https://www.khanacademy.org/math/multiv
 ```rust
 impl CrossProduct<f32> for Vector<f32> {
 	fn cross_product(&self, u: Vector<f32>, v: Vector<f32>) -> Vector<f32> {
-		if u.get_rows() != 3 || v.get_rows() != 3 {
+		if u.rows() != 3 || v.rows() != 3 {
 			panic!("Vectors must have three dimensions.");
 		};
 		let mut cross = Vector::new();
