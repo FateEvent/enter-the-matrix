@@ -501,6 +501,24 @@ impl std::ops::Add<Matrix<Complex<f32>>> for Matrix<Complex<f32>> {
 	}
 }
 
+impl std::ops::Mul<Matrix<Complex<f32>>> for Complex<f32> {
+	type Output = Matrix<Complex<f32>>;
+
+	fn mul(self, _rhs: Matrix<Complex<f32>>) -> Matrix<Complex<f32>> {
+		let mut m: Matrix<Complex<f32>> = Matrix::new();
+		for v in _rhs.values.iter() {
+			let mut vec = Vec::new();
+			for el in v.iter() {
+				vec.push(*el * self);
+			}
+			m.values.push(vec);
+			m.rows += 1;
+		}
+		m.cols = m.values.len();
+		m
+	}
+}
+
 impl std::ops::Mul<Matrix<Complex<f32>>> for f32 {
 	type Output = Matrix<Complex<f32>>;
 
@@ -645,140 +663,135 @@ impl Matrix<Complex<f32>> {
 		return matrix;
 	}
 
+	// functions to compute the determinant of a matrix
+	fn determinant_2x2(&self) -> Complex<f32> {
+		if self.rows != 2 || self.cols != 2 {
+			panic!("The matrix must be a 2x2 matrix.")
+		};
 
+		return self[0][0] * self[1][1] - self[0][1] * self[1][0]
+	}
 
+	fn create_submatrix(&self, index: usize) -> Matrix<Complex<f32>> {
+		let mut matrix = Matrix::new();
+		for row in 1..self.rows {
+			let mut vec = Vector::new();
+			for col in 0..self.cols {
+				if index != col {
+					vec.push(self[row][col]);
+				}
+			}
+			matrix.push(vec);
+			matrix.set_rows(self.rows - 1);
+			matrix.set_cols(self.cols - 1);
+		}
+		return matrix;
+	}
 
+	fn determinant_nxn(&self) -> Complex<f32> {
 
+		let size = self.rows;
+		let mut det = Complex::<f32>::zero();
+		for i in 0..self.cols {
+			let matrix = self.create_submatrix(i);
+			if size == 3 {
+				if i % 2 == 0 {
+					det = self[0][i].mul_add(matrix.determinant_2x2(), det);
+				} else {
+					det -= self[0][i] * matrix.determinant_2x2();
+				}
+			} else {
+				if i % 2 == 0 {
+					det = self[0][i].mul_add(matrix.determinant_nxn(), det);
+				} else {
+					det -= self[0][i] * matrix.determinant_nxn();
+				}
+			}
+		}
+		return det
+	}
 
+	pub fn determinant(&self) -> Complex<f32> {
+		if !self.is_square() {
+			panic!("The matrix must be a square matrix.")
+		};
 
-	// // functions to compute the determinant of a matrix
-	// fn determinant_2x2(&self) -> f32 {
-	// 	if self.rows != 2 || self.cols != 2 {
-	// 		panic!("The matrix must be a 2x2 matrix.")
-	// 	};
+		let size = self.rows;
 
-	// 	return self[0][0] * self[1][1] - self[0][1] * self[1][0]
-	// }
+		if size == 1 {
+			return self[0][0];
+		} else if size == 2 {
+			return self.determinant_2x2();
+		} else if size >= 3 && size <= 5 {
+			return self.determinant_nxn();
+		} else {
+			panic!("Determinant cannot be calculated for matrices greater than 5x5.")
+		};
 
-	// fn create_submatrix(&self, index: usize) -> Matrix<f32> {
-	// 	let mut matrix = Matrix::new();
-	// 	for row in 1..self.rows {
-	// 		let mut vec = Vector::new();
-	// 		for col in 0..self.cols {
-	// 			if index != col {
-	// 				vec.push(self[row][col]);
-	// 			}
-	// 		}
-	// 		matrix.push(vec);
-	// 		matrix.set_rows(self.rows - 1);
-	// 		matrix.set_cols(self.cols - 1);
-	// 	}
-	// 	return matrix;
-	// }
+	}
 
-	// fn determinant_nxn(&self) -> f32 {
+	// functions to compute the inverse of a matrix
+	fn create_adjoint(&self) -> Matrix<Complex<f32>> {
 
-	// 	let size = self.rows;
-	// 	let mut det: f32 = 0.;
-	// 	for i in 0..self.cols {
-	// 		let matrix = self.create_submatrix(i);
-	// 		if size == 3 {
-	// 			if i % 2 == 0 {
-	// 				det = self[0][i].mul_add(matrix.determinant_2x2(), det);
-	// 			} else {
-	// 				det -= self[0][i] * matrix.determinant_2x2();
-	// 			}
-	// 		} else {
-	// 			if i % 2 == 0 {
-	// 				det = self[0][i].mul_add(matrix.determinant_nxn(), det);
-	// 			} else {
-	// 				det -= self[0][i] * matrix.determinant_nxn();
-	// 			}
-	// 		}
-	// 	}
-	// 	return det
-	// }
+		let mut min_mat = Matrix::new();
+		min_mat.set_rows(self.rows);
+		min_mat.set_cols(self.cols);
 
-	// pub fn determinant(&self) -> f32 {
-	// 	if !self.is_square() {
-	// 		panic!("The matrix must be a square matrix.")
-	// 	};
+		let mut neg: f32 = 1.;
+		for i in 0..self.rows {
+			let mut minor_vec = Vec::new();
+			for j in 0..self.cols {
+				let mut matrix = Matrix::new();
+				matrix.set_rows(self.rows - 1);
 
-	// 	let size = self.rows;
+				for row in 0..self.rows {
+					if i == row {
+						continue;
+					}
+					let mut vec = Vector::new();
+					for col in 0..self.cols {
+						if j != col {
+							vec.push(self[row][col]);
+						}
+					}
+					matrix.push(vec);
+				}
+				minor_vec.push(matrix.determinant() * neg * if j % 2 == 1 { -1. } else { 1. });
+			}
+			min_mat.values.push(minor_vec);
+			neg *= -1.;
+		}
+		return min_mat.transpose();
+	}
 
-	// 	if size == 1 {
-	// 		return self[0][0];
-	// 	} else if size == 2 {
-	// 		return self.determinant_2x2();
-	// 	} else if size >= 3 && size <= 5 {
-	// 		return self.determinant_nxn();
-	// 	} else {
-	// 		panic!("Determinant cannot be calculated for matrices greater than 5x5.")
-	// 	};
+	pub fn inverse(&self) -> Matrix<Complex<f32>> {
+		let det = self.determinant();
+		if det == Complex::<f32>::zero() {
+			panic!("The inverse of this matrix does not exist.")
+		}
+		return 1./det * self.create_adjoint();
+	}
 
-	// }
+	pub fn rank(& self) -> usize {
+		if self.is_square() {
+			let det = self.determinant();
+			if det.re > 0.|| (det.re == 0. && det.im > 0.) {
+				return self.rows;
+			}
+		}
 
-	// // functions to compute the inverse of a matrix
-	// fn create_adjoint(&self) -> Matrix<f32> {
-
-	// 	let mut min_mat = Matrix::new();
-	// 	min_mat.set_rows(self.rows);
-	// 	min_mat.set_cols(self.cols);
-
-	// 	let mut neg: f32 = 1.;
-	// 	for i in 0..self.rows {
-	// 		let mut minor_vec = Vec::new();
-	// 		for j in 0..self.cols {
-	// 			let mut matrix = Matrix::new();
-	// 			matrix.set_rows(self.rows - 1);
-
-	// 			for row in 0..self.rows {
-	// 				if i == row {
-	// 					continue;
-	// 				}
-	// 				let mut vec = Vector::new();
-	// 				for col in 0..self.cols {
-	// 					if j != col {
-	// 						vec.push(self[row][col]);
-	// 					}
-	// 				}
-	// 				matrix.push(vec);
-	// 			}
-	// 			minor_vec.push(matrix.determinant() * neg * if j % 2 == 1 { -1. } else { 1. });
-	// 		}
-	// 		min_mat.values.push(minor_vec);
-	// 		neg *= -1.;
-	// 	}
-	// 	return min_mat.transpose();
-	// }
-
-	// pub fn inverse(&self) -> Matrix<f32> {
-	// 	let det = self.determinant();
-	// 	if det == 0. {
-	// 		panic!("The inverse of this matrix does not exist.")
-	// 	}
-	// 	return 1./det * self.create_adjoint();
-	// }
-
-	// pub fn rank(& self) -> usize {
-	// 	if self.is_square() {
-	// 		let det = self.determinant();
-	// 		if det > 0. {
-	// 			return self.rows;
-	// 		}
-	// 	}
-
-	// 	let r_ef = self.row_echelon_form();
-	// 	let mut rank: usize = 0;
-	// 	let mut col: usize = 0;
-	// 	let mut row: usize = 0;
-	// 	while row < r_ef.rows && row < r_ef.cols {
-	// 		if r_ef[row][col] > 0. {
-	// 			rank += 1;
-	// 		}
-	// 		row += 1;
-	// 		col += 1;
-	// 	}
-	// 	return rank;
-	// }
+		let r_ef = self.row_echelon_form();
+		let mut rank: usize = 0;
+		let mut col: usize = 0;
+		let mut row: usize = 0;
+		while row < r_ef.rows && row < r_ef.cols {
+			if r_ef[row][col].re > 0. || (r_ef[row][col].re == 0.
+				&& r_ef[row][col].im > 0.) {
+				rank += 1;
+			}
+			row += 1;
+			col += 1;
+		}
+		return rank;
+	}
 }
