@@ -148,9 +148,15 @@ From [Wiki](https://en.wikipedia.org/wiki/Norm_(mathematics)):
 
 [![Taxicab norm](varia/img/taxicab.png)](https://en.wikipedia.org/wiki/Taxicab_geometry)
 
+Taxicab norm is the sum of the size of the two catheti of the triangle whose hypotenuse is represented by the vector.
+
 ![Euclidean norm](varia/img/euclidean.png)
 
+The Euclidean norm is the root square of the sum of the squares of the two catheti of the triangle whose hypotenuse is represented by the vector.
+
 ![Supremum norm](varia/img/supremum.png)
+
+The supremum norm of a vector is the maximum absolute value of its components, or the maximum distance from the origin among those of the components of the vector. It is used in various mathematical and engineering contexts to measure the size of a vector by focusing on its largest component and is particularly useful in optimization and numerical analysis because it provides a simple and intuitive way to assess the magnitude of vectors in terms of their most significant element.
 
 [To go further](https://www.cs.utexas.edu/users/flame/Notes/NotesOnNorms.pdf).
 
@@ -166,6 +172,7 @@ impl AngleCos<f32> for Vector<f32> {
 	}
 }
 ```
+Cosine is the ratio between the size of the adjacent side of the traingle formed by the vector and its hypotenuse (cf. the acronym [SOH-CAH-TOA](https://www.khanacademy.org/math/geometry/hs-geo-trig/hs-geo-trig-ratios-intro/a/finding-trig-ratios-in-right-triangles))
 
 ### Exercise 06
 
