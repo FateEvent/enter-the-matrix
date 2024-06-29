@@ -1,4 +1,5 @@
 use core::fmt;
+use std::convert::AsRef;
 
 use super::vector::Vector;
 
@@ -22,6 +23,12 @@ impl std::ops::IndexMut<usize> for Matrix<f32> {
 		&mut self.values[index]
 	}
 }
+
+// impl std::convert::AsRef<[u8]> for Matrix<f32> {
+// 	fn as_ref(&self) -> &[u8] {
+// 		self.as_ref()
+// 	}
+// }
 
 impl std::ops::Sub<Matrix<f32>> for Matrix<f32> {
 	type Output = Matrix<f32>;

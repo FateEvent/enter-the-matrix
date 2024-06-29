@@ -275,8 +275,6 @@ In order to implement [REF and RREF algorithms](https://web.stanford.edu/~hammon
 I also found [this answer](https://math.stackexchange.com/questions/1149771/best-way-to-find-reduced-row-echelon-form-rref-of-a-matrix) inspiring.
 
 
-
-
 ### Exercise 11
 
 The determinant is a number representing a matrix in different contexts. For example,
@@ -358,6 +356,16 @@ For my algorithm I followed this very good explanation by Mads Elvheim on [Stack
 The [clip matrix](https://stackoverflow.com/questions/7604322/clip-matrix-for-3d-perspective-projection) is the projection matrix.
 
 ![Keanu Reeves in Cyberpunk 2077 looking at you](varia/img/keanu-reeves-as-johnny-silverhand-cyberpunk-2077.jpg)
+
+
+
+[write](https://stackoverflow.com/questions/31192956/whats-the-de-facto-way-of-reading-and-writing-files-in-rust-1-x)
+
+To [write in a file](https://doc.rust-lang.org/std/fs/fn.write.html)
+
+
+
+[AsRef](https://doc.rust-lang.org/std/convert/trait.AsRef.html)
 
 
 
