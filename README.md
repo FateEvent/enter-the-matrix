@@ -380,3 +380,7 @@ and the same is also true for [L1 norm](https://mathworld.wolfram.com/L1-Norm.ht
 
 Some [help](https://rust-lang-nursery.github.io/rust-cookbook/science/mathematics/complex_numbers.html) to work with Complex number type in Rust.
 [Hints](https://earvinkayonga.com/posts/implement-complex-numbers-in-rust) to implement one's own complex number class.
+
+To create tests, I took inspiration from the work of [Glagan](https://github.com/Glagan/42-matrix/tree/master) on GitHub.
+
+I used `assert_eq!()` expression as suggested in [this interesting discussion](https://stackoverflow.com/a/26470361) on StackOverflow.
