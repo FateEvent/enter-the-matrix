@@ -492,7 +492,7 @@ impl Matrix<f32> {
 				let round = (n * 100.).round() / 100.;
 				let mut tmp = String::from(round.to_string());
 				if j < v.len() - 1 {
-					tmp += " ";
+					tmp += ", ";
 				} else {
 					tmp += "\n";
 				}

@@ -1,9 +1,7 @@
 use std::panic;
-use crate::linear_algebra::vector::Vector;
-use crate::linear_algebra::matrix::Matrix;
+use matrix::linear_algebra::vector::Vector;
+use matrix::linear_algebra::matrix::Matrix;
 
-pub mod linear_algebra;
- 
 fn main() {
 	let _ = panic::catch_unwind(|| {
 		println!("\n\x1b[31;1;4m   o  .  -  Vectors  -  .  o\x1b[0m\n");

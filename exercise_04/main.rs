@@ -1,7 +1,5 @@
 use std::panic;
-use crate::linear_algebra::vector::Vector;
-
-pub mod linear_algebra;
+use matrix::linear_algebra::vector::Vector;
 
 fn main() {
 	let _ = panic::catch_unwind(|| {

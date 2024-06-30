@@ -1,7 +1,5 @@
 use std::panic;
-use crate::linear_algebra::matrix::Matrix;
-
-pub mod linear_algebra;
+use matrix::linear_algebra::matrix::Matrix;
 
 fn main() {
 	println!("\n\x1b[31;1;4m   o  .  -  Matrices  -  .  o\x1b[0m\n");

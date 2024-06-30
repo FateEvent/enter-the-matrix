@@ -1,8 +1,6 @@
 use std::panic;
-use crate::linear_algebra::vector::Vector;
-use crate::linear_algebra::cross_product;
-
-pub mod linear_algebra;
+use matrix::linear_algebra::vector::Vector;
+use matrix::linear_algebra::cross_product;
 
 fn main() {
 	println!("\n\x1b[31;1;4m   o  .  -  Vectors  -  .  o\x1b[0m\n");

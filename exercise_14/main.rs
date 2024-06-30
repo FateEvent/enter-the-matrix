@@ -1,8 +1,6 @@
 use std::panic;
-use crate::linear_algebra::matrix::Matrix;
-use crate::linear_algebra::projection;
-
-pub mod linear_algebra;
+use matrix::linear_algebra::matrix::Matrix;
+use matrix::linear_algebra::projection;
 
 fn main() {
 	println!("\n\x1b[31;1;4m   o  .  -  Matrices  -  .  o\x1b[0m\n");
