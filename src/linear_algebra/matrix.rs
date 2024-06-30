@@ -352,6 +352,38 @@ impl Matrix<f32> {
 		return matrix;
 	}
 
+	// pub fn reduced_row_echelon_form(&self) -> Matrix<f32> {
+
+	// 	let mut matrix = self.clone();
+	// 	let mut pivot: usize = 0;
+	// 	while pivot < matrix.rows {
+	// 		let mut d: f32;
+	// 		let mut m: f32;
+
+	// 		for row in 0..matrix.rows {
+	// 			if pivot == matrix.cols {
+	// 				break;
+	// 			}
+	// 			d = matrix[pivot][pivot];
+	// 			m = matrix[row][pivot] / matrix[pivot][pivot];
+
+	// 			for col in 0..matrix.cols {
+	// 				if row == pivot {
+	// 					matrix[row][col] = (matrix[row][col] / d * 100.).round() / 100.;
+	// 				} else {
+	// 					matrix[row][col] = matrix[row][col] - (matrix[pivot][col] * m * 100.).round() / 100.;
+	// 				}
+	// 				if matrix[row][col] == -0. {
+	// 					matrix[row][col] = 0.
+	// 				}
+	// 			}
+
+	// 		}
+	// 		pivot += 1;
+	// 	}
+	// 	return matrix;
+	// }
+
 	// functions to compute the determinant of a matrix
 	fn determinant_2x2(&self) -> f32 {
 		if self.rows != 2 || self.cols != 2 {
@@ -652,6 +684,37 @@ impl Matrix<Complex<f32>> {
 		return matrix;
 	}
 
+	// pub fn reduced_row_echelon_form(&self) -> Matrix<Complex<f32>> {
+
+	// 	let mut matrix = self.clone();
+	// 	let mut pivot: usize = 0;
+	// 	while pivot < matrix.rows {
+	// 		let mut d: Complex<f32>;
+	// 		let mut m: Complex<f32>;
+
+	// 		for row in 0..matrix.rows {
+	// 			if pivot == matrix.cols {
+	// 				break;
+	// 			}
+	// 			d = matrix[pivot][pivot];
+	// 			m = matrix[row][pivot] / matrix[pivot][pivot];
+
+	// 			if row == pivot {
+	// 				matrix.row_scl(row, 1./d);
+	// 			} else {
+	// 				matrix.add_row_multiple(row, pivot, -1. * m);
+	// 			}
+	// 			for col in 0..matrix.cols {
+	// 				if matrix[row][col] == Complex::<f32>::zero() {
+	// 					matrix[row][col] = Complex::<f32>::zero()
+	// 				}
+	// 			}
+	// 		}
+	// 		pivot += 1;
+	// 	}
+	// 	return matrix;
+	// }
+
 	pub fn reduced_row_echelon_form(&self) -> Matrix<Complex<f32>> {
 
 		let mut matrix = self.clone();
@@ -667,16 +730,17 @@ impl Matrix<Complex<f32>> {
 				d = matrix[pivot][pivot];
 				m = matrix[row][pivot] / matrix[pivot][pivot];
 
-				if row == pivot {
-					matrix.row_scl(row, 1./d);
-				} else {
-					matrix.add_row_multiple(row, pivot, -1. * m);
-				}
 				for col in 0..matrix.cols {
-					if matrix[row][col] == Complex::<f32>::zero() {
-						matrix[row][col] = Complex::<f32>::zero()
+					if row == pivot {
+						matrix[row][col] = matrix[row][col] / d;
+					} else {
+						matrix[row][col] = matrix[row][col] - matrix[pivot][col] * m;
 					}
+					// if matrix[row][col] == Complex::<f32>::zero() {
+					// 	matrix[row][col] = Complex::<f32>::zero()
+					// }
 				}
+
 			}
 			pivot += 1;
 		}
