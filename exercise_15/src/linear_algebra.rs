@@ -5,6 +5,8 @@ pub use num::Num;
 pub use num::Zero;
 pub use num::traits::MulAdd;
 pub use std::f32::consts::PI;
+pub use std::fs::File;
+pub use std::io::Write;
 
 use crate::linear_algebra::vector::Vector;
 use crate::linear_algebra::matrix::Matrix;
@@ -138,11 +140,11 @@ where Vector<K>: CrossProduct<K> {
 
 pub fn projection(fov: f32, ratio: f32, near: f32, far: f32) -> Matrix<f32> {
 
-	let f: f32 = 1.0 / f32::tan(fov * 0.5);
+	let f: f32 = 1.0 / f32::tan(fov * (PI / 180.0) * 0.5);
 	return Matrix::from(&[
 		&[f * ratio, 0., 0., 0.],
 		&[0., f, 0., 0.],
-		&[0., 0., (far + near) / (far - near), (2.0 * near * far) / (near - far)],
-		&[0., 0., 1., 0.]
+		&[0., 0., -(far + near) / (far - near), -1.],
+		&[0., 0., -(2.0 * near * far) / (far - near), 0.]
 	])
 }

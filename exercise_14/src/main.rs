@@ -1,7 +1,6 @@
 use std::panic;
 use crate::linear_algebra::matrix::Matrix;
 use crate::linear_algebra::projection;
-use std::fs;
 
 pub mod linear_algebra;
 
@@ -12,7 +11,8 @@ fn main() {
 
 	let _ = panic::catch_unwind(|| {
 		let P: Matrix<f32> = projection(45.0, 1.2, 0.1, 100.);
-		fs::write("../varia/matrix_display/proj", P).expect("Unable to write file");
+		P.write_matrix_to_file("../varia/matrix_display/proj");
+		P.print();
 	});
 
 }

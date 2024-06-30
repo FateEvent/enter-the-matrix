@@ -1,5 +1,6 @@
 use core::fmt;
-use std::convert::AsRef;
+use super::File;
+use super::Write;
 
 use super::vector::Vector;
 
@@ -23,12 +24,6 @@ impl std::ops::IndexMut<usize> for Matrix<f32> {
 		&mut self.values[index]
 	}
 }
-
-// impl std::convert::AsRef<[u8]> for Matrix<f32> {
-// 	fn as_ref(&self) -> &[u8] {
-// 		self.as_ref()
-// 	}
-// }
 
 impl std::ops::Sub<Matrix<f32>> for Matrix<f32> {
 	type Output = Matrix<f32>;
@@ -463,5 +458,23 @@ impl Matrix<f32> {
 			col += 1;
 		}
 		return rank;
+	}
+
+	pub fn write_matrix_to_file(&self, filename: &str) {
+
+		let mut file = File::create(filename).unwrap();
+	
+		for v in self.values.iter() {
+			for (j, n) in v.iter().enumerate() {
+				let round = (n * 100.).round() / 100.;
+				let mut tmp = String::from(round.to_string());
+				if j < v.len() - 1 {
+					tmp += ", ";
+				} else {
+					tmp += "\n";
+				}
+				file.write(tmp.to_string().as_bytes()).unwrap();
+			}
+		}
 	}
 }

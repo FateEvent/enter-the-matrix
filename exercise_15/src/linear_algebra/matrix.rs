@@ -3,6 +3,8 @@ use super::fmt;
 use super::Complex;
 use super::MulAdd;
 use super::Zero;
+use super::File;
+use super::Write;
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Matrix<K> {
@@ -232,7 +234,7 @@ impl fmt::Display for Matrix<f32> {
 		for (i, v) in self.values.iter().enumerate() {
 			write!(fmt, "[")?;
 			for (j, n) in v.iter().enumerate() {
-				write!(fmt, "{}", (n * 1000.).round() / 1000.)?;
+				write!(fmt, "{}", (n * 100.).round() / 100.)?;
 				if j < v.len() - 1 {
 					write!(fmt, " ")?;
 				}
@@ -480,6 +482,24 @@ impl Matrix<f32> {
 		}
 		return rank;
 	}
+
+	pub fn write_matrix_to_file(&self, filename: &str) {
+
+		let mut file = File::create(filename).unwrap();
+	
+		for v in self.values.iter() {
+			for (j, n) in v.iter().enumerate() {
+				let round = (n * 100.).round() / 100.;
+				let mut tmp = String::from(round.to_string());
+				if j < v.len() - 1 {
+					tmp += " ";
+				} else {
+					tmp += "\n";
+				}
+				file.write(tmp.to_string().as_bytes()).unwrap();
+			}
+		}
+	}
 }
 
 impl std::ops::Add<Matrix<Complex<f32>>> for Matrix<Complex<f32>> {
@@ -543,8 +563,8 @@ impl fmt::Display for Matrix<Complex<f32>> {
 			write!(fmt, "[")?;
 			for (j, n) in v.iter().enumerate() {
 				let mut c: Complex<f32> = *n;
-				c.re = (c.re * 1000.).round() / 1000.;
-				c.im = (c.im * 1000.).round() / 1000.;
+				c.re = (c.re * 100.).round() / 100.;
+				c.im = (c.im * 100.).round() / 100.;
 				write!(fmt, "{}", c)?;
 				if j < v.len() - 1 {
 					write!(fmt, " ")?;
@@ -793,5 +813,25 @@ impl Matrix<Complex<f32>> {
 			col += 1;
 		}
 		return rank;
+	}
+
+	pub fn write_matrix_to_file(&self, filename: &str) {
+
+		let mut file = File::create(filename).unwrap();
+	
+		for v in self.values.iter() {
+			for (j, n) in v.iter().enumerate() {
+				let mut c: Complex<f32> = *n;
+				c.re = (c.re * 100.).round() / 100.;
+				c.im = (c.im * 100.).round() / 100.;
+				let mut tmp = String::from(c.to_string());
+				if j < v.len() - 1 {
+					tmp += ", ";
+				} else {
+					tmp += "\n";
+				}
+				file.write(tmp.to_string().as_bytes()).unwrap();
+			}
+		}
 	}
 }

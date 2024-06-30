@@ -1,4 +1,6 @@
 pub use std::f32::consts::PI;
+pub use std::fs::File;
+pub use std::io::Write;
 
 use crate::linear_algebra::vector::Vector;
 use crate::linear_algebra::matrix::Matrix;
