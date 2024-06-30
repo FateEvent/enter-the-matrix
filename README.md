@@ -274,7 +274,6 @@ In order to implement [REF and RREF algorithms](https://web.stanford.edu/~hammon
 
 I also found [this answer](https://math.stackexchange.com/questions/1149771/best-way-to-find-reduced-row-echelon-form-rref-of-a-matrix) inspiring.
 
-
 ### Exercise 11
 
 The determinant is a number representing a matrix in different contexts. For example,
@@ -333,7 +332,6 @@ The [rank](https://www.mathsisfun.com/algebra/matrix-rank.html) of a matrix can 
 
 It's also the number of linearly independent vectors in the matrix. That's why a non-zero determinant in a square matrix tells us that all rows (or columns) are linearly independent vectors, so it is "full rank" and its rank equals the number of rows.
 
-
 ### Exercise 14
 
 > In 3D computer graphics, a [viewing frustum](https://en.wikipedia.org/wiki/Viewing_frustum) or view frustum is the region of space in the modeled world that may appear on the screen; it is the field of view of a perspective virtual camera system.
@@ -357,17 +355,7 @@ The [clip matrix](https://stackoverflow.com/questions/7604322/clip-matrix-for-3d
 
 ![Keanu Reeves in Cyberpunk 2077 looking at you](varia/img/keanu-reeves-as-johnny-silverhand-cyberpunk-2077.jpg)
 
-
-
-[write](https://stackoverflow.com/questions/31192956/whats-the-de-facto-way-of-reading-and-writing-files-in-rust-1-x)
-
-To [write in a file](https://doc.rust-lang.org/std/fs/fn.write.html)
-
-
-
-[AsRef](https://doc.rust-lang.org/std/convert/trait.AsRef.html)
-
-
+To [write an array of floats into a file](https://www.reddit.com/r/learnrust/comments/ggge3j/what_is_the_proper_way_in_rust_of_writing_into_a), I open a file, convert each float value into a string and write it in the file.
 
 ### Exercise 15
 
