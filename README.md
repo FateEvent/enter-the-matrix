@@ -270,9 +270,7 @@ Once all of the leading coefficients (the leftmost nonzero entry in each row) ar
 
 ![Gaussian elimination](gaussian_elimination.png)
 
-In order to implement [REF and RREF algorithms](https://web.stanford.edu/~hammond/matrixAlgC20.pdf), I followed the leads of [this answer](https://stackoverflow.com/questions/31756413/solving-a-simple-matrix-in-row-reduced-form-in-c) posted on StackOverflow.
-
-I also found [this answer](https://math.stackexchange.com/questions/1149771/best-way-to-find-reduced-row-echelon-form-rref-of-a-matrix) inspiring.
+To implement [REF and RREF algorithms](https://web.stanford.edu/~hammond/matrixAlgC20.pdf), I found [this answer](https://math.stackexchange.com/questions/1149771/best-way-to-find-reduced-row-echelon-form-rref-of-a-matrix) inspiring.
 
 ### Exercise 11
 

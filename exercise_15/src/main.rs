@@ -230,7 +230,7 @@ fn main() {
 
 	// println!("\n\x1b[36mThe Rank of a Matrix:\x1b[0m\n");
 
-	// let _ = panic::catch_unwind(|| {
+	let _ = panic::catch_unwind(|| {
 	// 	// unit vectors
 	// 	let a = [
 	// 		Complex::new(1., 0.),
@@ -314,19 +314,18 @@ fn main() {
 	// 	println!("\n{}", m4.reduced_row_echelon_form());
 	// 	println!("The rank is {}\n", t.rank());
 
-	// 	let m5: Matrix<f32> = Matrix::from(&[
-	// 		&[5., -6., -7., 7.],
-	// 		&[3., -2.,  5., -17.],
-	// 		&[2.,  4., -3., 29.]
-	// 	]);
-	// 	m5.print();
+		let m5: Matrix<f32> = Matrix::from(&[
+			&[5., -6., -7., 7.],
+			&[3., -2.,  5., -17.],
+			&[2.,  4., -3., 29.]
+		]);
+		m5.print();
 
-	// 	println!("\n{}", m5.row_echelon_form());
-	// 	println!("The rank is {}\n", t.rank());
+		println!("\n{}", m5.row_echelon_form());
 
-	// 	println!("\n{}", m5.reduced_row_echelon_form());
-	// 	println!("The rank is {}\n", t.rank());
-	// });
+		println!("\n{}", m5.reduced_row_echelon_form());
+		println!("The rank is {}\n", m5.rank());
+	});
 
 	// let _ = panic::catch_unwind(|| {
 	// 	// unit vectors

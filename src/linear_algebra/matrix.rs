@@ -320,71 +320,47 @@ impl Matrix<f32> {
 		return matrix;
 	}
 
-	// pub fn reduced_row_echelon_form(&self) -> Matrix<f32> {
-
-	// 	let mut matrix = self.clone();
-	// 	let mut pivot: usize = 0;
-	// 	while pivot < matrix.rows {
-	// 		let mut d: f32;
-	// 		let mut m: f32;
-
-	// 		for row in 0..matrix.rows {
-	// 			if pivot == if matrix.cols >= matrix.rows { matrix.cols } else { matrix.rows } {
-	// 				break;
-	// 			}
-	// 			d = matrix[pivot][pivot];
-	// 			if d == f32::zero() {
-	// 				continue;
-	// 			}
-	// 			m = matrix[row][pivot] / matrix[pivot][pivot];
-	// 			println!("{}", d);
-
-	// 			if row == pivot {
-	// 				matrix.row_scl(row, 1./d);
-	// 			} else {
-	// 				matrix.add_row_multiple(row, pivot, -1. * m);
-	// 			}
-	// 			for col in 0..matrix.cols {
-	// 				if matrix[row][col] == 0. {
-	// 					matrix[row][col] = 0.
-	// 				}
-	// 			}
-	// 			println!("{}", matrix);
-	// 		}
-	// 		pivot += 1;
-	// 	}
-	// 	return matrix;
-	// }
-
 	pub fn reduced_row_echelon_form(&self) -> Matrix<f32> {
-
 		let mut matrix = self.clone();
-		let mut pivot: usize = 0;
-		while pivot < matrix.rows {
-			let mut d: f32;
-			let mut m: f32;
-
-			for col in 0..matrix.cols {
-			if pivot == if matrix.cols >= matrix.rows { matrix.cols } else { matrix.rows } {
+		let mut pivot_row = 0;
+	
+		for pivot_col in 0..matrix.cols {
+			if pivot_row >= matrix.rows {
 				break;
 			}
-				d = matrix[pivot][pivot];
-				m = matrix[col][pivot] / matrix[pivot][pivot];
-
+	
+			// Find the pivot row
+			let mut max_row = pivot_row;
+			for row in (pivot_row + 1)..matrix.rows {
+				if matrix[row][pivot_col].abs() > matrix[max_row][pivot_col].abs() {
+					max_row = row;
+				}
+			}
+	
+			// Swap the current row with the max row
+			if matrix[max_row][pivot_col] != 0.0 {
+				matrix.row_swap(pivot_row, max_row);
+	
+				// Normalize the pivot row
+				let pivot_element = matrix[pivot_row][pivot_col];
+				for col in 0..matrix.cols {
+					matrix[pivot_row][col] /= pivot_element;
+				}
+	
+				// Eliminate the current column entries in other rows
 				for row in 0..matrix.rows {
-					if row == pivot {
-						matrix[row][col] = (matrix[row][col] / d * 100.).round() / 100.;
-					} else {
-						matrix[row][col] = matrix[row][col] - (matrix[pivot][col] * m * 100.).round() / 100.;
-					}
-					if matrix[row][col] == -0. {
-						matrix[row][col] = 0.
+					if row != pivot_row {
+						let factor = matrix[row][pivot_col];
+						for col in 0..matrix.cols {
+							matrix[row][col] -= factor * matrix[pivot_row][col];
+						}
 					}
 				}
-
+	
+				pivot_row += 1;
 			}
-			pivot += 1;
 		}
+	
 		return matrix;
 	}
 
@@ -688,72 +664,49 @@ impl Matrix<Complex<f32>> {
 	}
 
 	pub fn reduced_row_echelon_form(&self) -> Matrix<Complex<f32>> {
-
 		let mut matrix = self.clone();
-		let mut pivot: usize = 0;
-		while pivot < matrix.rows {
-			let mut d: Complex<f32>;
-			let mut m: Complex<f32>;
-
-			for row in 0..matrix.rows {
-				if pivot == if matrix.cols >= matrix.rows { matrix.cols } else { matrix.rows } {
-					break;
-				}
-				d = matrix[pivot][pivot];
-				if d == Complex::<f32>::zero() {
-					continue;
-				}
-				m = matrix[row][pivot] / matrix[pivot][pivot];
-				println!("{}", d);
-
-				if row == pivot {
-					matrix.row_scl(row, 1./d);
-				} else {
-					matrix.add_row_multiple(row, pivot, -1. * m);
-				}
-				// for col in 0..matrix.cols {
-				// 	if matrix[row][col] == Complex::<f32>::zero() {
-				// 		matrix[row][col] = Complex::<f32>::zero()
-				// 	}
-				// }
-				println!("{}", matrix);
+		let mut pivot_row = 0;
+	
+		for pivot_col in 0..matrix.cols {
+			if pivot_row >= matrix.rows {
+				break;
 			}
-			pivot += 1;
+	
+			// Find the pivot row
+			let mut max_row = pivot_row;
+			for row in (pivot_row + 1)..matrix.rows {
+				if matrix[row][pivot_col].norm() > matrix[max_row][pivot_col].norm() {
+					max_row = row;
+				}
+			}
+	
+			// Swap the current row with the max row
+			if matrix[max_row][pivot_col] != Complex::<f32>::zero() {
+				matrix.row_swap(pivot_row, max_row);
+	
+				// Normalize the pivot row
+				let pivot_element = matrix[pivot_row][pivot_col];
+				for col in 0..matrix.cols {
+					matrix[pivot_row][col] /= pivot_element;
+				}
+	
+				// Eliminate the current column entries in other rows
+				for row in 0..matrix.rows {
+					if row != pivot_row {
+						let factor = matrix[row][pivot_col];
+						for col in 0..matrix.cols {
+							let multiplicator = matrix[pivot_row][col];
+							matrix[row][col] -= factor * multiplicator;
+						}
+					}
+				}
+	
+				pivot_row += 1;
+			}
 		}
+	
 		return matrix;
 	}
-
-	// pub fn reduced_row_echelon_form(&self) -> Matrix<Complex<f32>> {
-
-	// 	let mut matrix = self.clone();
-	// 	let mut pivot: usize = 0;
-	// 	while pivot < matrix.rows {
-	// 		let mut d: Complex<f32>;
-	// 		let mut m: Complex<f32>;
-
-	// 		for row in 0..matrix.rows {
-	// 		if pivot == if matrix.cols >= matrix.rows { matrix.cols } else { matrix.rows } {
-	// 			break;
-	// 		}
-	// 			d = matrix[pivot][pivot];
-	// 			m = matrix[row][pivot] / matrix[pivot][pivot];
-
-	// 			for col in 0..matrix.cols {
-	// 				if row == pivot {
-	// 					matrix[row][col] = matrix[row][col] / d;
-	// 				} else {
-	// 					matrix[row][col] = matrix[row][col] - matrix[pivot][col] * m;
-	// 				}
-	// 				if matrix[row][col] == Complex::<f32>::zero() {
-	// 					matrix[row][col] = Complex::<f32>::zero()
-	// 				}
-	// 			}
-
-	// 		}
-	// 		pivot += 1;
-	// 	}
-	// 	return matrix;
-	// }
 
 	// functions to compute the determinant of a matrix
 	fn determinant_2x2(&self) -> Complex<f32> {
