@@ -382,3 +382,7 @@ Some [help](https://rust-lang-nursery.github.io/rust-cookbook/science/mathematic
 To create tests, I took inspiration from the work of [Glagan](https://github.com/Glagan/42-matrix/tree/master) on GitHub.
 
 I used `assert_eq!()` expression as suggested in [this interesting discussion](https://stackoverflow.com/a/26470361) on StackOverflow.
+
+### Tests
+
+To test, you can run `cargo test` in the root folder or `cargo run` in any `exercise_*` directory.

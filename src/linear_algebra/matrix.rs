@@ -329,6 +329,7 @@ impl Matrix<f32> {
 				break;
 			}
 	
+			// Find the largest element and bring it to pivot position
 			// Find the pivot row
 			let mut max_row = pivot_row;
 			for row in (pivot_row + 1)..matrix.rows {
@@ -672,6 +673,7 @@ impl Matrix<Complex<f32>> {
 				break;
 			}
 	
+			// Find the largest element and bring it to pivot position
 			// Find the pivot row
 			let mut max_row = pivot_row;
 			for row in (pivot_row + 1)..matrix.rows {
