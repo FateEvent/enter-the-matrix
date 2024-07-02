@@ -320,6 +320,8 @@ To implement [REF and RREF algorithms](https://web.stanford.edu/~hammond/matrixA
 
 ##### 2-Dimensional Space
 
+Let's start from a view on 2-dimensional space.
+
 Since for a transformation to be linear, gridlines must remain parallel and evenly spaced after the transformation, what happens to the single square of area 1x1 formed by the two basis vectors during the transformation applies to every square in the grid.
 
 The scaling factor by which a linear transformation changes any area is called the determinant of that transformation.
@@ -353,9 +355,15 @@ To compute the determinant of 3x3 matrices and higher:
 
 [![the determinant of a 3x3 matrix](varia/img/det3x3.png)](https://www.mathsisfun.com/algebra/matrix-determinant.html)
 
-I compared my results with the results of this [calculator](https://www.symbolab.com/solver/matrix-determinant-calculator).
+##### General Statements
 
-##### To go further:
+Since matrix multiplication is associative, the following rule applies:
+
+![determinant associative rule](varia/img/3blue1brown_det_associative_rule.png)
+
+##### The Exercise
+
+I compared my results with the results of this [calculator](https://www.symbolab.com/solver/matrix-determinant-calculator).
 
 From the subject:
 
