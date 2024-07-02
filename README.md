@@ -35,13 +35,23 @@ Before starting, I learnt to use Rust with the [Rustlings](https://github.com/ru
 
 To prepare for this exercise, I implemented the `vector` and `matrix` structures and some help methods as `print`, `rows` (for `vector`), `shape` and `is_regular` (for `matrix`).
 
-The goal of the exercise 0is to implement, for each `struct`, the methods for addition, subtraction and scaling.
-
-I also implemented a funtion to calculate the magnitude of the vector, for which I used the [sqrt](https://doc.rust-lang.org/std/primitive.f32.html#method.sqrt) function implemented for the f32 primitive.
+The goal of the exercise 00 is to implement, for each `struct`, the methods for addition, subtraction and scaling.
 
 Using [generic types](https://doc.rust-lang.org/book/ch10-01-syntax.html) implies implementing functions for a specific data type if the operators used are not implemented for that particular type. [Traits](https://doc.rust-lang.org/std/ops/index.html#traits) are used in Rust to implement [operator overloading](https://doc.rust-lang.org/rust-by-example/trait/ops.html).
  
 For my `main` function I used a list of [colour escape sequences](https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences) (it's important to note that Rust only considers [hexadecimal escape sequences](https://stackoverflow.com/questions/69981449/how-do-i-print-colored-text-to-the-terminal-in-rust)).
+
+If we consider a vector as a movement, adding two vectors is like starting another movement after the first one is ended. The sum of two vectors will then be a vector starting from the origin and reaching the end of the second vector, whose starting point is the tail of the first vector.
+
+![vector addition](varia/img/3blue1brown_vec_add.png)
+
+In vector addition, each component of the second vector is added to the corresponding component of the first vector.
+
+In the same way, multiplying a vector by a positive number means stretching or squishing it, while multiplying it by a negative number means stretching or squishing it but in the opposite direction.
+
+Multiplying a vector by a scalar means multiplying each of its components by a scalar.
+
+![vector scaling](varia/img/3blue1brown_vec_scl.png)
 
 ### Exercise 01
 
@@ -49,12 +59,22 @@ For this exercise 0I had to implement a function calculating a linear combinatio
 
 To implement the `linear_combination` function, I used the fused multiply-add function implemented by the [mul_add](https://doc.rust-lang.org/std/primitive.f32.html#method.mul_add) function for the `f32` primitive.
 
+**Linear combination** means adding to a one combination of a scalar and a vector one or more combinations of the same kind. However, if the vector are **linearly independent**, the set of their linear combinations may **span** the entire space, while if they are **linearly dependent**, their **span** may be limited to a plane (in 3D space), a line (in 2D space, if they line up) or even a point.
+
+[![linear independence](varia/img/linear_independence.png)](https://en.wikipedia.org/wiki/Linear_independence#Definition)
+
+However, we can also consider that any of them is outside the span of the others.
+
+From here we can address the technical definiton of a **basis**:
+- the **basis** of a vector space is a set of **linearly independent** vectors that **span** the full space.
+
+Every other vector may be considered as a linear combinattion of the basic vectors.
 
 ### Exercise 02
 
 [Linear interpolation](https://en.wikipedia.org/wiki/Linear_interpolation) is a method of [curve fitting](https://en.wikipedia.org/wiki/Curve_fitting) (i.e. the process of constructing a curve, or mathematical function, that has the best fit to a series of data points) using [linear polynomials](https://en.wikipedia.org/wiki/Polynomial#linear_polynomial) to construct new data points within the range of a discrete set of known data points.
 
-A polynomial is a mathematical expression consisting of indeterminates and coefficients involving only the operations of addition, subtraction, multiplication, and positive-integer powers of variables of degree one, and a linear polynomial is a polynomial of degree one.
+A polynomial is a mathematical expression consisting of indeterminantes and coefficients involving only the operations of addition, subtraction, multiplication, and positive-integer powers of variables of degree one, and a linear polynomial is a polynomial of degree one.
 
 For implementing the `lerp` function for the types `f32`, `Vector<f32>` and `Matrix<f32>` I implemented the `Lerp` trait and the function `lerp` derived from it:
 
@@ -106,9 +126,9 @@ impl std::ops::Mul<Vector<f32>> for f32 {
 
 The same had to be done for `Matrix<f32>`.
 
-#### Trait Bounds
+##### Trait Bounds
 
-Trait bounds directly inserted in between angle brackets after `impl` specify constraints on the type parameters for the entire implementation block. These bounds apply globally to all functions and associated items within the implementation. For example:
+Trait bounds directly inserted in between angle brackets after the `impl` keyword specify constraints on the type parameters for the entire implementation block. These bounds apply globally to all functions and associated items within the implementation. For example:
 
 ```rust
 
@@ -136,7 +156,9 @@ In this case, the bounds `where K: Clone + std::fmt::Display + std::ops::AddAssi
 
 Here's explanations for the dot product taken from [Wikipedia](https://en.wikipedia.org/wiki/Dot_product) and an article from the [Khan Academy](https://www.khanacademy.org/math/multivariable-calculus/thinking-about-multivariable-function/x786f2022:vectors-and-matrices/a/dot-products-mvc):
 
-![dot product wiki](varia/img/dot_product.png)
+![dot product wiki](varia/img/dot_product_wiki.png)
+
+![dot product wiki](varia/img/dot_product_wiki2.png)
 
 ![dot product Khan Academy](varia/img/dot_product_khan.png)
 
@@ -223,9 +245,31 @@ impl std::ops::Index<usize> for Vector<f32> {
 
 ### Exercise 07
 
-[Matrix multiplication](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices/x9e81a4f98389efdf:multiplying-matrices-by-matrices/a/multiplying-matrices):
+To talk about matrix multiplication, we need to address the subject of **linear transformation**. Transformation is a function, taking some vector as input and spitting out some vector as output. It is linear if it has two properties:
+- all lines must remain lines, without getting curved;
+- the origin must remain fixed in place.
 
-![alt text](varia/img/matrix_mul.png)
+In this way, linear transformation is a way to move around space such that gridlines remain parallel and evely spaced, and such that the origin remains fixed.
+
+Following from this, a matrix may be considered as a series of column vectors representing the positions in which the **basis** (or **unit**) vectors of the particular dimensional space the matrix belongs to land.
+
+Thus, if we want to know where a particular matrix coordinates take a vector, we multiply each entry of the vector with its corresponding matrix column and add together what we get:
+
+![matrix-vector multiplication](varia/img/3blue1brown_mat-vec_mul.png)
+
+In this way we add the scaled version of our new basis vectors.
+
+In the same way, multiplying two matrices means applying two linear transformations one after the other to obtain a composed linear transformation.
+
+We can see matrix multiplication as follows:
+
+![matrix multiplication step by step](varia/img/3blue1brown_mat_mul.png)
+
+Notice the order of the matrices: the matrix representing the first transformation is put on the right and the one representing the new transformation is put on its left.
+
+[![matrix multiplication](varia/img/matrix_mul.png)](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices/x9e81a4f98389efdf:multiplying-matrices-by-matrices/a/multiplying-matrices)
+
+Matrix multiplication is **associative**, meaning that as long as the transformations are applied in the same order, it does not matter whether two matrices are multiplied by themselves first before their product is multiplied by another matrix.
 
 ### Exercise 08
 
@@ -274,27 +318,50 @@ To implement [REF and RREF algorithms](https://web.stanford.edu/~hammond/matrixA
 
 ### Exercise 11
 
-The determinant is a number representing a matrix in different contexts. For example,
+##### 2-Dimensional Space
 
-To compute the [determinant](https://www.mathsisfun.com/algebra/matrix-determinant.html) of a matrix,
+Since for a transformation to be linear, gridlines must remain parallel and evenly spaced after the transformation, what happens to the single square of area 1x1 formed by the two basis vectors during the transformation applies to every square in the grid.
 
-I compared my results with the results of this [calculator](https://www.symbolab.com/solver/matrix-determinant-calculator)
+The scaling factor by which a linear transformation changes any area is called the determinant of that transformation.
 
+For example, a determinant of 3 implies that the associated linear transformation increases the area by a factor of 3.
+
+It may be 0 if the linear transformation squishes everything into a smaller dimension (in a 2-dimensional space onto a line or a point, for example).
+
+A negative determinant implies an inversion of space orientation.
+
+We can compute the determinant of 2x2 matrices as follows:
+
+![the determinant of a 2x2 matrix](varia/img/3blue1brown_det2x2.png)
+
+##### 3-Dimensional Space
+
+In 3-dimensional space, the basis vectors form a cube with a volume of 1.
+Since the determinant gives the factor by which every volume is scaled, we can say that it represents the volume of the parallelepiped in which that cube is turned into.
+
+A volume of 0 means that all space is turned into something with 0 volume, either a flat plane, a line or a single point.
+
+An inversion of space orientation here may be detected with the right hand rule:
+
+![the right hand rule](3blue1brown_right_hand_rule.png)
+
+If we need our left hand to represent the basis vectors, it means that orientation has changed.
+
+![the right hand rule (left hand)](3blue1brown_right_hand_rule2.png)
+
+To compute the determinant of 3x3 matrices and higher:
+
+[![the determinant of a 3x3 matrix](varia/img/det3x3.png)](https://www.mathsisfun.com/algebra/matrix-determinant.html)
+
+I compared my results with the results of this [calculator](https://www.symbolab.com/solver/matrix-determinant-calculator).
+
+##### To go further:
 
 From the subject:
 
 > If you remember the aside on the exterior algebra from before, you might want to know that n-vectors inside an n-dimensional exterior algebra tend to behave a lot like scalars, and are referred to as "pseudoscalars" for this reason.
 
 > The determinant is actually the magnitude of the pseudoscalar (the measure of the n-parallelepiped) which is created by the successive wedge product of all the columns vectors of a square matrix. Read that again, slowly.
-
-
-
-
-
-
-
-
-
 
 ### Exercise 12
 
