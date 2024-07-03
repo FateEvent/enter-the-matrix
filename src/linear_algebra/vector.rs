@@ -29,7 +29,7 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 	type Output = Vector<K>;
 
 	fn sub(self, _rhs: Vector<K>) -> Vector<K> {
-		self.vectors_have_equal_length(_rhs.clone());
+		self.vectors_have_equal_length(&_rhs);
 		let mut diff: Vector<K> = Vector::new();
 		for (a, b) in self.values.iter().zip(_rhs.values.iter()) {
 			diff.values.push(*a - *b);
@@ -46,7 +46,7 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 	type Output = Vector<K>;
 
 	fn add(self, _rhs: Vector<K>) -> Vector<K> {
-		self.vectors_have_equal_length(_rhs.clone());
+		self.vectors_have_equal_length(&_rhs);
 		let mut sum: Vector<K> = Vector::new();
 		for (a, b) in self.values.iter().zip(_rhs.values.iter()) {
 			sum.values.push(*a + *b);
@@ -94,7 +94,7 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 		self.values.push(val);
 	}
 
-	fn vectors_have_equal_length(&self, other: Vector<K>) -> bool {
+	fn vectors_have_equal_length(&self, other: &Vector<K>) -> bool {
 		if self.rows() != other.rows() {
 			panic!("Vectors must be of the same length.");
 		};
@@ -102,14 +102,14 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 	}
 
 	pub fn add(&mut self, other: Vector<K>) {
-		self.vectors_have_equal_length(other.clone());
+		self.vectors_have_equal_length(&other);
 		for (a, b) in self.values.iter_mut().zip(other.values.iter()) {
 			*a += b.clone();
 		}
 	}
 
 	pub fn sub(&mut self, other: Vector<K>) {
-		self.vectors_have_equal_length(other.clone());
+		self.vectors_have_equal_length(&other);
 		for (a, b) in self.values.iter_mut().zip(other.values.iter()) {
 			*a -= b.clone();
 		}
@@ -122,14 +122,14 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 	}
 
 	pub fn mul_add(&self, a: K, b: &Vector<K>) -> Vector<K> {
-		self.vectors_have_equal_length(b.clone());
+		self.vectors_have_equal_length(&b);
 		return Vector::from_vec(self.values.iter().zip(b.values.iter())
 		.map(|(u, v)| u.mul_add(a, *v)).collect());
 	}
 
 	fn vec_arr_check_length(u: &[Vector<K>]) -> bool {
 		for v in u {
-			if !Vector::vectors_have_equal_length(&u[0], v.clone()) {
+			if !Vector::vectors_have_equal_length(&u[0], &v) {
 				return false;
 			}
 		}
@@ -199,8 +199,8 @@ impl Vector<f32> {
 		return combo;
 	}
 
-	pub fn dot(&self, v: Vector<f32>) -> f32 {
-		self.vectors_have_equal_length(v.clone());
+	pub fn dot(&self, v: &Vector<f32>) -> f32 {
+		self.vectors_have_equal_length(&v);
 		let mut sum = f32::zero();
 		for (e1, e2) in self.values.iter().zip(v.values.iter()) {
 			sum += *e1 * *e2;
@@ -230,6 +230,10 @@ impl Vector<f32> {
 			if max < el.abs() { max = el.abs(); }
 		}
 		return max;
+	}
+
+	pub fn angle_cos(&self, u: &Vector<f32>) -> f32 {
+		self.dot(&u) / (self.norm() * u.norm())
 	}
 }
 
@@ -274,8 +278,8 @@ impl fmt::Display for Vector<Complex<f32>> {
 }
 
 impl Vector<Complex<f32>> {
-	pub fn dot(&self, v: Vector<Complex<f32>>) -> f32 {
-		self.vectors_have_equal_length(v.clone());
+	pub fn dot(&self, v: &Vector<Complex<f32>>) -> f32 {
+		self.vectors_have_equal_length(&v);
 		let mut sum = f32::zero();
 		for (e1, e2) in self.values.iter().zip(v.values.iter()) {
 			sum += (*e1 * e2.conj()).re;
@@ -305,5 +309,9 @@ impl Vector<Complex<f32>> {
 			if max < el.norm() { max = el.norm(); }
 		}
 		return (max * 1000.).round() / 1000.;
+	}
+
+	pub fn angle_cos(&self, u: &Vector<Complex<f32>>) -> f32 {
+		self.dot(&u) / (self.norm() * u.norm())
 	}
 }

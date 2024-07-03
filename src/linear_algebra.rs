@@ -80,27 +80,6 @@ where V: Lerp<V>,
 	u.lerp(u.clone(), v, t)
 }
 
-pub trait AngleCos<K> {
-	fn angle_cos(&self, u: Vector<K>, v: Vector<K>) -> f32;
-}
-
-impl AngleCos<f32> for Vector<f32> {
-	fn angle_cos(&self, u: Vector<f32>, v: Vector<f32>) -> f32 {
-		u.dot(v.clone()) / (u.norm() * v.norm())
-	}
-}
-
-impl AngleCos<Complex<f32>> for Vector<Complex<f32>> {
-	fn angle_cos(&self, u: Vector<Complex<f32>>, v: Vector<Complex<f32>>) -> f32 {
-		u.dot(v.clone()) / (u.norm() * v.norm())
-	}
-}
-
-pub fn angle_cos<K: Clone>(u: Vector<K>, v: Vector<K>) -> f32
-where Vector<K>: AngleCos<K> {
-	u.angle_cos(u.clone(), v)
-}
-
 pub trait CrossProduct<K> {
 	fn cross_product(&self, u: Vector<K>, v: Vector<K>) -> Vector<K>;
 }

@@ -257,7 +257,7 @@ impl Matrix<f32> {
 		let mut vector = Vector::new();
 		for row in 0..self.rows {
 			let capture_row = Vector::capture_row(self.clone(), row);
-			vector.push(capture_row.dot(vec.clone()));
+			vector.push(capture_row.dot(&vec));
 		}
 		vector
 	}
@@ -273,7 +273,7 @@ impl Matrix<f32> {
 			let mut matrix_row = Vec::new();
 			for col in 0..mat.shape().1 {
 				let capture_col = Vector::capture_column(mat.clone(), col);
-				matrix_row.push(capture_row.dot(capture_col));
+				matrix_row.push(capture_row.dot(&capture_col));
 			}
 			matrix.values.push(matrix_row);
 		}
@@ -601,7 +601,7 @@ impl Matrix<Complex<f32>> {
 		let mut vector = Vector::new();
 		for row in 0..self.rows {
 			let capture_row = Vector::capture_row(self.clone(), row);
-			vector.push(capture_row.dot(vec.clone()));
+			vector.push(capture_row.dot(&vec));
 		}
 		vector
 	}
@@ -617,7 +617,7 @@ impl Matrix<Complex<f32>> {
 			let mut matrix_row = Vec::new();
 			for col in 0..mat.shape().1 {
 				let capture_col = Vector::capture_column(mat.clone(), col);
-				matrix_row.push(capture_row.dot(capture_col));
+				matrix_row.push(capture_row.dot(&capture_col));
 			}
 			matrix.values.push(matrix_row);
 		}

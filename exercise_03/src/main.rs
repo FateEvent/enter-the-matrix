@@ -10,20 +10,20 @@ fn main() {
 		a.print();
 		let b = Vector::from(&[-5., 2.]);
 		b.print();
-		println!("{}", a.dot(b));
+		println!("{}", a.dot(&b));
 		let t = Vector::from(&[2., 3.]);
 		t.print();
 		let u = Vector::from(&[5., 7.]);
 		u.print();
-		println!("{}", t.dot(u.clone()));
+		println!("{}", t.dot(&u));
 		t.print();
 		let v = Vector::linear_combination(&[t.clone(), u.clone()], &[4., 7.]);
 		v.print();
-		println!("{}", t.dot(v));
+		println!("{}", t.dot(&v));
 		let p = Vector::from(&[4., -1., 2.]);
 		p.print();
 		let q = Vector::from(&[1., 2., 4.]);
 		q.print();
-		println!("{}", p.dot(q));
+		println!("{}", p.dot(&q));
 	});
 }
