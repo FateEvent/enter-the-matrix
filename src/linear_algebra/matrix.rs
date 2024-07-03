@@ -291,12 +291,12 @@ impl Matrix<f32> {
 	}
 
 	fn row_scl(&mut self, i: usize, scalar: f32) {
-		self[i] = (scalar * Vector::from_vec(self[i].clone())).get_values();
+		self[i] = (scalar * Vector::from(self[i].clone())).get_values();
 	}
 
 	// add to row A a scalar multiple of row B
 	fn add_row_multiple(&mut self, a: usize, b: usize, scalar: f32) {
-		self[a] = (scalar * Vector::from_vec(self[b].clone()) + Vector::from_vec(self[a].clone())).get_values();
+		self[a] = (scalar * Vector::from(self[b].clone()) + Vector::from(self[a].clone())).get_values();
 	}
 
 	pub fn row_echelon_form(&self) -> Matrix<f32> {
@@ -635,12 +635,12 @@ impl Matrix<Complex<f32>> {
 	}
 
 	fn row_scl(&mut self, i: usize, multiplicator: Complex<f32>) {
-		self[i] = (multiplicator * Vector::from_vec(self[i].clone())).get_values();
+		self[i] = (multiplicator * Vector::from(self[i].clone())).get_values();
 	}
 
 	// add to row A a multiplicator multiple of row B
 	fn add_row_multiple(&mut self, a: usize, b: usize, multiplicator: Complex<f32>) {
-		self[a] = (multiplicator * Vector::from_vec(self[b].clone()) + Vector::from_vec(self[a].clone())).get_values();
+		self[a] = (multiplicator * Vector::from(self[b].clone()) + Vector::from(self[a].clone())).get_values();
 	}
 
 	pub fn row_echelon_form(&self) -> Matrix<Complex<f32>> {

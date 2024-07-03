@@ -9,6 +9,30 @@ pub struct Vector<K> {
 	values: Vec<K>
 }
 
+impl<const N: usize, K> From<[K; N]> for Vector<K>
+where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
+K: Copy + Clone + num::Num + std::ops::AddAssign
++ std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
++ std::ops::Neg<Output = K> + MulAdd<Output = K> {
+	fn from(arr: [K; N]) -> Self {
+		Vector {
+			values: arr.to_vec()
+		}
+	}
+}
+
+impl<K> From<Vec<K>> for Vector<K>
+where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
+K: Copy + Clone + num::Num + std::ops::AddAssign
++ std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
++ std::ops::Neg<Output = K> + MulAdd<Output = K> {
+	fn from(vec: Vec<K>) -> Self {
+		Vector {
+			values: vec
+		}
+	}
+}
+
 impl<K> std::ops::Index<usize> for Vector<K>
 where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
 K: Copy + Clone + num::Num + std::ops::AddAssign
@@ -66,17 +90,17 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 		}
 	}
 	
-	pub fn from(arr: &[K]) -> Self {
-		Vector {
-			values: arr.to_vec(),
-		}
-	}
+	// pub fn from(arr: &[K]) -> Self {
+	// 	Vector {
+	// 		values: arr.to_vec(),
+	// 	}
+	// }
 
-	pub fn from_vec(vec: Vec<K>) -> Self {
-		Vector {
-			values: vec
-		}
-	}
+	// pub fn from_vec(vec: Vec<K>) -> Self {
+	// 	Vector {
+	// 		values: vec
+	// 	}
+	// }
 
 	pub fn print(&self) {
 		println!("{}", self);
@@ -123,8 +147,8 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 
 	pub fn mul_add(&self, a: K, b: &Vector<K>) -> Vector<K> {
 		self.vectors_have_equal_length(&b);
-		return Vector::from_vec(self.values.iter().zip(b.values.iter())
-		.map(|(u, v)| u.mul_add(a, *v)).collect());
+		return Vector::from(self.values.iter().zip(b.values.iter())
+		.map(|(u, v)| u.mul_add(a, *v)).collect::<Vec<_>>());
 	}
 
 	fn vec_arr_check_length(u: &[Vector<K>]) -> bool {
@@ -152,7 +176,7 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 		if index >= matrix.shape().0 {
 			panic!("Row index out of bounds.")
 		}
-		let capture = Vector::from_vec(matrix.get_values()[index].clone());
+		let capture = Vector::from(matrix.get_values()[index].clone());
 
 		capture
 	}

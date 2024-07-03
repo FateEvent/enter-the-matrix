@@ -61,7 +61,7 @@ fn main() {
 	let _ = panic::catch_unwind(|| {
 		let u = Matrix::from(&[&[4., 3., 1.], &[6., 7., 2.]]);
 		println!("u is equal to:\n{}", u);
-		let v = Vector::from(&[3., 1., 4.]);
+		let v = Vector::from([3., 1., 4.]);
 		println!("v is equal to:\n{}", v);
 		println!("u multiplied by v is equal to:\n{}\n", u.mul_vec(v));
 		// [19]
@@ -73,7 +73,7 @@ fn main() {
 	let _ = panic::catch_unwind(|| {
 		let u = Matrix::from(&[&[4., 3., 1.], &[6., 7., 2.]]);
 		println!("u is equal to:\n{}", u);
-		let v = Vector::from(&[3., 1., 4., 5.]);
+		let v = Vector::from([3., 1., 4., 5.]);
 		println!("v is equal to:\n{}", v);
 		println!("u multiplied by v is equal to:\n{}\n", u.mul_vec(v));
 	});

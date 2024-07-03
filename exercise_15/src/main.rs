@@ -19,9 +19,9 @@ fn main() {
 
 	// 	println!("\n\x1b[31;1;4m   o  .  -  Vectors  -  .  o\x1b[0m\n");
 
-	// 	let mut t = Vector::from(&i);
+	// 	let mut t = Vector::from(i);
 	// 	t.print();
-	// 	let mut u = Vector::from(&j);
+	// 	let mut u = Vector::from(j);
 	// 	u.print();
 
 	// 	println!("\n\x1b[32mAddition:\x1b[0m\n");
@@ -108,7 +108,7 @@ fn main() {
 	// 	let t = Vector::from_vec(vec);
 	// 	t.print();
 
-	// 	let v = Vector::from(&complex_numbers);
+	// 	let v = Vector::from(complex_numbers);
 
 	// 	println!("\n\x1b[31;1;4mThe Dot Product\x1b[0m\n");
 
@@ -123,8 +123,8 @@ fn main() {
 	// 	println!("{}", lerp(Complex::new(21., 0.),  Complex::new(42., 0.), 0.3));
 	// 	// 27.3
 		
-	// 	println!("{}", lerp(Vector::from(&i), Vector::from(&[Complex::new(8., 0.), Complex::new(8., 0.)]), 0.8));
-	// 	println!("{}", lerp(Vector::from(&[Complex::new(15., 0.), Complex::new(21., 0.)]), Vector::from(&[Complex::new(13., 0.), Complex::new(31., 0.)]), 0.5));
+	// 	println!("{}", lerp(Vector::from(i), Vector::from([Complex::new(8., 0.), Complex::new(8., 0.)]), 0.8));
+	// 	println!("{}", lerp(Vector::from([Complex::new(15., 0.), Complex::new(21., 0.)]), Vector::from([Complex::new(13., 0.), Complex::new(31., 0.)]), 0.5));
 	// 	println!("{}", lerp(Matrix::from(&[&i, &j]), Matrix::from(&[&k, &l]), 0.5));
 
 	// });
@@ -383,20 +383,20 @@ fn main() {
 			Complex::new(8., 0.)
 		];
 
-		let u = Vector::from(&a);
-		let v = Vector::from(&b);
+		let u = Vector::from(a);
+		let v = Vector::from(b);
 		println!("Cos theta is: {}\n", u.angle_cos(&v));
 
-		let u2 = Vector::from(&a);
-		let v2 = Vector::from(&a);
+		let u2 = Vector::from(a);
+		let v2 = Vector::from(a);
 		println!("Cos theta is: {}\n", u2.angle_cos(&v2));
 
-		let u3 = Vector::from(&c);
-		let v3 = Vector::from(&d);
+		let u3 = Vector::from(c);
+		let v3 = Vector::from(d);
 		println!("Cos theta is: {}\n", u3.angle_cos(&v3));
 
-		let u4 = Vector::from(&e);
-		let v4 = Vector::from(&f);
+		let u4 = Vector::from(e);
+		let v4 = Vector::from(f);
 		println!("Cos theta is: {}\n", u4.angle_cos(&v4));
 	});
 }

@@ -9,12 +9,12 @@ fn float_lerp() {
 
 #[test]
 fn vector_lerp() {
-	assert_eq!(lerp(Vector::from(&[1., 1.]), Vector::from(&[2., 3.]), 0.8), Vector::from(&[1.8, 2.6000001]));
+	assert_eq!(lerp(Vector::from([1., 1.]), Vector::from([2., 3.]), 0.8), Vector::from([1.8, 2.6000001]));
 }
 
 #[test]
 fn vector_lerp_2() {
-	assert_eq!(lerp(Vector::from(&[2., 1.]), Vector::from(&[4., 2.]), 0.3), Vector::from(&[2.6, 1.3]));
+	assert_eq!(lerp(Vector::from([2., 1.]), Vector::from([4., 2.]), 0.3), Vector::from([2.6, 1.3]));
 }
 
 #[test]

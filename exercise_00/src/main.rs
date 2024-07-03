@@ -5,9 +5,9 @@ use matrix::linear_algebra::matrix::Matrix;
 fn main() {
 	let _ = panic::catch_unwind(|| {
 		println!("\n\x1b[31;1;4m   o  .  -  Vectors  -  .  o\x1b[0m\n");
-		let mut t = Vector::from(&[2., 3.]);
+		let mut t = Vector::from([2., 3.]);
 		t.print();
-		let mut u = Vector::from(&[5., 7.]);
+		let mut u = Vector::from([5., 7.]);
 		u.print();
 
 		println!("\n\x1b[32mAddition:\x1b[0m\n");

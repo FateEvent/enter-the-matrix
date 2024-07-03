@@ -3,36 +3,36 @@ use matrix::linear_algebra::matrix::Matrix;
 
 #[test]
 fn add_vectors() {
-	let t = Vector::from(&[2., 3.]);
-	let mut u = Vector::from(&[5., 7.]);
+	let t = Vector::from([2., 3.]);
+	let mut u = Vector::from([5., 7.]);
 
 	u.add(t);
-	assert_eq!(u, Vector::from(&[7., 10.]));
+	assert_eq!(u, Vector::from([7., 10.]));
 }
 
 #[test]
 fn subtract_vectors() {
-	let mut t = Vector::from(&[7., 10.]);
-	let u = Vector::from(&[5., 7.]);
+	let mut t = Vector::from([7., 10.]);
+	let u = Vector::from([5., 7.]);
 
 	t.sub(u);
-	assert_eq!(t, Vector::from(&[2., 3.]))
+	assert_eq!(t, Vector::from([2., 3.]))
 }
 
 #[test]
 fn scale_vectors() {
-	let mut t = Vector::from(&[7., 10.]);
+	let mut t = Vector::from([7., 10.]);
 
 	t.scl(0.);
-	assert_eq!(t, Vector::from(&[0., 0.]))
+	assert_eq!(t, Vector::from([0., 0.]))
 }
 
 #[test]
 fn scale_vectors_2() {
-	let mut t = Vector::from(&[7., 10.]);
+	let mut t = Vector::from([7., 10.]);
 
 	t.scl(5.);
-	assert_eq!(t, Vector::from(&[35., 50.]))
+	assert_eq!(t, Vector::from([35., 50.]))
 }
 
 #[test]

@@ -24,16 +24,16 @@ fn matrix_multiplication_example_2() {
 #[test]
 fn matrix_vector_multiplication_example() {
     let u = Matrix::from(&[&[4., 3., 1.], &[6., 7., 2.]]);
-	let v = Vector::from(&[3., 1., 4.]);
+	let v = Vector::from([3., 1., 4.]);
 
-    assert_eq!(u.mul_vec(v), Vector::from(&[19., 33.]));
+    assert_eq!(u.mul_vec(v), Vector::from([19., 33.]));
 }
 
 #[test]
 #[should_panic]
 fn invalid_matrix_vector_multiplication_example() {
     let u = Matrix::from(&[&[4., 3., 1.], &[6., 7., 2.]]);
-	let v = Vector::from(&[3., 1., 4., 5.]);
+	let v = Vector::from([3., 1., 4., 5.]);
 
 	u.mul_vec(v);
 }
