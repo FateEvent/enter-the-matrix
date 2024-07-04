@@ -59,9 +59,9 @@ fn main() {
 	// 	];
 
 	// 	println!("\n\x1b[31;1;4mo  xoX . -  Matrices  -  . Xox  o\x1b[0m\n");
-	// 	let m1: Matrix<Complex<f32>> = Matrix::from(&[&k, &l]);
+	// 	let m1: Matrix<Complex<f32>> = Matrix::from([&k, &l]);
 	// 	m1.print();
-	// 	let mut m2: Matrix<Complex<f32>> = Matrix::from(&[&i, &j]);
+	// 	let mut m2: Matrix<Complex<f32>> = Matrix::from([&i, &j]);
 	// 	m2.print();
 
 	// 	println!("\n\x1b[32mAddition:\x1b[0m\n");
@@ -125,7 +125,7 @@ fn main() {
 		
 	// 	println!("{}", lerp(Vector::from(i), Vector::from([Complex::new(8., 0.), Complex::new(8., 0.)]), 0.8));
 	// 	println!("{}", lerp(Vector::from([Complex::new(15., 0.), Complex::new(21., 0.)]), Vector::from([Complex::new(13., 0.), Complex::new(31., 0.)]), 0.5));
-	// 	println!("{}", lerp(Matrix::from(&[&i, &j]), Matrix::from(&[&k, &l]), 0.5));
+	// 	println!("{}", lerp(Matrix::from([&i, &j]), Matrix::from([&k, &l]), 0.5));
 
 	// });
 
@@ -150,19 +150,19 @@ fn main() {
 
 		println!("\n\x1b[31;1;4mRow Echelon Form\x1b[0m\n");
 
-		let m1 = Matrix::from(&[&s, &q, &r]);
+		let m1 = Matrix::from([s, q, r]);
 		println!("{}\n", m1);
 
 		println!("\n{}", m1.row_echelon_form());
 		println!("\n{}", m1.reduced_row_echelon_form());
 
-		let m2 = Matrix::from(&[&s, &q]);
+		let m2 = Matrix::from([s, q]);
 		println!("{}\n", m2);
 
 		println!("\n{}", m2.row_echelon_form());
 		println!("\n{}", m2.reduced_row_echelon_form());
 
-		let m3 = Matrix::from(&[&q, &s, &r]);
+		let m3 = Matrix::from([q, s, r]);
 		println!("{}\n", m3);
 
 		println!("\n{}", m3.row_echelon_form());
@@ -201,13 +201,13 @@ fn main() {
 	// 	];
 
 	// 	println!("\n\x1b[31;1;4mSquare Matrices\x1b[0m\n");
-	// 	let m1 = Matrix::from(&[&a, &b]);
+	// 	let m1 = Matrix::from([&a, &b]);
 	// 	m1.print();
 	// 	println!("Is the matrix a square matrix? {}\n", m1.is_square());
-	// 	let m2 = Matrix::from(&[&s, &q, &r]);
+	// 	let m2 = Matrix::from([&s, &q, &r]);
 	// 	m2.print();
 	// 	println!("Is the matrix a square matrix? {}\n", m2.is_square());
-	// 	let m3 = Matrix::from(&[&r, &s]);
+	// 	let m3 = Matrix::from([&r, &s]);
 	// 	m3.print();
 	// 	println!("Is the matrix a square matrix? {}\n", m3.is_square());
 	// });
@@ -267,19 +267,19 @@ fn main() {
 	// 		Complex::new(10., 5.)
 	// 	];
 
-	// 	let z: Matrix<Complex<f32>> = Matrix::from(&[&a, &b]);
+	// 	let z: Matrix<Complex<f32>> = Matrix::from([&a, &b]);
 	// 	println!("{}", z.row_echelon_form());
 	// 	println!("The rank is {}\n", z.rank());
 
-	// 	let m1: Matrix<Complex<f32>> = Matrix::from(&[&c, &d, &e]);
+	// 	let m1: Matrix<Complex<f32>> = Matrix::from([&c, &d, &e]);
 	// 	println!("{}", m1.row_echelon_form());
 	// 	println!("The rank is {}\n", m1.rank());
 
-	// 	let u: Matrix<Complex<f32>> = Matrix::from(&[&l, &m]);
+	// 	let u: Matrix<Complex<f32>> = Matrix::from([&l, &m]);
 	// 	println!("{}", u.row_echelon_form());
 	// 	println!("The rank is {}\n", u.rank());
 
-	// 	let t: Matrix<Complex<f32>> = Matrix::from(&[&n, &o]);
+	// 	let t: Matrix<Complex<f32>> = Matrix::from([&n, &o]);
 	// 	println!("{}", t.row_echelon_form());
 	// 	println!("The rank is {}\n", t.rank());
 
@@ -291,7 +291,7 @@ fn main() {
 	// 	let s1 = [20., 10., 1.];
 
 	// 	println!("Comparing with real numbers:\n");
-	// 	let m4: Matrix<f32> = Matrix::from(&[&q1, &s1, &r1]);
+	// 	let m4: Matrix<f32> = Matrix::from([&q1, &s1, &r1]);
 	// 	m4.print();
 
 	// 	println!("\n{}", m4.row_echelon_form());

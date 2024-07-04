@@ -19,5 +19,5 @@ fn vector_lerp_2() {
 
 #[test]
 fn matrix_lerp() {
-	assert_eq!(lerp(Matrix::from(&[&[2., 1.], &[3., 4.]]), Matrix::from(&[&[20., 10.], &[30., 40.]]), 0.5), Matrix::from(&[&[11., 5.5], &[16.5, 22.]]));
+	assert_eq!(lerp(Matrix::from([[2., 1.], [3., 4.]]), Matrix::from([[20., 10.], [30., 40.]]), 0.5), Matrix::from([[11., 5.5], [16.5, 22.]]));
 }

@@ -20,12 +20,31 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 + std::ops::Neg<Output = K> + MulAdd<Output = K> {
 	fn from(arr: [[K; N]; M]) -> Self {
 		let values = arr.iter()
-            .map(|row| row.to_vec())
-            .collect::<Vec<_>>();
+			.map(|row| row.to_vec())
+			.collect::<Vec<_>>();
 		let matrix = Matrix {
 			values,
 			rows: M,
 			cols: N
+		};
+		matrix.is_regular();
+		matrix
+	}
+}
+
+impl<K> From<Vec<Vec<K>>> for Matrix<K>
+where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
+K: Copy + Clone + num::Num + std::ops::AddAssign
++ std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
++ std::ops::Neg<Output = K> + MulAdd<Output = K> {
+	fn from(vec: Vec<Vec<K>>) -> Self {
+		let rows = vec.len();
+		let cols = vec.get(0).map_or(0, |row| row.len());
+		
+		let matrix = Matrix {
+			values: vec,
+			rows,
+			cols,
 		};
 		matrix.is_regular();
 		matrix
@@ -91,20 +110,6 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 			cols: 0
 		}
 	}
-
-	// pub fn from(arr: &[&[K]]) -> Self {
-	// 	let mut ret = Vec::with_capacity(arr.len());
-	// 	for v in arr.iter() {
-	// 		ret.push(v.to_vec());
-	// 	}
-	// 	let matrix = Matrix {
-	// 		values: ret,
-	// 		rows: arr.len(),
-	// 		cols: arr[0].len()
-	// 	};
-	// 	matrix.is_regular();
-	// 	matrix
-	// }
 
 	pub fn print(&self) {
 		println!("{}", self);
