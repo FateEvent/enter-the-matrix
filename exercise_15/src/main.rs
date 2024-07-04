@@ -3,6 +3,8 @@ use matrix::linear_algebra::vector::Vector;
 use matrix::linear_algebra::matrix::Matrix;
 use matrix::linear_algebra::Complex;
 use matrix::linear_algebra::lerp;
+use matrix::linear_algebra::cross_product;
+
 
 fn main() {
 
@@ -116,7 +118,7 @@ fn main() {
 
 		let vec: Vec<Complex<f32>> = complex_numbers.to_vec();
 
-		let t = Vector::from_vec(vec);
+		let t = Vector::from(vec);
 		let v = Vector::from(complex_numbers);
 
 		println!("\n\x1b[31;1;4mLinear Combination\x1b[0m\n");
@@ -124,12 +126,12 @@ fn main() {
 		let u = Vector::from(m);
 		let v1 = Vector::from(n);
 
-		println!("{}", Vector::linear_combination(&[u, v1], &[4., 7.]));
+		println!("{}", Vector::<Complex<f32>>::linear_combination(&[u, v1], &[Complex::from(4.), Complex::from(7.)]));
 
 		let uwu = Vector::from(i);
 		let v2 = Vector::from(j);
 
-		println!("{}", Vector::linear_combination(&[uwu, v2], &[2., 3.5.]));
+		println!("{}", Vector::<Complex<f32>>::linear_combination(&[uwu, v2], &[Complex::from(2.), Complex::from(3.5)]));
 
 		println!("\n\x1b[31;1;4mLinear Interpolation\x1b[0m\n");
 
@@ -142,7 +144,7 @@ fn main() {
 
 		println!("\n\x1b[31;1;4mDot Product\x1b[0m\n");
 
-		println!("{}", v.dot(t));
+		println!("{}", v.dot(&t));
 
 		println!("\n\x1b[31;1;4mNorms\x1b[0m\n");
 
@@ -429,12 +431,48 @@ fn main() {
 
 		let u = Vector::from(b);
 		let v = Vector::from(a);
-		println!("The cross product of u × v is:\n{}\n", cross_product(u, v));
+		println!("The cross product of u × v is:\n{}\n", cross_product(&u, &v));
 
 		let u2 = Vector::from(d);
 		println!("u is equal to:\n{}", u);
 		let v2 = Vector::from(e);
 		println!("v is equal to:\n{}", v);
-		println!("The cross product of u × v is:\n{}\n", cross_product(u2, v2));
+		println!("The cross product of u × v is:\n{}\n", cross_product(&u2, &v2));
+	});
+
+	let _ = panic::catch_unwind(|| {
+		let a = [
+			Complex::new(1., 0.),
+			Complex::new(2., 0.),
+			Complex::new(3., -1.)
+		];
+
+		let b = [
+			Complex::new(3., 0.),
+			Complex::new(2., 0.),
+			Complex::new(1., 0.)
+		];
+
+		let c = [
+			Complex::new(2., 0.),
+			Complex::new(1., 0.),
+			Complex::new(3., 0.)
+		];
+
+		println!("\n\x1b[34;4mInverse\x1b[0m\n");
+
+		let m = Matrix::from([a, b, c]);
+		println!("{}", m.inverse());
+
+		println!("\n\x1b[34;4mTranspose\x1b[0m\n");
+
+		println!("{}", m.transpose());
+
+		println!("The determinant is: {}", m.determinant());
+
+		println!("The trace is: {}", m.trace());
+
+		println!("The rank is: {}", m.rank());
+
 	});
 }

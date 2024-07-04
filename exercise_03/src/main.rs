@@ -17,7 +17,7 @@ fn main() {
 		u.print();
 		println!("{}", t.dot(&u));
 		t.print();
-		let v = Vector::linear_combination(&[t.clone(), u], &[4., 7.]);
+		let v = Vector::<f32>::linear_combination(&[t.clone(), u], &[4., 7.]);
 		v.print();
 		println!("{}", t.dot(&v));
 		let p = Vector::from([4., -1., 2.]);

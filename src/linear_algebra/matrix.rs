@@ -314,10 +314,6 @@ impl Matrix<f32> {
 		self[b] = tmp.get_values();
 	}
 
-	fn row_scl(&mut self, i: usize, scalar: f32) {
-		self[i] = (scalar * Vector::from(self[i].clone())).get_values();
-	}
-
 	// add to row A a scalar multiple of row B
 	fn add_row_multiple(&mut self, a: usize, b: usize, scalar: f32) {
 		self[a] = (scalar * Vector::from(self[b].clone()) + Vector::from(self[a].clone())).get_values();
@@ -672,10 +668,6 @@ impl Matrix<Complex<f32>> {
 
 		self[a] = self[b].clone();
 		self[b] = tmp.get_values();
-	}
-
-	fn row_scl(&mut self, i: usize, multiplicator: Complex<f32>) {
-		self[i] = (multiplicator * Vector::from(self[i].clone())).get_values();
 	}
 
 	// add to row A a multiplicator multiple of row B

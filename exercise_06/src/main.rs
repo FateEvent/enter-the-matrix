@@ -11,7 +11,7 @@ fn main() {
 		println!("u is equal to:\n{}", u);
 		let v = Vector::from([1., 2., 3.]);
 		println!("v is equal to:\n{}", v);
-		println!("The cross product of u × v is:\n{}\n", cross_product(u, v));
+		println!("The cross product of u × v is:\n{}\n", cross_product(&u, &v));
 	});
 
 	let _ = panic::catch_unwind(|| {
@@ -19,7 +19,7 @@ fn main() {
 		println!("u is equal to:\n{}", u);
 		let v = Vector::from([1., 0., 0.]);
 		println!("v is equal to:\n{}", v);
-		println!("The cross product of u × v is:\n{}\n", cross_product(u, v));
+		println!("The cross product of u × v is:\n{}\n", cross_product(&u, &v));
 	});
 
 	let _ = panic::catch_unwind(|| {
@@ -27,7 +27,7 @@ fn main() {
 		println!("u is equal to:\n{}", u);
 		let v = Vector::from([4., 5., 6.]);
 		println!("v is equal to:\n{}", v);
-		println!("The cross product of u × v is:\n{}\n", cross_product(u, v));
+		println!("The cross product of u × v is:\n{}\n", cross_product(&u, &v));
 	});
 
 	let _ = panic::catch_unwind(|| {
@@ -35,6 +35,6 @@ fn main() {
 		println!("u is equal to:\n{}", u);
 		let v = Vector::from([-2., -5., 16.]);
 		println!("v is equal to:\n{}", v);
-		println!("The cross product of u × v is:\n{}\n", cross_product(u, v));
+		println!("The cross product of u × v is:\n{}\n", cross_product(&u, &v));
 	});
 }

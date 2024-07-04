@@ -79,11 +79,11 @@ where V: Lerp<V>,
 }
 
 pub trait CrossProduct<K> {
-	fn cross_product(&self, u: Vector<K>, v: Vector<K>) -> Vector<K>;
+	fn cross_product(&self, u: &Vector<K>, v: &Vector<K>) -> Vector<K>;
 }
 
 impl CrossProduct<f32> for Vector<f32> {
-	fn cross_product(&self, u: Vector<f32>, v: Vector<f32>) -> Vector<f32> {
+	fn cross_product(&self, u: &Vector<f32>, v: &Vector<f32>) -> Vector<f32> {
 		if u.rows() != 3 || v.rows() != 3 {
 			panic!("Vectors must have three dimensions.");
 		};
@@ -97,7 +97,7 @@ impl CrossProduct<f32> for Vector<f32> {
 }
 
 impl CrossProduct<Complex<f32>> for Vector<Complex<f32>> {
-	fn cross_product(&self, u: Vector<Complex<f32>>, v: Vector<Complex<f32>>) -> Vector<Complex<f32>> {
+	fn cross_product(&self, u: &Vector<Complex<f32>>, v: &Vector<Complex<f32>>) -> Vector<Complex<f32>> {
 		if u.rows() != 3 || v.rows() != 3 {
 			panic!("Vectors must have three dimensions.");
 		};
@@ -110,9 +110,9 @@ impl CrossProduct<Complex<f32>> for Vector<Complex<f32>> {
 	}
 }
 
-pub fn cross_product<K: Clone>(u: Vector<K>, v: Vector<K>) -> Vector<K>
+pub fn cross_product<K: Clone>(u: &Vector<K>, v: &Vector<K>) -> Vector<K>
 where Vector<K>: CrossProduct<K> {
-	u.cross_product(u.clone(), v)
+	u.cross_product(u, v)
 }
 
 pub fn projection(fov: f32, ratio: f32, near: f32, far: f32) -> Matrix<f32> {

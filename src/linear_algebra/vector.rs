@@ -290,6 +290,21 @@ impl fmt::Display for Vector<Complex<f32>> {
 }
 
 impl Vector<Complex<f32>> {
+	pub fn linear_combination(u: &[Vector<Complex<f32>>], coefs: &[Complex<f32>]) -> Vector<Complex<f32>> {
+		Vector::vec_arr_check_length(u);
+		let len = u[0].values.len();
+		let mut combo: Vector<Complex<f32>> = Vector::new();
+		
+		for row in 0..len {
+			let mut sum = Complex::<f32>::zero();
+			for (v, coef) in u.iter().zip(coefs.iter()) {
+				sum = (*coef).mul_add(v.values[row], sum);
+			}
+			combo.values.push(sum);
+		}
+		return combo;
+	}
+
 	pub fn dot(&self, v: &Vector<Complex<f32>>) -> f32 {
 		self.vectors_have_equal_length(&v);
 		let mut sum = f32::zero();
