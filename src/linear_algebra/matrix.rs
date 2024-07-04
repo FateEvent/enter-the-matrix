@@ -13,6 +13,25 @@ pub struct Matrix<K> {
 	rows: usize
 }
 
+impl<const M: usize, const N: usize, K> From<[[K; N]; M]> for Matrix<K>
+where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
+K: Copy + Clone + num::Num + std::ops::AddAssign
++ std::ops::SubAssign + std::ops::MulAssign + std::fmt::Display
++ std::ops::Neg<Output = K> + MulAdd<Output = K> {
+	fn from(arr: [[K; N]; M]) -> Self {
+		let values = arr.iter()
+            .map(|row| row.to_vec())
+            .collect::<Vec<_>>();
+		let matrix = Matrix {
+			values,
+			rows: M,
+			cols: N
+		};
+		matrix.is_regular();
+		matrix
+	}
+}
+
 impl<K> std::ops::Index<usize> for Matrix<K>
 where Vector<K>: std::fmt::Display, Matrix<K>: std::fmt::Display,
 K: Copy + Clone + num::Num + std::ops::AddAssign
@@ -73,19 +92,19 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 		}
 	}
 
-	pub fn from(arr: &[&[K]]) -> Self {
-		let mut ret = Vec::with_capacity(arr.len());
-		for v in arr.iter() {
-			ret.push(v.to_vec());
-		}
-		let matrix = Matrix {
-			values: ret,
-			rows: arr.len(),
-			cols: arr[0].len()
-		};
-		matrix.is_regular();
-		matrix
-	}
+	// pub fn from(arr: &[&[K]]) -> Self {
+	// 	let mut ret = Vec::with_capacity(arr.len());
+	// 	for v in arr.iter() {
+	// 		ret.push(v.to_vec());
+	// 	}
+	// 	let matrix = Matrix {
+	// 		values: ret,
+	// 		rows: arr.len(),
+	// 		cols: arr[0].len()
+	// 	};
+	// 	matrix.is_regular();
+	// 	matrix
+	// }
 
 	pub fn print(&self) {
 		println!("{}", self);
@@ -658,27 +677,6 @@ impl Matrix<Complex<f32>> {
 	fn add_row_multiple(&mut self, a: usize, b: usize, multiplicator: Complex<f32>) {
 		self[a] = (multiplicator * Vector::from(self[b].clone()) + Vector::from(self[a].clone())).get_values();
 	}
-
-	// pub fn row_echelon_form(&self) -> Matrix<Complex<f32>> {
-
-	// 	let mut matrix = self.clone();
-	// 	let mut pivot: usize = 0;
-	// 	for col in 0..matrix.cols {
-	// 		for row in pivot..matrix.rows {
-	// 			if matrix[row][col] != Complex::<f32>::zero() {
-	// 				if row != pivot {
-	// 					matrix.row_swap(pivot, row);
-	// 				}
-	// 				for p_row in pivot + 1..matrix.rows {
-	// 					matrix.add_row_multiple(p_row, 0, -1. * matrix[p_row][col] / matrix[pivot][col]);
-	// 				}
-	// 				pivot += 1;
-	// 				break ;
-	// 			}
-	// 		}
-	// 	}
-	// 	return matrix;
-	// }
 
 	pub fn row_echelon_form(&self) -> Matrix<Complex<f32>> {
 		let mut matrix = self.clone();
