@@ -167,20 +167,6 @@ fn main() {
 
 		println!("\n{}", m3.row_echelon_form());
 		println!("\n{}", m3.reduced_row_echelon_form());
-
-		// real numbers
-		let q1 = [2., 1., 4.];
-	
-		let r1 = [3., 4., 10.];
-	
-		let s1 = [20., 10., 1.];
-
-		println!("\nComparing with real numbers:\n");
-		let m4: Matrix<f32> = Matrix::from(&[&q1, &s1, &r1]);
-		println!("{}\n", m4);
-
-		println!("\n{}", m4.row_echelon_form());
-		println!("\n{}", m4.reduced_row_echelon_form());
 	});
 
 	// let _ = panic::catch_unwind(|| {
@@ -348,55 +334,55 @@ fn main() {
 	// 	];
 	// });
 
-	println!("\n\x1b[34;4mAngle Cosine\x1b[0m\n");
+	// println!("\n\x1b[34;4mAngle Cosine\x1b[0m\n");
 
-	let _ = panic::catch_unwind(|| {
-		// unit vectors
-		let a = [
-			Complex::new(1., 0.),
-			Complex::new(0., 0.)
-		];
+	// let _ = panic::catch_unwind(|| {
+	// 	// unit vectors
+	// 	let a = [
+	// 		Complex::new(1., 0.),
+	// 		Complex::new(0., 0.)
+	// 	];
 
-		let b = [
-			Complex::new(0., 0.),
-			Complex::new(1., 0.)
-		];
+	// 	let b = [
+	// 		Complex::new(0., 0.),
+	// 		Complex::new(1., 0.)
+	// 	];
 
-		// more complex vectors
-		let c = [
-			Complex::new(-1., 0.),
-			Complex::new(1., 0.)
-		];
+	// 	// more complex vectors
+	// 	let c = [
+	// 		Complex::new(-1., 0.),
+	// 		Complex::new(1., 0.)
+	// 	];
 
-		let d = [
-			Complex::new(1., 0.),
-			Complex::new(-1., 0.)
-		];
+	// 	let d = [
+	// 		Complex::new(1., 0.),
+	// 		Complex::new(-1., 0.)
+	// 	];
 
-		let e = [
-			Complex::new(-2., 0.),
-			Complex::new(4., 0.)
-		];
+	// 	let e = [
+	// 		Complex::new(-2., 0.),
+	// 		Complex::new(4., 0.)
+	// 	];
 
-		let f = [
-			Complex::new(-4., 0.),
-			Complex::new(8., 0.)
-		];
+	// 	let f = [
+	// 		Complex::new(-4., 0.),
+	// 		Complex::new(8., 0.)
+	// 	];
 
-		let u = Vector::from(a);
-		let v = Vector::from(b);
-		println!("Cos theta is: {}\n", u.angle_cos(&v));
+	// 	let u = Vector::from(a);
+	// 	let v = Vector::from(b);
+	// 	println!("Cos theta is: {}\n", u.angle_cos(&v));
 
-		let u2 = Vector::from(a);
-		let v2 = Vector::from(a);
-		println!("Cos theta is: {}\n", u2.angle_cos(&v2));
+	// 	let u2 = Vector::from(a);
+	// 	let v2 = Vector::from(a);
+	// 	println!("Cos theta is: {}\n", u2.angle_cos(&v2));
 
-		let u3 = Vector::from(c);
-		let v3 = Vector::from(d);
-		println!("Cos theta is: {}\n", u3.angle_cos(&v3));
+	// 	let u3 = Vector::from(c);
+	// 	let v3 = Vector::from(d);
+	// 	println!("Cos theta is: {}\n", u3.angle_cos(&v3));
 
-		let u4 = Vector::from(e);
-		let v4 = Vector::from(f);
-		println!("Cos theta is: {}\n", u4.angle_cos(&v4));
-	});
+	// 	let u4 = Vector::from(e);
+	// 	let v4 = Vector::from(f);
+	// 	println!("Cos theta is: {}\n", u4.angle_cos(&v4));
+	// });
 }

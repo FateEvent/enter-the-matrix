@@ -300,24 +300,40 @@ impl Matrix<f32> {
 	}
 
 	pub fn row_echelon_form(&self) -> Matrix<f32> {
-
 		let mut matrix = self.clone();
-		let mut pivot: usize = 0;
+		let mut pivot_row: usize = 0;
+	
 		for col in 0..matrix.cols {
-			for row in pivot..matrix.rows {
+			if pivot_row >= matrix.rows {
+				break;
+			}
+	
+			// Find the pivot element
+			let mut pivot_found = false;
+			for row in pivot_row..matrix.rows {
 				if matrix[row][col] != 0.0 {
-					if row != pivot {
-						matrix.row_swap(pivot, row);
+					if row != pivot_row {
+						matrix.row_swap(pivot_row, row);
 					}
-					for p_row in pivot + 1..matrix.rows {
-						matrix.add_row_multiple(p_row, 0, -1. * matrix[p_row][col] / matrix[pivot][col]);
-					}
-					pivot += 1;
-					break ;
+					pivot_found = true;
+					break;
 				}
 			}
+	
+			if !pivot_found {
+				continue;
+			}
+	
+			// Normalize the pivot row
+			for row in pivot_row + 1..matrix.rows {
+				let multiplier = -matrix[row][col] / matrix[pivot_row][col];
+				matrix.add_row_multiple(row, pivot_row, multiplier);
+			}
+	
+			pivot_row += 1;
 		}
-		return matrix;
+	
+		matrix
 	}
 
 	pub fn reduced_row_echelon_form(&self) -> Matrix<f32> {
@@ -643,25 +659,62 @@ impl Matrix<Complex<f32>> {
 		self[a] = (multiplicator * Vector::from(self[b].clone()) + Vector::from(self[a].clone())).get_values();
 	}
 
-	pub fn row_echelon_form(&self) -> Matrix<Complex<f32>> {
+	// pub fn row_echelon_form(&self) -> Matrix<Complex<f32>> {
 
+	// 	let mut matrix = self.clone();
+	// 	let mut pivot: usize = 0;
+	// 	for col in 0..matrix.cols {
+	// 		for row in pivot..matrix.rows {
+	// 			if matrix[row][col] != Complex::<f32>::zero() {
+	// 				if row != pivot {
+	// 					matrix.row_swap(pivot, row);
+	// 				}
+	// 				for p_row in pivot + 1..matrix.rows {
+	// 					matrix.add_row_multiple(p_row, 0, -1. * matrix[p_row][col] / matrix[pivot][col]);
+	// 				}
+	// 				pivot += 1;
+	// 				break ;
+	// 			}
+	// 		}
+	// 	}
+	// 	return matrix;
+	// }
+
+	pub fn row_echelon_form(&self) -> Matrix<Complex<f32>> {
 		let mut matrix = self.clone();
-		let mut pivot: usize = 0;
+		let mut pivot_row: usize = 0;
+	
 		for col in 0..matrix.cols {
-			for row in pivot..matrix.rows {
+			if pivot_row >= matrix.rows {
+				break;
+			}
+	
+			// Find the pivot element
+			let mut pivot_found = false;
+			for row in pivot_row..matrix.rows {
 				if matrix[row][col] != Complex::<f32>::zero() {
-					if row != pivot {
-						matrix.row_swap(pivot, row);
+					if row != pivot_row {
+						matrix.row_swap(pivot_row, row);
 					}
-					for p_row in pivot + 1..matrix.rows {
-						matrix.add_row_multiple(p_row, 0, -1. * matrix[p_row][col] / matrix[pivot][col]);
-					}
-					pivot += 1;
-					break ;
+					pivot_found = true;
+					break;
 				}
 			}
+	
+			if !pivot_found {
+				continue;
+			}
+	
+			// Normalize the pivot row
+			for row in pivot_row + 1..matrix.rows {
+				let multiplier = -matrix[row][col] / matrix[pivot_row][col];
+				matrix.add_row_multiple(row, pivot_row, multiplier);
+			}
+	
+			pivot_row += 1;
 		}
-		return matrix;
+	
+		matrix
 	}
 
 	pub fn reduced_row_echelon_form(&self) -> Matrix<Complex<f32>> {
