@@ -470,12 +470,12 @@ fn main() {
 
 		println!("\n\x1b[34;4mTranspose\x1b[0m\n");
 
-		println!("{}", m.transpose());
+		println!("{}\n", m.transpose());
 
-		println!("\x1b[32mThe determinant is:\x1b\n{}", m.determinant());
+		println!("\x1b[32mThe determinant is:\n{}\x1b[0m", m.determinant());
 
-		println!("\x1b[34mThe trace is:\x1b\n{}", m.trace());
+		println!("\x1b[34mThe trace is:\n{}\x1b[0m", m.trace());
 
-		println!("\x1b[36mThe rank is:\x1b\n{}", m.rank());
+		println!("\x1b[36mThe rank is:\n{}\x1b[0m", m.rank());
 	});
 }
