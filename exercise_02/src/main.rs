@@ -11,9 +11,10 @@ fn main() {
 		let u = Vector::from([5., 7.]);
 		u.print();
 
+		println!("{}", Vector::linear_combination(&[t, u], &[4., 7.]));
+
 		println!("\n\x1b[32mLinear Interpolation:\x1b[0m\n");
-		let v = Vector::linear_combination([t, u], [4., 7.]);
-		v.print();
+
 		println!("{}", lerp(3., 4., 0.5));
 		println!("{}", lerp(3., 4., 0.8));
 		println!("{}", lerp(21., 42., 0.3));

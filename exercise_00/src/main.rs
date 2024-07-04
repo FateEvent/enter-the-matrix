@@ -45,7 +45,7 @@ fn main() {
 
 	println!("\n\x1b[31;1;4mInvalid Matrices\x1b[0m\n");
 	let _ = panic::catch_unwind(|| {
-		let _m1 = Matrix::from([[5., 7.], [3., 4.], [1.]]);
+		let _m1 = Matrix::from(vec![vec![5., 7.], vec![3., 4.], vec![1.]]);
 	});
 
 	let _ = panic::catch_unwind(|| {

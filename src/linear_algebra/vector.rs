@@ -89,18 +89,6 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 			values: Vec::new()
 		}
 	}
-	
-	// pub fn from(arr: &[K]) -> Self {
-	// 	Vector {
-	// 		values: arr.to_vec(),
-	// 	}
-	// }
-
-	// pub fn from_vec(vec: Vec<K>) -> Self {
-	// 	Vector {
-	// 		values: vec
-	// 	}
-	// }
 
 	pub fn print(&self) {
 		println!("{}", self);

@@ -10,7 +10,6 @@ fn main() {
 		u.print();
 
 		println!("\n\x1b[32mLinear Combination:\x1b[0m\n");
-		let v = Vector::linear_combination([t, u], [4., 7.]);
-		v.print();
+		println!("{}", Vector::linear_combination(&[t, u], &[4., 7.]));
 	});
 }
