@@ -11,7 +11,7 @@ fn main() {
 		let u = Vector::from([5., 7.]);
 		u.print();
 
-		println!("{}", Vector::linear_combination(&[t, u], &[4., 7.]));
+		println!("{}", Vector::<f32>::linear_combination(&[t, u], &[4., 7.]));
 
 		println!("\n\x1b[32mLinear Interpolation:\x1b[0m\n");
 

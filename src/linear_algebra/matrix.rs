@@ -523,7 +523,7 @@ impl Matrix<f32> {
 		let mut col: usize = 0;
 		let mut row: usize = 0;
 		while row < r_ef.rows && row < r_ef.cols {
-			if r_ef[row][col] > 0. {
+			if r_ef[row][col] != <f32>::zero() {
 				rank += 1;
 			}
 			row += 1;
@@ -880,8 +880,7 @@ impl Matrix<Complex<f32>> {
 		let mut col: usize = 0;
 		let mut row: usize = 0;
 		while row < r_ef.rows && row < r_ef.cols {
-			if r_ef[row][col].re > 0. || (r_ef[row][col].re == 0.
-				&& r_ef[row][col].im > 0.) {
+			if r_ef[row][col] != Complex::<f32>::zero() {
 				rank += 1;
 			}
 			row += 1;
