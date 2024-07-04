@@ -450,14 +450,37 @@ To calculate the [Euclidean norm](https://en.wikipedia.org/wiki/Norm_(mathematic
 
 and the same is also true for [L1 norm](https://mathworld.wolfram.com/L1-Norm.html) and [infinity norm](https://mathworld.wolfram.com/L-Infinity-Norm.html)
 
+### Tests, Conclusions and Issues
 
 Some [help](https://rust-lang-nursery.github.io/rust-cookbook/science/mathematics/complex_numbers.html) to work with Complex number type in Rust.
 [Hints](https://earvinkayonga.com/posts/implement-complex-numbers-in-rust) to implement one's own complex number class.
 
 To create tests, I took inspiration from the work of [Glagan](https://github.com/Glagan/42-matrix/tree/master) on GitHub.
 
-I used `assert_eq!()` expression as suggested in [this interesting discussion](https://stackoverflow.com/a/26470361) on StackOverflow.
+##### To Go Further
 
-### Tests
+I used `assert_eq!()` expression as suggested in [this interesting discussion](https://stackoverflow.com/a/26470361) on StackOverflow. 
+
+I could adapt the [`approx_eq`](https://docs.rs/float-cmp/latest/float_cmp/macro.approx_eq.html) macro to my containers, but I don't consider it as necessary at this stage.
+
+##### Observations
+
+Passing arguments by reference may be used to avoid copying them in the function scope. At the same time, traits bounds which ask for recursivity won't need a copy of the arguments if they are passed by reference to the argument, as can be seen by the implementation of the `cross_product` method:
+
+```rust
+pub trait CrossProduct<K> {
+	fn cross_product(&self, u: &Vector<K>, v: &Vector<K>) -> Vector<K>;
+}
+
+<SNIP>
+
+pub fn cross_product<K: Clone>(u: &Vector<K>, v: &Vector<K>) -> Vector<K>
+where Vector<K>: CrossProduct<K> {
+	u.cross_product(u, v)
+}
+```
+
+##### Tests
 
 To test, you can run `cargo test` in the root folder or `cargo run` in any `exercise_*` directory.
+
