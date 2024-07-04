@@ -373,4 +373,48 @@ fn main() {
 	// 	let v4 = Vector::from(f);
 	// 	println!("Cos theta is: {}\n", u4.angle_cos(&v4));
 	// });
+
+	let _ = panic::catch_unwind(|| {
+		// unit vectors
+		let a = [
+			Complex::new(1., 0.),
+			Complex::new(0., 0.),
+			Complex::new(0., 0.)
+		];
+
+		let b = [
+			Complex::new(0., 0.),
+			Complex::new(1., 0.),
+			Complex::new(0., 0.)
+		];
+
+		let c = [
+			Complex::new(0., 0.),
+			Complex::new(0., 0.),
+			Complex::new(1., 0.)
+		];
+
+		// more complex vectors
+		let d = [
+			Complex::new(1., 0.),
+			Complex::new(2., 0.),
+			Complex::new(3., 0.)
+		];
+
+		let e = [
+			Complex::new(4., 0.),
+			Complex::new(5., 0.),
+			Complex::new(6., 0.)
+		];
+
+		let u = Vector::from(b);
+		let v = Vector::from(a);
+		println!("The cross product of u × v is:\n{}\n", cross_product(u, v));
+
+		let u2 = Vector::from(d);
+		println!("u is equal to:\n{}", u);
+		let v2 = Vector::from(e);
+		println!("v is equal to:\n{}", v);
+		println!("The cross product of u × v is:\n{}\n", cross_product(u2, v2));
+	});
 }

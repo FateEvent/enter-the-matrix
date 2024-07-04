@@ -245,7 +245,7 @@ impl std::ops::Index<usize> for Vector<f32> {
 
 ### Exercise 07
 
-To talk about matrix multiplication, we need to address the subject of **linear transformation**. Transformation is a function, taking some vector as input and spitting out some vector as output. It is linear if it has two properties:
+To talk about matrix multiplication, we need to address the subject of **linear transformation**, or **linear map**. A **transformation** is a function, taking some vector as input and spitting out some vector as output. It is linear if it has two properties:
 - all lines must remain lines, without getting curved;
 - the origin must remain fixed in place.
 
