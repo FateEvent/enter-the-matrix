@@ -361,9 +361,7 @@ Since matrix multiplication is associative, the following rule applies:
 
 ![determinant associative rule](varia/img/3blue1brown_det_associative_rule.png)
 
-##### The Exercise
-
-I compared my results with the results of this [calculator](https://www.symbolab.com/solver/matrix-determinant-calculator).
+##### To Go Further
 
 From the subject:
 
@@ -484,3 +482,4 @@ where Vector<K>: CrossProduct<K> {
 
 To test, you can run `cargo test` in the root folder or `cargo run` in any `exercise_*` directory.
 
+Results may be compared with those of this [calculator](https://www.wolframalpha.com/input?i2d=true&i=%7B%7B1%2C2%2C3-i%7D%2C%7B3%2C2%2C1%7D%2C%7B2%2C1%2C3%7D%7D) accepting both real and complex values as entries.

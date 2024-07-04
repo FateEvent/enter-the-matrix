@@ -459,7 +459,7 @@ fn main() {
 			Complex::new(3., 0.)
 		];
 
-		println!("\n\x1b[34;4mInverse\x1b[0m\n");
+		println!("\x1b[34;4mInverse\x1b[0m\n");
 
 		let m = Matrix::from([a, b, c]);
 		println!("{}", m.inverse());
@@ -468,11 +468,11 @@ fn main() {
 
 		println!("{}", m.transpose());
 
-		println!("The determinant is: {}", m.determinant());
+		println!("\x1b[32mThe determinant is:\x1b\n{}", m.determinant());
 
-		println!("The trace is: {}", m.trace());
+		println!("\x1b[34mThe trace is:\x1b\n{}", m.trace());
 
-		println!("The rank is: {}", m.rank());
+		println!("\x1b[36mThe rank is:\x1b\n{}", m.rank());
 
 	});
 }
