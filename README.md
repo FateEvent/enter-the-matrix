@@ -273,11 +273,18 @@ Matrix multiplication is **associative**, meaning that as long as the transforma
 
 ### Exercise 08
 
-The [trace](https://en.wikipedia.org/wiki/Trace_(linear_algebra)) of an *n × n* square matrix **A** is defined as:
+The [trace](https://en.wikipedia.org/wiki/Trace_(linear_algebra)) of a square matrix in linear algebra is defined to be the sum of elements on the main diagonal (from the upper left to the lower right) of the matrix. It is only defined for a square matrix.
+
+The trace of an *n × n* square matrix **A** is defined as:
 
 ![trace formula](varia/img/trace.png) 
 
-where *a<sub>ii</sub>* denotes the entry on the *i*th row and *i*th column of **A**. The entries of **A** can be real numbers, complex numbers, or more generally elements of a field **F**. The trace is not defined for non-square matrices.
+where *a<sub>ii</sub>* denotes the entry on the *i*th row and *i*th column of **A**. The entries of **A** can be real numbers, complex numbers, or more generally elements of a field **F**.
+
+[The **trace** is useful](https://math.stackexchange.com/a/4453977) for various reasons, among which:
+- it is the sum of the eigenvalues of the matrix;
+- it has a lot of nice properties such as linearity, invariance by transposition and basis change, and invariance by cyclic permutations; i.e. trace(ABC)=trace(CAB)=trace(BCA)
+for square matrices A,B,C.
 
 ### Exercise 09
 
