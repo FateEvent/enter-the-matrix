@@ -4,7 +4,7 @@
 
 You need a pencil. Pencils are important. And yeah, a paper sheet. A lot of them, actually. And don't forget the course on linear algebra [_Essence of linear algebra_](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab) delivered by 3Blue1Brown.
 
-Another useful resources to start are the module on [linear algebra](https://www.khanacademy.org/math/linear-algebra) and the modules about [vectors](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:vectors) and [matrices](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices) in the "Precalculus" section of the Khan Academy, and the legendary __Introduction to Linear Algebra__ (now at its 6th edition) by [Gilbert Strang](https://en.wikipedia.org/wiki/Gilbert_Strang).
+Another useful resources to start are the module on [linear algebra](https://www.khanacademy.org/math/linear-algebra) and the modules about [vectors](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:vectors) and [matrices](https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices) in the "Precalculus" section of the Khan Academy, and the legendary **Introduction to Linear Algebra** (now at its 6th edition) by [Gilbert Strang](https://en.wikipedia.org/wiki/Gilbert_Strang).
 
 #### Fused Multiply-Accumulate
 
@@ -273,15 +273,15 @@ Matrix multiplication is **associative**, meaning that as long as the transforma
 
 ### Exercise 08
 
-The [trace](https://en.wikipedia.org/wiki/Trace_(linear_algebra)) of an *n × n* square matrix __A__ is defined as:
+The [trace](https://en.wikipedia.org/wiki/Trace_(linear_algebra)) of an *n × n* square matrix **A** is defined as:
 
 ![trace formula](varia/img/trace.png) 
 
-where *a<sub>ii</sub>* denotes the entry on the *i*th row and *i*th column of __A__. The entries of __A__ can be real numbers, complex numbers, or more generally elements of a field __F__. The trace is not defined for non-square matrices.
+where *a<sub>ii</sub>* denotes the entry on the *i*th row and *i*th column of **A**. The entries of **A** can be real numbers, complex numbers, or more generally elements of a field **F**. The trace is not defined for non-square matrices.
 
 ### Exercise 09
 
-The [transpose](https://en.wikipedia.org/wiki/Transpose) of a matrix is an operator which flips a matrix over its diagonal; that is, it switches the row and column indices of the matrix __A__ by producing another matrix, often denoted by __A<sup>T</sup>__ (among other notations).
+The [transpose](https://en.wikipedia.org/wiki/Transpose) of a matrix is an operator which flips a matrix over its diagonal; that is, it switches the row and column indices of the matrix **A** by producing another matrix, often denoted by **A<sup>T</sup>** (among other notations).
 
 ![transpose](transpose.png)
 
@@ -310,7 +310,7 @@ In mathematics, *Gaussian elimination*, also known as *row reduction*, is an alg
 
 Using these operations, a matrix can always be transformed into an upper triangular matrix, and in fact one that is in row echelon form.
 
-Once all of the leading coefficients (the leftmost nonzero entry in each row) are 1, and every column containing a leading coefficient has zeros elsewhere, the matrix is said to be in __reduced row echelon form__. This final form is unique; in other words, it is independent of the sequence of row operations used. For example, in the following sequence of row operations (where two elementary operations on different rows are done at the first and third steps), the third and fourth matrices are the ones in row echelon form, and the final matrix is the unique reduced row echelon form.
+Once all of the leading coefficients (the leftmost nonzero entry in each row) are 1, and every column containing a leading coefficient has zeros elsewhere, the matrix is said to be in **reduced row echelon form**. This final form is unique; in other words, it is independent of the sequence of row operations used. For example, in the following sequence of row operations (where two elementary operations on different rows are done at the first and third steps), the third and fourth matrices are the ones in row echelon form, and the final matrix is the unique reduced row echelon form.
 
 ![Gaussian elimination](gaussian_elimination.png)
 
@@ -371,21 +371,27 @@ From the subject:
 
 ### Exercise 12
 
-The [__inverse__](https://www.mathsisfun.com/algebra/matrix-inverse.html) of a matrix of size 2x2 may be calculated as follows:
+[The **inverse** or **reciprocal** of a matrix](https://www.cuemath.com/algebra/inverse-of-a-matrix) is a matrix which on multiplication with the given matrix gives the multiplicative identity.
+
+For a square matrix A, its inverse is A-1, and A · A-1 = A-1· A = I, where I is the identity matrix.
+
+The matrix whose determinant is non-zero and for which the inverse matrix can be calculated is called an **invertible matrix**.
+
+The **inverse** of a matrix of size 2x2 may be [calculated](https://www.mathsisfun.com/algebra/matrix-inverse.html) as follows:
 
 ![2x2 matrix inverse](varia/img/inverse_2x2.png)
 
-Hint: *d* is the __inverse__ of *a* and viceversa.
+Hint: *d* is the **inverse** of *a* and viceversa.
 
-To calculate the __inverse__ of a matrix of greater size, we need to find the [__adjoint matrix__](https://www.sangakoo.com/en/unit/inverse-matrix-using-determinants) of our matrix, that is calculated [as follows](https://www.mathsisfun.com/algebra/matrix-inverse-minors-cofactors-adjugate.html):
+To calculate the **inverse** of a matrix of greater size, we need to find the [**adjoint matrix**](https://www.sangakoo.com/en/unit/inverse-matrix-using-determinants) of our matrix, that is calculated [as follows](https://www.mathsisfun.com/algebra/matrix-inverse-minors-cofactors-adjugate.html):
 
-Firstly, we compute its __matrix of minors__:
+Firstly, we compute its **matrix of minors**:
 
 ![minor matrix](varia/img/minor_matrix_calc.png)
 
 ![minor matrix](varia/img/minor_matrix.png)
 
-secondly, we compute its __matrix of cofactors__:
+secondly, we compute its **matrix of cofactors**:
 
 ![cofactor matrix](varia/img/cofactor_matrix.png)
 
@@ -393,7 +399,7 @@ by following the following scheme:
 
 ![cofactor matrix scheme](varia/img/cofactor_matrix_scheme.png)
 
-and finally, we calculate the __adjugate__ (or __adjoint__) by transposing the elements of the matrix of cofactors:
+and finally, we calculate the **adjugate** (or **adjoint**) by transposing the elements of the matrix of cofactors:
 
 ![adjoint matrix](varia/img/adjoint_matrix.png)
 

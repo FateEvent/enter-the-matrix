@@ -462,7 +462,11 @@ fn main() {
 		println!("\x1b[34;4mInverse\x1b[0m\n");
 
 		let m = Matrix::from([a, b, c]);
-		println!("{}", m.inverse());
+		let m_inv = m.inverse();
+
+		println!("{}", m_inv);
+
+		println!("{}", m.mul_mat(m_inv));
 
 		println!("\n\x1b[34;4mTranspose\x1b[0m\n");
 
@@ -473,6 +477,5 @@ fn main() {
 		println!("\x1b[34mThe trace is:\x1b\n{}", m.trace());
 
 		println!("\x1b[36mThe rank is:\x1b\n{}", m.rank());
-
 	});
 }
