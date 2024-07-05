@@ -352,11 +352,11 @@ A volume of 0 means that all space is turned into something with 0 volume, eithe
 
 An inversion of space orientation here may be detected with the right hand rule:
 
-![the right hand rule](3blue1brown_right_hand_rule.png)
+![the right hand rule](varia/img/3blue1brown_right_hand_rule.png)
 
 If we need our left hand to represent the basis vectors, it means that orientation has changed.
 
-![the right hand rule (left hand)](3blue1brown_right_hand_rule2.png)
+![the right hand rule (left hand)](varia/img/3blue1brown_right_hand_rule2.png)
 
 To compute the determinant of 3x3 matrices and higher:
 
@@ -412,9 +412,11 @@ and finally, we calculate the **adjugate** (or **adjoint**) by transposing the e
 
 ### Exercise 13
 
-The [rank](https://www.mathsisfun.com/algebra/matrix-rank.html) of a matrix can be defined as [the largest order](https://cp-algorithms.com/linear_algebra/rank-matrix.html) of any non-zero minor in the matrix.
+The [rank](https://en.wikipedia.org/wiki/Rank_(linear_algebra)) of a matrix can be defined as [the largest order](https://www.mathsisfun.com/algebra/matrix-rank.html) of any non-zero minor in the matrix.
 
 It's also the number of linearly independent vectors in the matrix. That's why a non-zero determinant in a square matrix tells us that all rows (or columns) are linearly independent vectors, so it is "full rank" and its rank equals the number of rows.
+
+Indeed, to calculate it, we can compute the row echelon form of the matrix and count the number of entries in the diagonal (a zero line meaning a vector which is linearly dependent from another).
 
 ### Exercise 14
 
@@ -491,8 +493,14 @@ where Vector<K>: CrossProduct<K> {
 }
 ```
 
+As concerning [time and space complexity](https://www.baeldung.com/cs/time-vs-space-complexity), the notation used is called [big O notation](https://en.wikipedia.org/wiki/Big_O_notation#Infinite_asymptotics), useful in computer science when analyzing algorithms for efficiency.
+
+We have to analyze the number of operations in relation to a constant _n_ given in this case by the number of dimensions of our vector and matrices.
+
+![time and space complexity](varia/img/complexity.png)
+
 ##### Tests
 
 To test, you can run `cargo test` in the root folder or `cargo run` in any `exercise_*` directory.
 
-Results may be compared with those of this [calculator](https://www.wolframalpha.com/input?i2d=true&i=%7B%7B1%2C2%2C3-i%7D%2C%7B3%2C2%2C1%7D%2C%7B2%2C1%2C3%7D%7D) accepting both real and complex values as entries.
+Results may be compared with those of this [complex matrix calculator](https://www.wolframalpha.com/input?i2d=true&i=%7B%7B1%2C2%2C3-i%7D%2C%7B3%2C2%2C1%7D%2C%7B2%2C1%2C3%7D%7D) accepting both real and complex values as entries.
