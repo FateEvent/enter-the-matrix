@@ -331,7 +331,7 @@ Let's start from a view on 2-dimensional space.
 
 Since for a transformation to be linear, gridlines must remain parallel and evenly spaced after the transformation, what happens to the single square of area 1x1 formed by the two basis vectors during the transformation applies to every square in the grid.
 
-The scaling factor by which a linear transformation changes any area is called the determinant of that transformation.
+The scaling factor by which a linear transformation changes any area is called the __determinant__ of that transformation.
 
 For example, a determinant of 3 implies that the associated linear transformation increases the area by a factor of 3.
 
@@ -363,6 +363,8 @@ To compute the determinant of 3x3 matrices and higher:
 [![the determinant of a 3x3 matrix](varia/img/det3x3.png)](https://www.mathsisfun.com/algebra/matrix-determinant.html)
 
 ##### General Statements
+
+The method we use to compute the [__determinant__](https://en.wikipedia.org/wiki/Determinant) is called [__Laplace expansion__](https://en.wikipedia.org/wiki/Laplace_expansion).
 
 Since matrix multiplication is associative, the following rule applies:
 
@@ -470,12 +472,6 @@ Some [help](https://rust-lang-nursery.github.io/rust-cookbook/science/mathematic
 
 To create tests, I took inspiration from the work of [Glagan](https://github.com/Glagan/42-matrix/tree/master) on GitHub.
 
-##### To Go Further
-
-I used `assert_eq!()` expression as suggested in [this interesting discussion](https://stackoverflow.com/a/26470361) on StackOverflow. 
-
-I could adapt the [`approx_eq`](https://docs.rs/float-cmp/latest/float_cmp/macro.approx_eq.html) macro to my containers, but I don't consider it as necessary at this stage.
-
 ##### Observations
 
 Passing arguments by reference may be used to avoid copying them in the function scope. At the same time, traits bounds which ask for recursivity won't need a copy of the arguments if they are passed by reference to the argument, as can be seen by the implementation of the `cross_product` method:
@@ -495,7 +491,7 @@ where Vector<K>: CrossProduct<K> {
 
 As concerning [time and space complexity](https://www.baeldung.com/cs/time-vs-space-complexity), the notation used is called [big O notation](https://en.wikipedia.org/wiki/Big_O_notation#Infinite_asymptotics), useful in computer science when analyzing algorithms for efficiency.
 
-We have to analyze the number of operations in relation to a constant _n_ given in this case by the number of dimensions of our vector and matrices.
+We have to count the number of operations, or steps, in relation to a constant _n_ given in this case by the number of dimensions of our vectors and matrices and, in the same way, we have to calculate the space in memory used by our functions in relation to the constant _n_.
 
 ![time and space complexity](varia/img/complexity.png)
 
@@ -504,3 +500,9 @@ We have to analyze the number of operations in relation to a constant _n_ given 
 To test, you can run `cargo test` in the root folder or `cargo run` in any `exercise_*` directory.
 
 Results may be compared with those of this [complex matrix calculator](https://www.wolframalpha.com/input?i2d=true&i=%7B%7B1%2C2%2C3-i%7D%2C%7B3%2C2%2C1%7D%2C%7B2%2C1%2C3%7D%7D) accepting both real and complex values as entries.
+
+##### To Go Further
+
+I used `assert_eq!()` expression as suggested in [this interesting discussion](https://stackoverflow.com/a/26470361) on StackOverflow. 
+
+I could adapt the [`approx_eq`](https://docs.rs/float-cmp/latest/float_cmp/macro.approx_eq.html) macro to my containers, but I don't consider it as necessary at this stage.
