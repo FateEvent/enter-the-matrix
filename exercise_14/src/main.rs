@@ -12,5 +12,4 @@ fn main() {
 		P.write_matrix_to_file("../varia/matrix_display/proj");
 		P.print();
 	});
-
 }

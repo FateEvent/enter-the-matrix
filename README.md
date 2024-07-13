@@ -374,6 +374,30 @@ However, this method has a very high time complexity (more than __O(n<sup>3</sup
 An implementation which has an inferiour time complexity implies computing the __row echelon form__ of the matrix to obtain [__an upper triangle__ form](https://www.math.uwaterloo.ca/~jmckinno/Math106/Week10/Lecture4f.pdf) and then calculating the product of the entries of the leading diagonal. Finally, we have to take into account the [effects of the elementary row operations](https://math.stackexchange.com/a/635275) on the determinant of a matrix: indeed, after a row operation the determinat of the original matrix may differ from that of the modified matrix.
 Therefore, we will have to multiply the product of the leading diagonal entries by the multiplier storing [the effects implied by the row operations](https://math.libretexts.org/Bookshelves/Linear_Algebra/A_First_Course_in_Linear_Algebra_(Kuttler)/03%3A_Determinants/3.03%3A_Finding_Determinants_using_Row_Operations).
 
+```rust
+	fn row_swap(&mut self, a: usize, b: usize) {
+		let tmp = Vector::capture_row(self.clone(), a);
+
+		self[a] = self[b].clone();
+		self[b] = tmp.get_values();
+		self.det_multiplier *= -1.;
+	}
+
+	fn add_row_multiple(&mut self, a: usize, b: usize, scalar: f32) {
+		self[a] = (scalar * Vector::from(self[b].clone()) + Vector::from(self[a].clone())).get_values();
+	}
+
+	<SNIP>
+	pub fn determinant_by_row_reduction(&self) -> f32 {
+		let rref = self.row_echelon_form();
+		let mut product = 1.;
+		for row in 0..rref.rows {
+			product *= rref[row][row]
+		}
+		return product * rref.det_multiplier;
+	}
+```
+
 ##### To Go Further
 
 From the subject:
@@ -428,7 +452,7 @@ Indeed, to calculate it, we can compute the row echelon form of the matrix and c
 
 > In 3D computer graphics, a [viewing frustum](https://en.wikipedia.org/wiki/Viewing_frustum) or view frustum is the region of space in the modeled world that may appear on the screen; it is the field of view of a perspective virtual camera system.
 
-> The view frustum is typically obtained by taking a geometrical [frustum](https://en.wikipedia.org/wiki/Frustum)—that is a truncation with parallel planes—of the pyramid of vision, which is the adaptation of (idealized) cone of vision that a camera or eye would have to the rectangular viewports typically used in computer graphics. Some authors use pyramid of vision as a synonym for view frustum itself, i.e. consider it truncated.
+> The view frustum is typically obtained by taking a geometrical [frustum](https://en.wikipedia.org/wiki/Frustum) — that is a truncation with parallel planes — of the pyramid of vision, which is the adaptation of (idealized) cone of vision that a camera or eye would have to the rectangular viewports typically used in computer graphics. Some authors use pyramid of vision as a synonym for view frustum itself, i.e. consider it truncated.
 
 > The exact shape of this region varies depending on what kind of camera lens is being simulated, but typically it is a frustum of a rectangular pyramid (hence the name). The planes that cut the frustum perpendicular to the viewing direction are called the near plane and the far plane. Objects closer to the camera than the near plane or beyond the far plane are not drawn. Sometimes, the far plane is placed infinitely far away from the camera so all objects within the frustum are drawn regardless of their distance from the camera.
 
@@ -442,12 +466,59 @@ We need to calculate a [projection matrix](https://www.scratchapixel.com/lessons
 
 For my algorithm I followed this very good explanation by Mads Elvheim on [StackOverflow](https://stackoverflow.com/questions/724219/how-to-convert-a-3d-point-into-2d-perspective-projection).
 
-
 The [clip matrix](https://stackoverflow.com/questions/7604322/clip-matrix-for-3d-perspective-projection) is the projection matrix.
 
 ![Keanu Reeves in Cyberpunk 2077 looking at you](varia/img/keanu-reeves-as-johnny-silverhand-cyberpunk-2077.jpg)
 
-To [write an array of floats into a file](https://www.reddit.com/r/learnrust/comments/ggge3j/what_is_the_proper_way_in_rust_of_writing_into_a), I open a file, convert each float value into a string and write it in the file.
+
+The `projection` function will create a __projection matrix__ from 4 parameters:
+* the field of view, the angle of the cone of vision,
+* the window size ratio $\frac{w}{h}$ where w and h are the width and height of the rendering window,
+* the distance of the near plane,
+* the distance of the far plane.
+
+The [field of view (FOV)](https://en.wikipedia.org/wiki/Field_of_view) is the angular extent of the observable world that is seen at any given moment. It is typically specified in degrees (that's why I need to convert it to radians in my function).
+
+```rust
+	pub fn projection(fov: f32, ratio: f32, near: f32, far: f32) -> Matrix<f32> {
+
+		let f: f32 = 1.0 / f32::tan(fov * (PI / 180.0) * 0.5);
+		return Matrix::from([
+			[f * ratio, 0., 0., 0.],
+			[0., f, 0., 0.],
+			[0., 0., -(far + near) / (far - near), -1.],
+			[0., 0., -(2.0 * near * far) / (far - near), 0.]
+		])
+	}
+```
+To test my function, I implemented a function to [write an array of floats into a file](https://www.reddit.com/r/learnrust/comments/ggge3j/what_is_the_proper_way_in_rust_of_writing_into_a). To do that, I open a file, loop through the float values and convert each one of them into a string before writing it into the file.
+
+```rust
+	pub fn write_matrix_to_file(&self, filename: &str) {
+
+		let mut file = File::create(filename).unwrap();
+	
+		for v in self.values.iter() {
+			for (j, n) in v.iter().enumerate() {
+				let round = (n * 100.).round() / 100.;
+				let mut tmp = String::from(round.to_string());
+				if j < v.len() - 1 {
+					tmp += ", ";
+				} else {
+					tmp += "\n";
+				}
+				file.write(tmp.to_string().as_bytes()).unwrap();
+			}
+		}
+	}
+
+	fn main() {
+
+		let P: Matrix<f32> = projection(45.0, 1.2, 0.1, 100.);
+		P.write_matrix_to_file("../varia/matrix_display/proj");
+		P.print();
+	}
+```
 
 ### Exercise 15
 
@@ -471,10 +542,11 @@ and the same is also true for [L1 norm](https://mathworld.wolfram.com/L1-Norm.ht
 
 ### Tests, Conclusions and Issues
 
-Some [help](https://rust-lang-nursery.github.io/rust-cookbook/science/mathematics/complex_numbers.html) to work with Complex number type in Rust.
-[Hints](https://earvinkayonga.com/posts/implement-complex-numbers-in-rust) to implement one's own complex number class.
+[Here](https://rust-lang-nursery.github.io/rust-cookbook/science/mathematics/complex_numbers.html) is some help to work with Complex number type in Rust, and [here](https://earvinkayonga.com/posts/implement-complex-numbers-in-rust) may be found hints to implement one's own complex number class.
 
 To create tests, I took inspiration from the work of [Glagan](https://github.com/Glagan/42-matrix/tree/master) on GitHub.
+
+[Markdown supports mathematical notation](https://www.upyesp.org/posts/makrdown-vscode-math-notation).
 
 ##### Observations
 
@@ -509,4 +581,4 @@ Results may be compared with those of this [complex matrix calculator](https://w
 
 I used `assert_eq!()` expression as suggested in [this interesting discussion](https://stackoverflow.com/a/26470361) on StackOverflow. 
 
-I could adapt the [`approx_eq`](https://docs.rs/float-cmp/latest/float_cmp/macro.approx_eq.html) macro to my containers, but I don't consider it as necessary at this stage.
+I could adapt the [`approx_eq`](https://docs.rs/float-cmp/latest/float_cmp/macro.approx_eq.html) macro to my containers, but I didn't consider it as necessary at this stage.
