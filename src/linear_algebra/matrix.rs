@@ -10,7 +10,8 @@ use super::Write;
 pub struct Matrix<K> {
 	values: Vec<Vec<K>>,
 	cols: usize,
-	rows: usize
+	rows: usize,
+	det_multiplier: K
 }
 
 impl<const M: usize, const N: usize, K> From<[[K; N]; M]> for Matrix<K>
@@ -25,7 +26,8 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 		let matrix = Matrix {
 			values,
 			rows: M,
-			cols: N
+			cols: N,
+			det_multiplier: K::zero()
 		};
 		matrix.is_regular();
 		matrix
@@ -45,6 +47,7 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 			values: vec,
 			rows,
 			cols,
+			det_multiplier: K::zero()
 		};
 		matrix.is_regular();
 		matrix
@@ -107,7 +110,8 @@ K: Copy + Clone + num::Num + std::ops::AddAssign
 		Matrix {
 			values: Vec::new(),
 			rows: 0,
-			cols: 0
+			cols: 0,
+			det_multiplier: K::zero()
 		}
 	}
 
@@ -312,6 +316,7 @@ impl Matrix<f32> {
 
 		self[a] = self[b].clone();
 		self[b] = tmp.get_values();
+		self.det_multiplier *= -1.;
 	}
 
 	// add to row A a scalar multiple of row B
@@ -322,6 +327,7 @@ impl Matrix<f32> {
 	pub fn row_echelon_form(&self) -> Matrix<f32> {
 		let mut matrix = self.clone();
 		let mut pivot_row: usize = 0;
+		matrix.det_multiplier = 1.;
 	
 		for col in 0..matrix.cols {
 			if pivot_row >= matrix.rows {
@@ -358,6 +364,7 @@ impl Matrix<f32> {
 
 	pub fn reduced_row_echelon_form(&self) -> Matrix<f32> {
 		let mut matrix = self.clone();
+		matrix.det_multiplier = 1.;
 		let mut pivot_row = 0;
 	
 		for pivot_col in 0..matrix.cols {
@@ -382,6 +389,7 @@ impl Matrix<f32> {
 				let pivot_element = matrix[pivot_row][pivot_col];
 				for col in 0..matrix.cols {
 					matrix[pivot_row][col] /= pivot_element;
+					matrix.det_multiplier *= 1./pivot_element;
 				}
 	
 				// Eliminate the current column entries in other rows
@@ -465,7 +473,15 @@ impl Matrix<f32> {
 		} else {
 			panic!("Determinant cannot be calculated for matrices greater than 5x5.")
 		};
+	}
 
+	pub fn determinant_by_row_reduction(&self) -> f32 {
+		let rref = self.row_echelon_form();
+		let mut product = 1.;
+		for row in 0..rref.rows {
+			product *= rref[row][row]
+		}
+		return product * rref.det_multiplier;
 	}
 
 	// functions to compute the inverse of a matrix
@@ -668,6 +684,10 @@ impl Matrix<Complex<f32>> {
 
 		self[a] = self[b].clone();
 		self[b] = tmp.get_values();
+		if self.det_multiplier == Complex::<f32>::zero() {
+			self.det_multiplier = Complex::from(1.);
+		}
+		self.det_multiplier *= -1.;
 	}
 
 	// add to row A a multiplicator multiple of row B
@@ -677,6 +697,7 @@ impl Matrix<Complex<f32>> {
 
 	pub fn row_echelon_form(&self) -> Matrix<Complex<f32>> {
 		let mut matrix = self.clone();
+		matrix.det_multiplier = Complex::from(1.);
 		let mut pivot_row: usize = 0;
 	
 		for col in 0..matrix.cols {
@@ -714,6 +735,7 @@ impl Matrix<Complex<f32>> {
 
 	pub fn reduced_row_echelon_form(&self) -> Matrix<Complex<f32>> {
 		let mut matrix = self.clone();
+		matrix.det_multiplier = Complex::from(1.);
 		let mut pivot_row = 0;
 	
 		for pivot_col in 0..matrix.cols {
@@ -738,6 +760,7 @@ impl Matrix<Complex<f32>> {
 				let pivot_element = matrix[pivot_row][pivot_col];
 				for col in 0..matrix.cols {
 					matrix[pivot_row][col] /= pivot_element;
+					matrix.det_multiplier *= Complex::<f32>::from(1.)/pivot_element;
 				}
 	
 				// Eliminate the current column entries in other rows
@@ -822,7 +845,11 @@ impl Matrix<Complex<f32>> {
 		} else {
 			panic!("Determinant cannot be calculated for matrices greater than 5x5.")
 		};
+	}
 
+	pub fn determinant_by_row_reduction(&self) -> Complex<f32> {
+		let rref = self.row_echelon_form();
+		return rref.determinant() * rref.det_multiplier;
 	}
 
 	// functions to compute the inverse of a matrix

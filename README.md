@@ -364,11 +364,15 @@ To compute the determinant of 3x3 matrices and higher:
 
 ##### General Statements
 
-The method we use to compute the [__determinant__](https://en.wikipedia.org/wiki/Determinant) is called [__Laplace expansion__](https://en.wikipedia.org/wiki/Laplace_expansion).
-
 Since matrix multiplication is associative, the following rule applies:
 
 ![determinant associative rule](varia/img/3blue1brown_det_associative_rule.png)
+
+The method I use to compute the [__determinant__](https://en.wikipedia.org/wiki/Determinant) is called [__Laplace expansion__](https://en.wikipedia.org/wiki/Laplace_expansion).
+
+However, this method has a very high time complexity (more than __O(n<sup>3</sup>)__).
+An implementation which has an inferiour time complexity implies computing the __row echelon form__ of the matrix to obtain [__an upper triangle__ form](https://www.math.uwaterloo.ca/~jmckinno/Math106/Week10/Lecture4f.pdf) and then calculating the product of the entries of the leading diagonal. Finally, we have to take into account the [effects of the elementary row operations](https://math.stackexchange.com/a/635275) on the determinant of a matrix: indeed, after a row operation the determinat of the original matrix may differ from that of the modified matrix.
+Therefore, we will have to multiply the product of the leading diagonal entries by the multiplier storing [the effects implied by the row operations](https://math.libretexts.org/Bookshelves/Linear_Algebra/A_First_Course_in_Linear_Algebra_(Kuttler)/03%3A_Determinants/3.03%3A_Finding_Determinants_using_Row_Operations).
 
 ##### To Go Further
 
