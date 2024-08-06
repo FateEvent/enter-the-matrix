@@ -38,7 +38,7 @@ fn matrix_rank_4() {
 		[7., 6., 1.],
 	]);
 
-	assert_eq!(m.rank(), 2);
+	assert_eq!(m.rank(), 3);
 }
 
 #[test]
