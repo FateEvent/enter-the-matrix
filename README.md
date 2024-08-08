@@ -154,7 +154,7 @@ In this case, the bounds `where K: Clone + std::fmt::Display + std::ops::AddAssi
 
 ### Exercise 03
 
-Here's explanations for the dot product taken from [Wikipedia](https://en.wikipedia.org/wiki/Dot_product) and an article from the [Khan Academy](https://www.khanacademy.org/math/multivariable-calculus/thinking-about-multivariable-function/x786f2022:vectors-and-matrices/a/dot-products-mvc):
+Here are explanations for the dot product taken from [Wikipedia](https://en.wikipedia.org/wiki/Dot_product) and an article from the [Khan Academy](https://www.khanacademy.org/math/multivariable-calculus/thinking-about-multivariable-function/x786f2022:vectors-and-matrices/a/dot-products-mvc):
 
 ![dot product wiki](varia/img/dot_product_wiki.png)
 
