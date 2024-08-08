@@ -194,7 +194,7 @@ impl AngleCos<f32> for Vector<f32> {
 	}
 }
 ```
-Cosine is the ratio between the size of the adjacent side of the traingle formed by the vector and its hypotenuse (cf. the acronym [SOH-CAH-TOA](https://www.khanacademy.org/math/geometry/hs-geo-trig/hs-geo-trig-ratios-intro/a/finding-trig-ratios-in-right-triangles))
+Cosine is the ratio between the size of the adjacent side of the triangle formed by the vector and its hypotenuse (cf. the acronym [SOH-CAH-TOA](https://www.khanacademy.org/math/geometry/hs-geo-trig/hs-geo-trig-ratios-intro/a/finding-trig-ratios-in-right-triangles))
 
 ### Exercise 06
 
@@ -212,7 +212,7 @@ where
 
 If the dot product measures how much two vectors point in the same direction, the cross product measures how much two vectors point in different directions.
 
-I will implement the following [formula](https://www.khanacademy.org/math/multivariable-calculus/thinking-about-multivariable-function/x786f2022:vectors-and-matrices/a/cross-products-mvc):
+I implemented the following [formula](https://www.khanacademy.org/math/multivariable-calculus/thinking-about-multivariable-function/x786f2022:vectors-and-matrices/a/cross-products-mvc):
 
 ![cross product](varia/img/cross_product.png)
 
