@@ -849,7 +849,11 @@ impl Matrix<Complex<f32>> {
 
 	pub fn determinant_by_row_reduction(&self) -> Complex<f32> {
 		let rref = self.row_echelon_form();
-		return rref.determinant() * rref.det_multiplier;
+		let mut product = Complex::<f32>::from(1.);
+		for row in 0..rref.rows {
+			product *= rref[row][row]
+		}
+		return product * rref.det_multiplier;
 	}
 
 	// functions to compute the inverse of a matrix
