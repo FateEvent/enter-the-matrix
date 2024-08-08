@@ -154,7 +154,7 @@ In this case, the bounds `where K: Clone + std::fmt::Display + std::ops::AddAssi
 
 ### Exercise 03
 
-Here are explanations for the dot product taken from [Wikipedia](https://en.wikipedia.org/wiki/Dot_product) and an article from the [Khan Academy](https://www.khanacademy.org/math/multivariable-calculus/thinking-about-multivariable-function/x786f2022:vectors-and-matrices/a/dot-products-mvc):
+Here are explanations for the __dot product__ taken from [Wikipedia](https://en.wikipedia.org/wiki/Dot_product) and an article from the [Khan Academy](https://www.khanacademy.org/math/multivariable-calculus/thinking-about-multivariable-function/x786f2022:vectors-and-matrices/a/dot-products-mvc):
 
 ![dot product wiki](varia/img/dot_product_wiki.png)
 
@@ -162,7 +162,7 @@ Here are explanations for the dot product taken from [Wikipedia](https://en.wiki
 
 ![dot product Khan Academy](varia/img/dot_product_khan.png)
 
-The dot product measures how much two vectors point in the same direction.
+The __dot product__ measures how much two vectors point in the same direction.
 
 ### Exercise 04
 
@@ -210,7 +210,7 @@ where
     ‖a‖ and ‖b‖ are the magnitudes of vectors a and b,
     n is a unit vector perpendicular to the plane containing a and b, with direction such that the ordered set (a, b, n) is positively oriented.
 
-If the dot product measures how much two vectors point in the same direction, the cross product measures how much two vectors point in different directions.
+If the __dot product__ measures how much two vectors point in the same direction, the cross product measures how much two vectors point in different directions.
 
 I implemented the following [formula](https://www.khanacademy.org/math/multivariable-calculus/thinking-about-multivariable-function/x786f2022:vectors-and-matrices/a/cross-products-mvc):
 
@@ -530,7 +530,7 @@ Complex numbers are used to take the square root of negative numbers.
 
 In Rust, the [Complex type](https://docs.rs/num/latest/num/complex/struct.Complex.html) has many useful methods we can use.
 
-The [dot product between complex vectors](https://en.wikipedia.org/wiki/Dot_product#Complex_vectors) is given by the dot product of the first term with the [conjugate](https://en.wikipedia.org/wiki/Complex_conjugate) of the second term, i.e. the number with an equal real part and an imaginary part equal in magnitude but opposite in sign.
+The [__dot product__ between complex vectors](https://en.wikipedia.org/wiki/Dot_product#Complex_vectors) is given by the dot product of the first term with the [conjugate](https://en.wikipedia.org/wiki/Complex_conjugate) of the second term, i.e. the number with an equal real part and an imaginary part equal in magnitude but opposite in sign.
 
 ![dot product of complex vectors](varia/img/complex_dot_product.png)
 
