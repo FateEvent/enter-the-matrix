@@ -536,14 +536,12 @@ impl Matrix<f32> {
 
 		let r_ef = self.row_echelon_form();
 		let mut rank: usize = 0;
-		let mut col: usize = 0;
 		let mut row: usize = 0;
 		while row < r_ef.rows && row < r_ef.cols {
-			if r_ef[row][col] != <f32>::zero() {
+			if r_ef[row][row] != <f32>::zero() {
 				rank += 1;
 			}
 			row += 1;
-			col += 1;
 		}
 		return rank;
 	}
@@ -908,14 +906,12 @@ impl Matrix<Complex<f32>> {
 
 		let r_ef = self.row_echelon_form();
 		let mut rank: usize = 0;
-		let mut col: usize = 0;
 		let mut row: usize = 0;
 		while row < r_ef.rows && row < r_ef.cols {
-			if r_ef[row][col] != Complex::<f32>::zero() {
+			if r_ef[row][row] != Complex::<f32>::zero() {
 				rank += 1;
 			}
 			row += 1;
-			col += 1;
 		}
 		return rank;
 	}
